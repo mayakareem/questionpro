@@ -1,0 +1,196 @@
+{
+  "feature_mappings": [
+    {
+      "methodology_id": "survey",
+      "questionpro_features": [
+        {
+          "feature_name": "Survey Builder",
+          "description": "Drag-and-drop survey creation with 30+ question types",
+          "how_to_use": "1. Create new survey 2. Add questions from library 3. Configure logic and branching 4. Design and preview 5. Distribute"
+        },
+        {
+          "feature_name": "Question Library",
+          "description": "Pre-built survey templates and certified questions",
+          "how_to_use": "Browse templates by industry/use case, customize to your needs"
+        },
+        {
+          "feature_name": "Logic & Branching",
+          "description": "Skip logic, display logic, piping, and randomization",
+          "how_to_use": "Add conditions to questions to personalize survey flow"
+        },
+        {
+          "feature_name": "Distribution Channels",
+          "description": "Email, web link, SMS, QR code, embedded, pop-up",
+          "how_to_use": "Choose channel based on audience reach and context"
+        }
+      ]
+    },
+    {
+      "methodology_id": "nps",
+      "questionpro_features": [
+        {
+          "feature_name": "NPS Survey",
+          "description": "Pre-configured NPS question with automatic scoring",
+          "how_to_use": "1. Select NPS template 2. Customize follow-up questions 3. Set up automation 4. Deploy across channels"
+        },
+        {
+          "feature_name": "NPS Dashboard",
+          "description": "Real-time NPS score, trends, and segment breakdown",
+          "how_to_use": "View dashboards for instant NPS insights and tracking"
+        },
+        {
+          "feature_name": "Closed-Loop Feedback",
+          "description": "Alert and route detractor feedback for follow-up",
+          "how_to_use": "Configure alerts to notify teams when detractors respond"
+        }
+      ]
+    },
+    {
+      "methodology_id": "conjoint",
+      "questionpro_features": [
+        {
+          "feature_name": "Conjoint Analysis Module",
+          "description": "CBC, ACBC, MaxDiff conjoint methods with automated analysis",
+          "how_to_use": "1. Define attributes and levels 2. Build conjoint exercise 3. Collect responses 4. Run analysis 5. Generate simulations"
+        },
+        {
+          "feature_name": "Market Simulator",
+          "description": "Simulate market scenarios based on conjoint results",
+          "how_to_use": "Input product configurations to predict preference share"
+        }
+      ]
+    },
+    {
+      "methodology_id": "maxdiff",
+      "questionpro_features": [
+        {
+          "feature_name": "MaxDiff Analysis",
+          "description": "Best-worst scaling exercises with automated scoring",
+          "how_to_use": "1. List items to prioritize 2. Configure sets 3. Deploy 4. View ranked results"
+        }
+      ]
+    },
+    {
+      "methodology_id": "cx_journey",
+      "questionpro_features": [
+        {
+          "feature_name": "CX Reputation",
+          "description": "Journey mapping, touchpoint tracking, and experience analytics",
+          "how_to_use": "1. Define journey stages 2. Map touchpoints 3. Deploy intercept surveys 4. Analyze journey performance 5. Identify pain points"
+        },
+        {
+          "feature_name": "Touchpoint Surveys",
+          "description": "Trigger surveys at specific customer journey moments",
+          "how_to_use": "Set up event-based triggers for post-interaction feedback"
+        }
+      ]
+    },
+    {
+      "methodology_id": "text_analytics",
+      "questionpro_features": [
+        {
+          "feature_name": "Text Analytics AI",
+          "description": "Automated sentiment analysis and theme extraction",
+          "how_to_use": "1. Collect open-ended responses 2. Run text analytics 3. Review themes and sentiment 4. Filter by sentiment 5. Export insights"
+        },
+        {
+          "feature_name": "Word Clouds",
+          "description": "Visual representation of frequently mentioned terms",
+          "how_to_use": "Auto-generated from open-ended text responses"
+        }
+      ]
+    },
+    {
+      "methodology_id": "ab_testing",
+      "questionpro_features": [
+        {
+          "feature_name": "A/B Testing",
+          "description": "Test multiple survey versions with random assignment",
+          "how_to_use": "1. Create variants 2. Set traffic split 3. Deploy 4. Monitor results 5. Identify winner"
+        }
+      ]
+    },
+    {
+      "methodology_id": "segmentation",
+      "questionpro_features": [
+        {
+          "feature_name": "Advanced Analytics",
+          "description": "Cluster analysis, factor analysis, and segmentation tools",
+          "how_to_use": "1. Collect segmentation data 2. Run cluster analysis 3. Define segments 4. Profile characteristics 5. Export segments"
+        },
+        {
+          "feature_name": "Cross-Tabs & Filters",
+          "description": "Segment responses by demographics or behaviors",
+          "how_to_use": "Apply filters to view data by segment"
+        }
+      ]
+    },
+    {
+      "methodology_id": "brand_tracking",
+      "questionpro_features": [
+        {
+          "feature_name": "Recurring Surveys",
+          "description": "Schedule automated survey waves",
+          "how_to_use": "1. Build tracker survey 2. Set recurrence schedule 3. Monitor trends over time"
+        },
+        {
+          "feature_name": "Trend Reports",
+          "description": "Compare metrics across waves",
+          "how_to_use": "View longitudinal dashboards for brand health metrics"
+        }
+      ]
+    },
+    {
+      "methodology_id": "csat",
+      "questionpro_features": [
+        {
+          "feature_name": "CSAT Survey",
+          "description": "Pre-built satisfaction rating questions",
+          "how_to_use": "1. Select CSAT template 2. Customize for context 3. Trigger post-interaction 4. Track scores"
+        },
+        {
+          "feature_name": "Real-Time Dashboards",
+          "description": "Live CSAT score monitoring",
+          "how_to_use": "View dashboards for instant satisfaction tracking"
+        }
+      ]
+    },
+    {
+      "methodology_id": "ces",
+      "questionpro_features": [
+        {
+          "feature_name": "CES Survey",
+          "description": "Customer effort score question templates",
+          "how_to_use": "1. Deploy post-task or post-support 2. Measure effort 3. Identify high-effort scenarios"
+        }
+      ]
+    }
+  ],
+  "general_features": [
+    {
+      "feature_name": "Sample Management",
+      "description": "Audience panel access for survey respondents",
+      "applicable_to": "all"
+    },
+    {
+      "feature_name": "Data Exports",
+      "description": "Export to Excel, SPSS, CSV, PDF",
+      "applicable_to": "all"
+    },
+    {
+      "feature_name": "API Access",
+      "description": "Integrate survey data with other systems",
+      "applicable_to": "all"
+    },
+    {
+      "feature_name": "Custom Reporting",
+      "description": "Build branded reports and presentations",
+      "applicable_to": "all"
+    },
+    {
+      "feature_name": "Collaboration Tools",
+      "description": "Team workspaces and sharing",
+      "applicable_to": "all"
+    }
+  ]
+}

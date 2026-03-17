@@ -1,0 +1,25 @@
+{
+  "industry": "B2B SaaS",
+  "common_research_needs": [
+    "Pricing optimization",
+    "Feature prioritization",
+    "Customer churn analysis",
+    "Product-market fit validation",
+    "Competitive positioning"
+  ],
+  "recommended_methodologies": {
+    "pricing": ["conjoint", "maxdiff", "ab_testing"],
+    "features": ["maxdiff", "survey", "user_testing"],
+    "churn": ["cx_journey", "ces", "nps", "text_analytics"],
+    "pmf": ["survey", "conjoint", "segmentation"],
+    "competitive": ["brand_tracking", "survey", "conjoint"]
+  },
+  "key_metrics": [
+    "NPS",
+    "Customer Effort Score",
+    "Feature adoption rate",
+    "Willingness to pay",
+    "Churn indicators"
+  ],
+  "notes": "Placeholder for B2B SaaS industry-specific insights from QuestionPro workspace"
+}

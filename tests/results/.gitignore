@@ -1,0 +1,5 @@
+# Ignore all eval results except .gitkeep
+*.json
+
+# Keep directory structure
+!.gitkeep

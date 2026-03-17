@@ -1,0 +1,23 @@
+{
+  "category": "pricing",
+  "examples": [
+    {
+      "question": "What should we charge for our new premium tier?",
+      "context": "SaaS company adding enterprise features",
+      "recommended_approach": "Conjoint analysis to understand feature valuation, followed by A/B testing to validate price points",
+      "key_insights": "Conjoint reveals which features justify premium pricing and price elasticity"
+    },
+    {
+      "question": "Are we losing customers due to price?",
+      "context": "High churn in specific segment",
+      "recommended_approach": "Combine NPS survey with pricing sensitivity questions and churn analysis",
+      "key_insights": "NPS detractors often cite pricing; conjoint can reveal acceptable price range"
+    },
+    {
+      "question": "Should we offer annual vs monthly pricing?",
+      "context": "Optimizing pricing structure",
+      "recommended_approach": "A/B test different pricing displays, survey to understand preferences",
+      "key_insights": "Different segments prefer different payment terms; test conversion impact"
+    }
+  ]
+}

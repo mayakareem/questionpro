@@ -1,0 +1,75 @@
+{
+  "response_template": {
+    "structure": [
+      {
+        "section": "decision",
+        "label": "What you're trying to decide",
+        "description": "Clear statement of the business decision or question"
+      },
+      {
+        "section": "objective",
+        "label": "Research objective",
+        "description": "Specific research goal that will inform the decision"
+      },
+      {
+        "section": "methodologies",
+        "label": "Recommended methodology/methodologies",
+        "description": "One or more research methods suited to the objective"
+      },
+      {
+        "section": "rationale",
+        "label": "Why these methods fit",
+        "description": "Explanation of why the recommended methods are appropriate"
+      },
+      {
+        "section": "implementation",
+        "label": "How to conduct in QuestionPro",
+        "description": "Step-by-step guidance for executing the research in QuestionPro"
+      },
+      {
+        "section": "outputs",
+        "label": "What outputs you'll see",
+        "description": "Specific deliverables and data you'll receive"
+      },
+      {
+        "section": "decision_support",
+        "label": "What decision these outputs support",
+        "description": "How the outputs enable the original business decision"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "user_question": "What should we charge for our new premium tier?",
+      "response": {
+        "decision": "Determining the optimal price point for a new premium product tier that maximizes revenue while maintaining customer acceptance",
+        "objective": "Understand customer willingness to pay and feature valuation to identify the price that balances value perception with revenue goals",
+        "methodologies": [
+          "Conjoint Analysis",
+          "A/B Testing"
+        ],
+        "rationale": "Conjoint analysis reveals how much value customers place on premium features versus price, showing price elasticity and optimal feature bundles. A/B testing validates specific price points in a real market context to confirm purchase behavior.",
+        "implementation": "1. Use QuestionPro's Conjoint Analysis module to build a choice-based conjoint study including price as an attribute alongside premium features\n2. Define 3-5 price levels and key premium features as attributes\n3. Deploy to a representative sample of target customers (minimum 200 respondents)\n4. Run the built-in conjoint analysis to generate part-worth utilities\n5. Use the Market Simulator to test different price-feature combinations\n6. Optionally, run an A/B test with real pricing using QuestionPro's A/B testing feature to validate top candidates",
+        "outputs": "- Feature importance scores showing relative value of price vs. features\n- Part-worth utilities for each price level\n- Price elasticity curves\n- Market share simulations for different pricing scenarios\n- Revenue optimization recommendations\n- A/B test results showing conversion rates at different price points",
+        "decision_support": "These outputs directly answer 'what should we charge' by showing: (1) the price point where customers defect due to cost, (2) which feature bundle justifies premium pricing, (3) predicted market share at each price level, and (4) actual conversion behavior, enabling you to select the price that maximizes revenue while maintaining market acceptance."
+      }
+    },
+    {
+      "user_question": "Why are customers churning from our service?",
+      "response": {
+        "decision": "Identifying the root causes of customer churn to prioritize retention initiatives",
+        "objective": "Understand which touchpoints, features, or experiences drive customers to cancel and what interventions could prevent churn",
+        "methodologies": [
+          "Customer Experience Journey Mapping",
+          "Customer Effort Score (CES)",
+          "Text Analytics",
+          "NPS"
+        ],
+        "rationale": "CX journey mapping identifies where in the lifecycle customers disengage. CES reveals friction points that create effort and frustration. Text analytics surfaces specific issues from open-ended feedback. NPS segments at-risk customers (detractors) for targeted intervention.",
+        "implementation": "1. Set up QuestionPro CX Reputation to map your customer lifecycle journey with key touchpoints\n2. Deploy CES surveys at critical moments (onboarding, support interactions, renewal)\n3. Add open-ended 'why' questions to capture qualitative feedback\n4. Deploy an NPS survey to your customer base\n5. Use QuestionPro's Text Analytics AI on open-ended responses to identify churn themes\n6. Set up closed-loop feedback alerts for detractors to enable immediate outreach\n7. Analyze journey stage performance to find drop-off points",
+        "outputs": "- Journey stage performance scores showing where satisfaction drops\n- CES scores highlighting high-effort touchpoints\n- Text analytics themes revealing specific pain points (e.g., 'poor onboarding', 'lack of features', 'support delays')\n- Sentiment analysis showing emotional drivers\n- NPS segmentation identifying percentage of customers at churn risk\n- Detractor verbatims with specific reasons for dissatisfaction",
+        "decision_support": "These outputs enable you to decide which retention initiatives to prioritize by showing: (1) where customers struggle most (high-effort touchpoints), (2) what specifically frustrates them (themes and verbatims), (3) who is at highest risk (detractors), and (4) which journey stages need immediate improvement, allowing you to focus retention efforts on the highest-impact areas."
+      }
+    }
+  ]
+}

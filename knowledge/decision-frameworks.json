@@ -1,0 +1,148 @@
+{
+  "decision_frameworks": [
+    {
+      "decision_type": "pricing_optimization",
+      "typical_questions": [
+        "What should we charge for this product?",
+        "Which pricing tier performs best?",
+        "What features justify premium pricing?",
+        "How price sensitive are our customers?"
+      ],
+      "research_objective": "Understand customer willingness to pay and feature valuation to optimize pricing strategy",
+      "recommended_methodologies": ["conjoint", "maxdiff", "ab_testing"],
+      "rationale": "Conjoint reveals feature value and price elasticity; MaxDiff prioritizes features; A/B testing validates price points in market"
+    },
+    {
+      "decision_type": "feature_prioritization",
+      "typical_questions": [
+        "Which features should we build first?",
+        "What do customers value most?",
+        "Which features drive conversion?",
+        "What's missing from our product?"
+      ],
+      "research_objective": "Prioritize product features based on customer importance and value",
+      "recommended_methodologies": ["maxdiff", "conjoint", "survey"],
+      "rationale": "MaxDiff forces trade-offs to reveal true priorities; Conjoint quantifies feature value; Surveys provide directional input"
+    },
+    {
+      "decision_type": "customer_satisfaction",
+      "typical_questions": [
+        "How satisfied are our customers?",
+        "What's driving dissatisfaction?",
+        "How do we compare to competitors?",
+        "Which segments are at risk?"
+      ],
+      "research_objective": "Measure and improve customer satisfaction across touchpoints and segments",
+      "recommended_methodologies": ["csat", "nps", "ces", "text_analytics"],
+      "rationale": "CSAT measures satisfaction; NPS predicts loyalty; CES identifies friction; Text analytics reveals root causes"
+    },
+    {
+      "decision_type": "brand_health",
+      "typical_questions": [
+        "How well is our brand known?",
+        "What do people think of our brand?",
+        "How do we compare to competitors?",
+        "Is our brand positioning working?"
+      ],
+      "research_objective": "Assess brand awareness, perception, and competitive positioning",
+      "recommended_methodologies": ["brand_tracking", "survey", "segmentation"],
+      "rationale": "Brand tracking monitors metrics over time; Surveys capture perceptions; Segmentation reveals different audience views"
+    },
+    {
+      "decision_type": "market_segmentation",
+      "typical_questions": [
+        "Who are our target customers?",
+        "What segments should we focus on?",
+        "How do customer needs differ?",
+        "What personas should guide our strategy?"
+      ],
+      "research_objective": "Identify and profile distinct customer segments for targeted strategies",
+      "recommended_methodologies": ["segmentation", "survey", "conjoint"],
+      "rationale": "Segmentation analysis identifies groups; Surveys profile characteristics; Conjoint reveals segment-specific preferences"
+    },
+    {
+      "decision_type": "cx_improvement",
+      "typical_questions": [
+        "Where are customers struggling?",
+        "Which touchpoints need improvement?",
+        "Why are customers churning?",
+        "How can we reduce effort?"
+      ],
+      "research_objective": "Identify and fix customer experience pain points across the journey",
+      "recommended_methodologies": ["cx_journey", "ces", "csat", "text_analytics"],
+      "rationale": "Journey mapping shows end-to-end experience; CES finds friction; CSAT measures touchpoint quality; Text analytics explains issues"
+    },
+    {
+      "decision_type": "product_launch",
+      "typical_questions": [
+        "Will this product succeed?",
+        "What's the target market size?",
+        "What positioning resonates?",
+        "What features are must-haves?"
+      ],
+      "research_objective": "Validate product-market fit and optimize go-to-market strategy",
+      "recommended_methodologies": ["survey", "conjoint", "segmentation", "ab_testing"],
+      "rationale": "Surveys validate demand; Conjoint optimizes configuration; Segmentation identifies target; A/B tests messages"
+    },
+    {
+      "decision_type": "competitive_analysis",
+      "typical_questions": [
+        "How do we compare to competitors?",
+        "What are our competitive advantages?",
+        "Why do customers choose competitors?",
+        "What gaps can we exploit?"
+      ],
+      "research_objective": "Understand competitive landscape and positioning opportunities",
+      "recommended_methodologies": ["survey", "brand_tracking", "conjoint"],
+      "rationale": "Surveys capture comparative perceptions; Brand tracking shows relative position; Conjoint reveals competitive strengths"
+    },
+    {
+      "decision_type": "message_testing",
+      "typical_questions": [
+        "Which message resonates best?",
+        "What value proposition works?",
+        "How should we position this?",
+        "What claims are credible?"
+      ],
+      "research_objective": "Optimize messaging and positioning for target audience",
+      "recommended_methodologies": ["ab_testing", "maxdiff", "survey"],
+      "rationale": "A/B testing provides direct comparison; MaxDiff prioritizes messages; Surveys assess comprehension and appeal"
+    },
+    {
+      "decision_type": "loyalty_retention",
+      "typical_questions": [
+        "Will customers recommend us?",
+        "Who is at risk of churning?",
+        "What drives loyalty?",
+        "How can we increase retention?"
+      ],
+      "research_objective": "Measure and improve customer loyalty and retention",
+      "recommended_methodologies": ["nps", "csat", "ces", "survey"],
+      "rationale": "NPS predicts loyalty and churn; CSAT shows satisfaction; CES identifies friction; Surveys reveal drivers"
+    },
+    {
+      "decision_type": "market_sizing",
+      "typical_questions": [
+        "How big is this market?",
+        "What's our addressable market?",
+        "What's the demand for this product?",
+        "Who would buy this?"
+      ],
+      "research_objective": "Estimate market size and demand for products or services",
+      "recommended_methodologies": ["survey", "segmentation"],
+      "rationale": "Surveys gauge purchase intent and behavior; Segmentation sizes target segments"
+    },
+    {
+      "decision_type": "ux_optimization",
+      "typical_questions": [
+        "Which design performs better?",
+        "Where do users struggle?",
+        "What's the optimal flow?",
+        "How can we reduce friction?"
+      ],
+      "research_objective": "Optimize user experience and interface design",
+      "recommended_methodologies": ["ab_testing", "ces", "survey"],
+      "rationale": "A/B testing validates design choices; CES measures ease of use; Surveys capture user feedback"
+    }
+  ]
+}

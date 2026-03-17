@@ -1,0 +1,130 @@
+{
+  "test_cases": [
+    {
+      "id": "tc001",
+      "category": "pricing",
+      "query": "What should we charge for our new premium tier?",
+      "expected_methodologies": ["conjoint", "ab_testing", "maxdiff"],
+      "expected_decision_type": "pricing_optimization"
+    },
+    {
+      "id": "tc002",
+      "category": "features",
+      "query": "Which features should we build next?",
+      "expected_methodologies": ["maxdiff", "conjoint", "survey"],
+      "expected_decision_type": "feature_prioritization"
+    },
+    {
+      "id": "tc003",
+      "category": "satisfaction",
+      "query": "How satisfied are our enterprise customers?",
+      "expected_methodologies": ["csat", "nps", "survey"],
+      "expected_decision_type": "satisfaction"
+    },
+    {
+      "id": "tc004",
+      "category": "cx",
+      "query": "Why are customers churning?",
+      "expected_methodologies": ["cx_journey", "ces", "nps", "text_analytics"],
+      "expected_decision_type": "cx"
+    },
+    {
+      "id": "tc005",
+      "category": "brand",
+      "query": "How well-known is our brand?",
+      "expected_methodologies": ["brand_tracking", "survey"],
+      "expected_decision_type": "brand"
+    },
+    {
+      "id": "tc006",
+      "category": "competitive",
+      "query": "How do we compare to competitors?",
+      "expected_methodologies": ["survey", "brand_tracking", "conjoint"],
+      "expected_decision_type": "competitive"
+    },
+    {
+      "id": "tc007",
+      "category": "testing",
+      "query": "Which homepage design performs better?",
+      "expected_methodologies": ["ab_testing"],
+      "expected_decision_type": "testing"
+    },
+    {
+      "id": "tc008",
+      "category": "segmentation",
+      "query": "Who are our target customer personas?",
+      "expected_methodologies": ["segmentation", "survey"],
+      "expected_decision_type": "segmentation"
+    },
+    {
+      "id": "tc009",
+      "category": "loyalty",
+      "query": "Will customers recommend us?",
+      "expected_methodologies": ["nps"],
+      "expected_decision_type": "loyalty"
+    },
+    {
+      "id": "tc010",
+      "category": "effort",
+      "query": "Where do customers struggle to get help?",
+      "expected_methodologies": ["ces", "survey", "text_analytics"],
+      "expected_decision_type": "cx"
+    },
+    {
+      "id": "tc011",
+      "category": "validation_short",
+      "query": "Price?",
+      "should_fail_validation": true,
+      "expected_error": "too short"
+    },
+    {
+      "id": "tc012",
+      "category": "validation_empty",
+      "query": "",
+      "should_fail_validation": true,
+      "expected_error": "empty"
+    },
+    {
+      "id": "tc013",
+      "category": "complex",
+      "query": "We're launching a new product—how do we validate pricing, prioritize features, and identify target segments?",
+      "expected_methodologies": ["conjoint", "maxdiff", "segmentation", "survey"],
+      "expected_decision_type": "launch"
+    },
+    {
+      "id": "tc014",
+      "category": "comparison",
+      "query": "How satisfied are enterprise customers versus SMB customers?",
+      "expected_methodologies": ["csat", "nps", "survey"],
+      "expected_decision_type": "satisfaction",
+      "context_flags": {
+        "hasComparison": true,
+        "hasSegment": true
+      }
+    },
+    {
+      "id": "tc015",
+      "category": "why_question",
+      "query": "Why do customers choose our competitors?",
+      "expected_methodologies": ["survey", "text_analytics", "conjoint"],
+      "expected_decision_type": "competitive",
+      "context_flags": {
+        "hasWhy": true
+      }
+    }
+  ],
+  "validation_rules": {
+    "response_must_include": [
+      "What you're trying to decide",
+      "Research objective",
+      "Recommended methodology",
+      "Why these methods fit",
+      "How to conduct in QuestionPro",
+      "What outputs you'll see",
+      "What decision these outputs support"
+    ],
+    "response_should_reference": [
+      "QuestionPro"
+    ]
+  }
+}

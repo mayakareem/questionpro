@@ -1,0 +1,25 @@
+{
+  "industry": "E-commerce",
+  "common_research_needs": [
+    "Checkout optimization",
+    "Product assortment decisions",
+    "Customer satisfaction tracking",
+    "Brand perception",
+    "Personalization effectiveness"
+  ],
+  "recommended_methodologies": {
+    "checkout": ["ab_testing", "ces", "survey"],
+    "assortment": ["conjoint", "maxdiff"],
+    "satisfaction": ["csat", "nps", "text_analytics"],
+    "brand": ["brand_tracking", "survey"],
+    "personalization": ["ab_testing", "segmentation"]
+  },
+  "key_metrics": [
+    "Conversion rate",
+    "Cart abandonment reasons",
+    "CSAT by touchpoint",
+    "NPS by segment",
+    "Feature importance"
+  ],
+  "notes": "Placeholder for e-commerce industry-specific insights"
+}

@@ -1,0 +1,23 @@
+{
+  "category": "customer_experience",
+  "examples": [
+    {
+      "question": "Why are customers churning?",
+      "context": "High churn rate in subscription business",
+      "recommended_approach": "CX journey mapping + CES + exit surveys + text analytics",
+      "key_insights": "Identify drop-off points in journey, measure effort at key touchpoints, analyze reasons"
+    },
+    {
+      "question": "Where do customers struggle most?",
+      "context": "Improving support experience",
+      "recommended_approach": "Customer Effort Score after support interactions + text analytics on tickets",
+      "key_insights": "CES pinpoints high-effort moments; text analytics reveals specific issues"
+    },
+    {
+      "question": "How can we improve onboarding?",
+      "context": "Low activation rates",
+      "recommended_approach": "CX journey mapping focusing on onboarding + CES + user testing",
+      "key_insights": "Map complete onboarding flow, identify friction points, measure effort"
+    }
+  ]
+}

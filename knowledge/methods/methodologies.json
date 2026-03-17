@@ -1,0 +1,311 @@
+{
+  "methodologies": [
+    {
+      "id": "survey",
+      "name": "Survey Research",
+      "description": "Collect quantitative and qualitative data from a sample population through structured questionnaires",
+      "use_cases": [
+        "Customer satisfaction measurement",
+        "Market sizing and segmentation",
+        "Brand awareness tracking",
+        "Product feedback collection"
+      ],
+      "strengths": [
+        "Scalable to large sample sizes",
+        "Statistical reliability with proper sampling",
+        "Cost-effective for broad insights",
+        "Quantifiable results"
+      ],
+      "limitations": [
+        "Response bias potential",
+        "Limited depth of insight",
+        "Requires good survey design"
+      ],
+      "typical_outputs": [
+        "Response distributions",
+        "Cross-tabulation reports",
+        "Statistical summaries",
+        "Trend analysis"
+      ]
+    },
+    {
+      "id": "nps",
+      "name": "Net Promoter Score (NPS)",
+      "description": "Measure customer loyalty and likelihood to recommend using a single standardized question",
+      "use_cases": [
+        "Customer loyalty tracking",
+        "Brand health monitoring",
+        "Competitive benchmarking",
+        "Churn prediction"
+      ],
+      "strengths": [
+        "Simple and standardized metric",
+        "Industry benchmarks available",
+        "Easy to track over time",
+        "Actionable segmentation"
+      ],
+      "limitations": [
+        "Limited diagnostic detail",
+        "Cultural variations in scoring",
+        "Doesn't explain 'why'"
+      ],
+      "typical_outputs": [
+        "NPS score (-100 to +100)",
+        "Promoter/Passive/Detractor breakdown",
+        "Trend over time",
+        "Segment comparisons"
+      ]
+    },
+    {
+      "id": "conjoint",
+      "name": "Conjoint Analysis",
+      "description": "Determine how people value different features/attributes by analyzing trade-off decisions",
+      "use_cases": [
+        "Product feature prioritization",
+        "Pricing optimization",
+        "Product configuration",
+        "Market simulation"
+      ],
+      "strengths": [
+        "Reveals implicit preferences",
+        "Quantifies feature value",
+        "Predicts market share",
+        "Supports pricing decisions"
+      ],
+      "limitations": [
+        "Complex to design and analyze",
+        "Requires larger sample sizes",
+        "Can be cognitively demanding for respondents"
+      ],
+      "typical_outputs": [
+        "Feature importance scores",
+        "Part-worth utilities",
+        "Price elasticity curves",
+        "Market share simulation"
+      ]
+    },
+    {
+      "id": "maxdiff",
+      "name": "MaxDiff Analysis",
+      "description": "Prioritize items by asking respondents to choose best and worst options from sets",
+      "use_cases": [
+        "Feature prioritization",
+        "Message testing",
+        "Benefit ranking",
+        "Value proposition testing"
+      ],
+      "strengths": [
+        "Forces trade-off decisions",
+        "More discrimination than rating scales",
+        "Avoids scale bias",
+        "Simple for respondents"
+      ],
+      "limitations": [
+        "Doesn't show absolute importance",
+        "Limited to ranking",
+        "Requires specialized analysis"
+      ],
+      "typical_outputs": [
+        "Ranked priority list",
+        "Relative importance scores",
+        "Segment-specific rankings"
+      ]
+    },
+    {
+      "id": "cx_journey",
+      "name": "Customer Experience Journey Mapping",
+      "description": "Map and analyze the end-to-end customer experience across touchpoints",
+      "use_cases": [
+        "Identify experience pain points",
+        "Optimize customer journeys",
+        "Improve touchpoint performance",
+        "Reduce churn"
+      ],
+      "strengths": [
+        "Holistic view of experience",
+        "Identifies specific improvement areas",
+        "Tracks multi-touchpoint interactions",
+        "Supports CX prioritization"
+      ],
+      "limitations": [
+        "Requires ongoing tracking",
+        "Complex to set up",
+        "Needs integration with touchpoint data"
+      ],
+      "typical_outputs": [
+        "Journey stage performance",
+        "Touchpoint satisfaction scores",
+        "Drop-off analysis",
+        "Experience gap identification"
+      ]
+    },
+    {
+      "id": "text_analytics",
+      "name": "Text Analytics",
+      "description": "Analyze open-ended text responses to extract themes, sentiment, and insights",
+      "use_cases": [
+        "Voice of customer analysis",
+        "Support ticket analysis",
+        "Review mining",
+        "Feedback categorization"
+      ],
+      "strengths": [
+        "Uncovers unexpected insights",
+        "Preserves customer voice",
+        "Identifies emerging themes",
+        "Complements quantitative data"
+      ],
+      "limitations": [
+        "Requires quality text data",
+        "Interpretation can be subjective",
+        "May need human validation"
+      ],
+      "typical_outputs": [
+        "Sentiment scores",
+        "Theme frequency",
+        "Word clouds",
+        "Categorized verbatims"
+      ]
+    },
+    {
+      "id": "ab_testing",
+      "name": "A/B Testing",
+      "description": "Compare two or more variants to determine which performs better",
+      "use_cases": [
+        "Message optimization",
+        "Product feature testing",
+        "Price point testing",
+        "UI/UX optimization"
+      ],
+      "strengths": [
+        "Causal inference",
+        "Data-driven decision making",
+        "Clear winner identification",
+        "Reduces risk"
+      ],
+      "limitations": [
+        "Requires sufficient sample size",
+        "Tests one variable at a time (typically)",
+        "May not explain 'why'"
+      ],
+      "typical_outputs": [
+        "Conversion rate comparison",
+        "Statistical significance tests",
+        "Confidence intervals",
+        "Winner recommendation"
+      ]
+    },
+    {
+      "id": "segmentation",
+      "name": "Market Segmentation",
+      "description": "Divide market into distinct groups with similar characteristics or needs",
+      "use_cases": [
+        "Target market identification",
+        "Persona development",
+        "Product positioning",
+        "Marketing strategy"
+      ],
+      "strengths": [
+        "Enables targeted strategies",
+        "Reveals distinct customer groups",
+        "Supports resource allocation",
+        "Improves marketing ROI"
+      ],
+      "limitations": [
+        "Requires robust data",
+        "Segments may evolve over time",
+        "Implementation complexity"
+      ],
+      "typical_outputs": [
+        "Segment profiles",
+        "Segment sizes",
+        "Distinguishing characteristics",
+        "Targeting recommendations"
+      ]
+    },
+    {
+      "id": "brand_tracking",
+      "name": "Brand Tracking",
+      "description": "Monitor brand health metrics over time",
+      "use_cases": [
+        "Brand awareness measurement",
+        "Competitive positioning",
+        "Campaign impact assessment",
+        "Brand equity tracking"
+      ],
+      "strengths": [
+        "Longitudinal insights",
+        "Competitive benchmarking",
+        "Early warning indicators",
+        "ROI measurement"
+      ],
+      "limitations": [
+        "Requires ongoing commitment",
+        "Changes may be gradual",
+        "External factors influence results"
+      ],
+      "typical_outputs": [
+        "Awareness trends",
+        "Consideration metrics",
+        "Brand attribute scores",
+        "Share of voice"
+      ]
+    },
+    {
+      "id": "csat",
+      "name": "Customer Satisfaction (CSAT)",
+      "description": "Measure satisfaction with a product, service, or interaction",
+      "use_cases": [
+        "Post-purchase satisfaction",
+        "Service quality measurement",
+        "Support interaction rating",
+        "Event feedback"
+      ],
+      "strengths": [
+        "Simple and direct",
+        "Easy to implement",
+        "Immediate feedback",
+        "Actionable at touchpoint level"
+      ],
+      "limitations": [
+        "Point-in-time measurement",
+        "Doesn't predict loyalty",
+        "Scale interpretation varies"
+      ],
+      "typical_outputs": [
+        "CSAT score",
+        "Rating distribution",
+        "Trend over time",
+        "Driver analysis"
+      ]
+    },
+    {
+      "id": "ces",
+      "name": "Customer Effort Score (CES)",
+      "description": "Measure how easy it is for customers to complete a task or resolve an issue",
+      "use_cases": [
+        "Support experience optimization",
+        "Process improvement",
+        "Self-service effectiveness",
+        "Friction identification"
+      ],
+      "strengths": [
+        "Predicts repurchase and loyalty",
+        "Identifies friction points",
+        "Actionable for operations",
+        "Complements CSAT/NPS"
+      ],
+      "limitations": [
+        "Task-specific",
+        "May not capture emotional factors",
+        "Requires clear task definition"
+      ],
+      "typical_outputs": [
+        "CES score",
+        "Effort distribution",
+        "High-effort scenario identification",
+        "Improvement priorities"
+      ]
+    }
+  ]
+}

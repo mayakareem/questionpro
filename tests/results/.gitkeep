@@ -1,0 +1,12 @@
+# Evaluation Results
+
+This directory contains evaluation results from running the eval-runner.
+
+Files are named: `eval-{timestamp}.json`
+
+Each file contains:
+- Test prompts used
+- Generated research plans
+- Evaluation scores (1-5 for each criterion)
+- Summary statistics
+- Pass rate
