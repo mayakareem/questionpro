@@ -331,6 +331,9 @@ export async function POST(request: NextRequest) {
     console.log('[Plan API] Parsing LLM response...')
 
     const plan = parseLLMResponse(llmResponse)
+    if (!plan) {
+      throw new Error('Failed to parse LLM response')
+    }
     plan.userQuestion = question
 
     // Step 5: Validate response structure

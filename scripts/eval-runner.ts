@@ -507,4 +507,5 @@ if (require.main === module) {
   })
 }
 
-export { runEvaluation, runTest, EvaluationResult, EvaluationSummary, TestPrompt }
+export { runEvaluation, runTest }
+export type { EvaluationResult, EvaluationSummary, TestPrompt }
