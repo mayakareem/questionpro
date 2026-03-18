@@ -41,6 +41,71 @@ interface PlanResponse {
   }
 }
 
+// Categorized questions by decision type
+const CATEGORIZED_QUESTIONS = {
+  growth: [
+    "Where will our next phase of growth come from in the Middle East market?",
+    "Which customer segments should we prioritize for expansion in the GCC?",
+    "What is the size of the real addressable opportunity for our new service offering?",
+    "Why are we losing market share in key categories despite strong product performance?",
+    "Which markets or customer groups offer the highest growth potential for our brand?",
+    "What are the biggest unmet needs or white spaces in our category?",
+    "How should we reposition our business in this changing market landscape?",
+    "Which strategic priorities will most improve growth and enterprise value?",
+    "Should growth come from acquisition, retention, upsell, or new market entry?",
+    "What customer and employee investments will drive sustainable growth?"
+  ],
+  brand: [
+    "How should a leading automotive brand design a brand tracker in the Middle East to benchmark perception against competitors?",
+    "Why is our brand awareness high but consideration and conversion remain low?",
+    "What makes our brand meaningfully different in customers' minds compared to competitors?",
+    "Which brand attributes actually drive purchase decisions and growth?",
+    "What should our brand stand for in this category to win customer preference?",
+    "Which customer segments are most valuable and most persuadable for our brand?",
+    "Is our marketing working effectively, and where is it underperforming?",
+    "Which campaign or creative idea will be most effective with our target audience?",
+    "How should we respond when a competitor disrupts the category with a new positioning?",
+    "How do we build stronger brand equity and more profitable customer relationships?"
+  ],
+  experience: [
+    "What CX research should a telecom provider run to identify the main drivers of rising customer churn?",
+    "Which parts of the customer journey are most damaging to loyalty and retention?",
+    "Which experiences most influence repeat purchase, share of wallet, and advocacy?",
+    "Where are we forcing too much effort on customers across touchpoints?",
+    "How should a hospitality group research guest experience to identify touchpoints that influence loyalty?",
+    "Why are customers satisfied in surveys but still leaving or reducing spend?",
+    "How consistent is our experience across channels, markets, and locations?",
+    "What is the root cause of complaints and service failures in our operations?",
+    "How should a retail brand structure a mystery shopping study to assess service quality across stores?",
+    "How do we link CX improvement directly to growth and value creation?"
+  ],
+  product: [
+    "What research methodology should a consumer brand use to test a new product concept before launch?",
+    "What UX research should a SaaS company conduct to understand onboarding drop-off and improve activation?",
+    "Why are users not adopting this feature, product, or workflow in our digital platform?",
+    "Which product experience issues are hurting conversion, retention, or revenue?",
+    "Where are users getting stuck in onboarding or core task completion?",
+    "Which features actually drive habitual usage, engagement, and loyalty?",
+    "What should we prioritize on the product roadmap to maximize user and business value?",
+    "Which design changes will improve trust, task completion, and ease of use?",
+    "What is the right pricing and packaging architecture for our product tiers?",
+    "How should a healthcare provider research the patient journey to identify pain points and improvement opportunities?"
+  ],
+  people: [
+    "What EX research methods should a large employer use to measure morale and trust during regional uncertainty?",
+    "Why are our best people leaving, and which employee groups are most at risk?",
+    "What is hurting engagement, morale, or trust in leadership across the organization?",
+    "Which managers are strengthening team performance, and which are weakening it?",
+    "What is driving burnout, disengagement, or low productivity in key teams?",
+    "Do employees feel psychologically safe enough to speak up and contribute ideas?",
+    "What conditions actually help employees perform at their best and stay committed?",
+    "How effective is our onboarding, development, and internal mobility program?",
+    "What are the real cultural blockers preventing execution and performance?",
+    "Which interventions would most improve retention, productivity, and employee satisfaction?"
+  ]
+}
+
+// Legacy flat array for rotating placeholder
 const EXAMPLE_QUESTIONS = [
   "How do we benchmark our brand against competitors in the Middle East?",
   "Why aren't younger customers choosing our bank despite high awareness?",
@@ -62,7 +127,7 @@ export default function HomePage() {
   const [currentExampleIndex, setCurrentExampleIndex] = useState(0)
   const [isTyping, setIsTyping] = useState(true)
   const [streamingContent, setStreamingContent] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<'growth' | 'brand' | 'experience' | 'product' | 'people' | null>(null)
 
   // Auto-scroll to results when they're ready (only when NOT streaming)
   useEffect(() => {
@@ -902,68 +967,108 @@ Generated by AI Research Guide | ${new Date().toLocaleDateString()}
           </div>
         )}
 
-        {/* Example Questions Section */}
+        {/* Categorized Example Questions Section */}
         {!result && (
           <div className="mt-20">
             <h2 className="text-4xl font-bold text-center mb-8 text-black transform -rotate-1"
                 style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-              ✎ Sample Questions
+              ✎ Explore by Decision Type
             </h2>
 
-            {/* Search bar */}
-            <div className="max-w-2xl mx-auto mb-8">
-              <input
-                type="text"
-                placeholder="Search examples... (e.g., 'churn', 'bank', 'healthcare')"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-6 py-4 text-lg border-3 border-black rounded-none focus:border-black focus:ring-0 transition-all"
-                style={{
-                  fontFamily: '"Courier New", Courier, monospace',
-                  borderWidth: '3px',
-                  boxShadow: '4px 4px 0px 0px rgba(0,0,0,0.3)'
-                }}
-              />
+            <p className="text-center text-gray-700 mb-12 max-w-2xl mx-auto"
+               style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+              Choose a strategic question type to see examples →
+            </p>
+
+            {/* Category Buttons */}
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
+              {[
+                { key: 'growth', label: '📈 Growth', desc: 'Market expansion & revenue' },
+                { key: 'brand', label: '⭐ Brand', desc: 'Perception & positioning' },
+                { key: 'experience', label: '💫 Experience', desc: 'CX & journey optimization' },
+                { key: 'product', label: '🎯 Product', desc: 'UX & innovation testing' },
+                { key: 'people', label: '👥 People', desc: 'EX & culture insights' }
+              ].map(({ key, label, desc }) => (
+                <button
+                  key={key}
+                  onClick={() => setSelectedCategory(selectedCategory === key ? null : key as any)}
+                  className={`px-8 py-5 border-3 border-black font-bold uppercase transition-all transform hover:scale-105 ${
+                    selectedCategory === key
+                      ? 'bg-black text-white scale-105'
+                      : 'bg-white text-black hover:bg-gray-50'
+                  }`}
+                  style={{
+                    fontFamily: '"Courier New", Courier, monospace',
+                    borderWidth: '3px',
+                    boxShadow: selectedCategory === key
+                      ? '6px 6px 0px 0px rgba(0,0,0,0.5)'
+                      : '4px 4px 0px 0px rgba(0,0,0,1)'
+                  }}
+                >
+                  <div className="text-base mb-1">{label}</div>
+                  <div className={`text-xs normal-case ${selectedCategory === key ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {desc}
+                  </div>
+                </button>
+              ))}
             </div>
 
             {/* Questions List */}
-            <div className="max-w-4xl mx-auto grid gap-4">
-              {EXAMPLE_QUESTIONS
-                .filter(q => q.toLowerCase().includes(searchQuery.toLowerCase()))
-                .map((example, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setQuestion(example)
-                      window.scrollTo({ top: 0, behavior: 'smooth' })
-                    }}
-                    className="text-left p-6 border-3 border-black bg-white hover:bg-gray-50 transition-all transform hover:-rotate-0.5 hover:scale-[1.02]"
-                    style={{
-                      fontFamily: '"Courier New", Courier, monospace',
-                      borderWidth: '3px',
-                      boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                    }}
-                  >
-                    <div className="flex items-start gap-4">
-                      <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center border-2 border-black bg-white font-bold transform -rotate-3">
-                        {idx + 1}
-                      </span>
-                      <p className="text-base leading-relaxed flex-1">
-                        {example}
-                      </p>
-                      <span className="flex-shrink-0 text-gray-400">→</span>
-                    </div>
-                  </button>
-                ))}
+            {selectedCategory && (
+              <div className="max-w-4xl mx-auto">
+                <div className="mb-6 text-center">
+                  <div className="inline-block border-black p-4 bg-yellow-100 transform -rotate-1"
+                       style={{
+                         borderWidth: '3px',
+                         borderStyle: 'solid',
+                         boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+                       }}>
+                    <p className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Questions
+                    </p>
+                  </div>
+                </div>
 
-              {searchQuery && EXAMPLE_QUESTIONS.filter(q => q.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
-                <div className="text-center py-12 border-3 border-dashed border-gray-300">
-                  <p className="text-gray-500" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                    No examples found for "{searchQuery}"
+                <div className="grid gap-4">
+                  {CATEGORIZED_QUESTIONS[selectedCategory].map((example, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setQuestion(example)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }}
+                      className="text-left p-6 border-3 border-black bg-white hover:bg-gray-50 transition-all transform hover:-rotate-0.5 hover:scale-[1.02]"
+                      style={{
+                        fontFamily: '"Courier New", Courier, monospace',
+                        borderWidth: '3px',
+                        boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+                      }}
+                    >
+                      <div className="flex items-start gap-4">
+                        <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center border-2 border-black bg-white font-bold transform -rotate-3">
+                          {idx + 1}
+                        </span>
+                        <p className="text-base leading-relaxed flex-1">
+                          {example}
+                        </p>
+                        <span className="flex-shrink-0 text-gray-400">→</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!selectedCategory && (
+              <div className="text-center py-12 max-w-2xl mx-auto">
+                <div className="border-3 border-dashed border-gray-300 p-8"
+                     style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                  <p className="text-gray-500 text-lg">
+                    ↑ Select a category above to see sample questions
                   </p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         )}
 
