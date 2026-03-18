@@ -59,9 +59,9 @@ export default function HomePage() {
   const [isTyping, setIsTyping] = useState(true)
   const [streamingContent, setStreamingContent] = useState('')
 
-  // Auto-scroll to results when they're ready
+  // Auto-scroll to results when they're ready (only when NOT streaming)
   useEffect(() => {
-    if (result && result.success) {
+    if (result && result.success && !isLoading) {
       setTimeout(() => {
         const resultsElement = document.getElementById('results-section')
         if (resultsElement) {
@@ -69,11 +69,11 @@ export default function HomePage() {
         }
       }, 300)
     }
-  }, [result])
+  }, [result, isLoading])
 
-  // Auto-scroll when streaming starts
+  // Scroll to streaming section only once when it first appears
   useEffect(() => {
-    if (isLoading && streamingContent) {
+    if (isLoading && streamingContent && streamingContent.length < 100) {
       const resultsElement = document.getElementById('results-section')
       if (resultsElement) {
         resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
