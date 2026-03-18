@@ -304,7 +304,8 @@ export async function POST(request: NextRequest) {
 
     const anthropic = getAnthropicClient()
 
-    const response = await anthropic.messages.create({
+    // Create a streaming response
+    const stream = await anthropic.messages.stream({
       model: 'claude-sonnet-4-6',
       max_tokens: 8000,
       temperature: 0.7,
@@ -317,58 +318,83 @@ export async function POST(request: NextRequest) {
       ]
     })
 
-    console.log('[Plan API] Received response from Claude')
+    console.log('[Plan API] Streaming response from Claude')
 
-    // Extract text content
-    const content = response.content[0]
-    if (content.type !== 'text') {
-      throw new Error('Unexpected response type from Claude')
-    }
+    // Create a TransformStream to handle the streaming response
+    const encoder = new TextEncoder()
+    const readable = new ReadableStream({
+      async start(controller) {
+        let fullText = ''
 
-    const llmResponse = content.text
+        try {
+          for await (const chunk of stream) {
+            if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+              const text = chunk.delta.text
+              fullText += text
 
-    // Step 4: Parse response
-    console.log('[Plan API] Parsing LLM response...')
+              // Send the incremental text to the client
+              const data = JSON.stringify({ type: 'chunk', content: text })
+              controller.enqueue(encoder.encode(`data: ${data}\n\n`))
+            }
+          }
 
-    const plan = parseLLMResponse(llmResponse)
-    if (!plan) {
-      throw new Error('Failed to parse LLM response')
-    }
-    plan.userQuestion = question
+          // Parse the complete response
+          const plan = parseLLMResponse(fullText)
+          if (!plan) {
+            throw new Error('Failed to parse LLM response')
+          }
+          plan.userQuestion = question
 
-    // Step 5: Validate response structure
-    // TODO: Use Zod schema validation from lib/schemas.ts
-    // TODO: Add schema validation and return 500 if invalid
-    // TODO: Add retry logic if validation fails
+          // Validate response structure
+          if (!plan.businessDecision || !plan.researchObjective) {
+            console.error('[Plan API] Invalid response structure:', {
+              hasDecision: !!plan.businessDecision,
+              hasObjective: !!plan.researchObjective
+            })
+            throw new Error('LLM response missing required sections')
+          }
 
-    if (!plan.businessDecision || !plan.researchObjective) {
-      console.error('[Plan API] Invalid response structure:', {
-        hasDecision: !!plan.businessDecision,
-        hasObjective: !!plan.researchObjective
-      })
+          const processingTime = Date.now() - startTime
+          console.log('[Plan API] Successfully generated plan in', processingTime, 'ms')
 
-      // TODO: Implement retry with refined prompt
-      throw new Error('LLM response missing required sections')
-    }
-
-    // Step 6: Return response
-    const processingTime = Date.now() - startTime
-
-    console.log('[Plan API] Successfully generated plan in', processingTime, 'ms')
-
-    return NextResponse.json(
-      {
-        success: true,
-        plan,
-        metadata: {
-          methodsIncluded: context.methodologies.map(m => m.id),
-          estimatedTokens,
-          processingTimeMs: processingTime,
-          modelVersion: 'claude-sonnet-4-6'
+          // Send the complete parsed plan
+          const finalData = JSON.stringify({
+            type: 'complete',
+            success: true,
+            plan,
+            metadata: {
+              methodsIncluded: context.methodologies.map(m => m.id),
+              estimatedTokens,
+              processingTimeMs: processingTime,
+              modelVersion: 'claude-sonnet-4-6'
+            }
+          })
+          controller.enqueue(encoder.encode(`data: ${finalData}\n\n`))
+          controller.close()
+        } catch (error) {
+          console.error('[Plan API] Streaming error:', error)
+          const errorData = JSON.stringify({
+            type: 'error',
+            success: false,
+            error: {
+              code: 'STREAMING_ERROR',
+              message: 'Error during streaming',
+              details: error instanceof Error ? error.message : 'Unknown error'
+            }
+          })
+          controller.enqueue(encoder.encode(`data: ${errorData}\n\n`))
+          controller.close()
         }
-      } as PlanResponse,
-      { status: 200 }
-    )
+      }
+    })
+
+    return new Response(readable, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    })
   } catch (error) {
     console.error('[Plan API] Error:', error)
 
