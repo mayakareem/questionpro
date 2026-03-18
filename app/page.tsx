@@ -42,12 +42,16 @@ interface PlanResponse {
 }
 
 const EXAMPLE_QUESTIONS = [
-  "Our branches have low NPS but we don't know why",
-  "Younger customers aren't interested in our brand",
-  "We're launching a new product but unsure about pricing",
-  "Customers are leaving after 3 months and we don't understand why",
-  "We need to know if this feature idea will work before building it",
-  "Which customer segments should we focus our marketing on?"
+  "How do we benchmark our brand against competitors in the Middle East?",
+  "Why aren't younger customers choosing our bank despite high awareness?",
+  "What's driving our rising customer churn in telecom?",
+  "Which touchpoints most influence hotel guest loyalty?",
+  "How do we assess service quality across our GCC retail stores?",
+  "Should we launch this new product concept in the GCC market?",
+  "Why are users dropping off during our SaaS onboarding?",
+  "How do we measure employee morale during regional uncertainty?",
+  "What are the biggest pain points in our patient journey?",
+  "Which customer segments should we target in this new market?"
 ]
 
 export default function HomePage() {
