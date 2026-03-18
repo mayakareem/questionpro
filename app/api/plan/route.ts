@@ -80,7 +80,12 @@ interface PlanResponse {
 function getAnthropicClient(): Anthropic {
   const apiKey = process.env.ANTHROPIC_API_KEY
 
+  // Debug: Log if API key exists (not the actual key)
+  console.log('[Anthropic Client] API Key present:', !!apiKey)
+  console.log('[Anthropic Client] API Key length:', apiKey?.length || 0)
+
   if (!apiKey) {
+    console.error('[Anthropic Client] Environment variables:', Object.keys(process.env).filter(k => k.includes('ANTHROPIC')))
     throw new Error(
       'ANTHROPIC_API_KEY not configured. Please set it in your .env file.'
     )
