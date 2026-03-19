@@ -22,6 +22,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { retrieveContext, formatContextForPrompt } from '@/lib/retrieval'
 import { buildPrompt, estimateTokens } from '@/lib/planner'
 import { validateQuery } from '@/lib/utils/validator'
+import { logSearch } from '@/lib/analytics'
 
 /**
  * Request body interface
@@ -357,13 +358,21 @@ export async function POST(request: NextRequest) {
           const processingTime = Date.now() - startTime
           console.log('[Plan API] Successfully generated plan in', processingTime, 'ms')
 
+          // Log successful search
+          const methods = context.methodologies.map(m => m.id)
+          logSearch({
+            question,
+            success: true,
+            methods
+          })
+
           // Send the complete parsed plan
           const finalData = JSON.stringify({
             type: 'complete',
             success: true,
             plan,
             metadata: {
-              methodsIncluded: context.methodologies.map(m => m.id),
+              methodsIncluded: methods,
               estimatedTokens,
               processingTimeMs: processingTime,
               modelVersion: 'claude-sonnet-4-6'
@@ -373,6 +382,14 @@ export async function POST(request: NextRequest) {
           controller.close()
         } catch (error) {
           console.error('[Plan API] Streaming error:', error)
+
+          // Log failed search
+          logSearch({
+            question,
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown streaming error'
+          })
+
           const errorData = JSON.stringify({
             type: 'error',
             success: false,
