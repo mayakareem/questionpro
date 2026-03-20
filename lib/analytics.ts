@@ -1,62 +1,27 @@
 /**
- * Analytics Logger
- *
- * In-memory analytics using globalThis singleton pattern
- * (same approach Prisma uses for Next.js).
- * Always reads/writes via getter to avoid stale references
- * across separately-bundled API route chunks.
+ * Analytics Logger - Persistent via PostgreSQL
  */
 
-interface SearchLog {
-  timestamp: string
-  question: string
-  success: boolean
-  methods?: string[]
-  error?: string
-}
-
-// Use a unique symbol-like key to avoid collisions
-const STORE_KEY = '__researchguide_analytics_v1'
-
-/**
- * Always access the store through this getter -
- * never cache the reference in a module-level variable
- */
-function getStore(): SearchLog[] {
-  const g = globalThis as Record<string, unknown>
-  if (!g[STORE_KEY]) {
-    g[STORE_KEY] = []
-  }
-  return g[STORE_KEY] as SearchLog[]
-}
+import { query, initializeDatabase } from './db'
 
 /**
  * Log a search query
  */
-export function logSearch(data: {
+export async function logSearch(data: {
   question: string
   success: boolean
   methods?: string[]
   error?: string
+  ipHash?: string
 }) {
   try {
-    const store = getStore()
-    const log: SearchLog = {
-      timestamp: new Date().toISOString(),
-      question: data.question,
-      success: data.success,
-      ...(data.methods && { methods: data.methods }),
-      ...(data.error && { error: data.error })
-    }
-
-    store.push(log)
-
-    // Cap at 10,000 entries to prevent memory bloat
-    if (store.length > 10000) {
-      store.splice(0, store.length - 10000)
-    }
-
-    console.log(`[Analytics] Logged search (total: ${store.length}):`, data.question.substring(0, 50) + '...')
+    await initializeDatabase()
+    await query(
+      `INSERT INTO searches (question, success, methods, error, ip_hash)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [data.question, data.success, data.methods || null, data.error || null, data.ipHash || null]
+    )
+    console.log('[Analytics] Logged search:', data.question.substring(0, 50) + '...')
   } catch (error) {
     console.error('[Analytics] Failed to log search:', error)
   }
@@ -65,27 +30,60 @@ export function logSearch(data: {
 /**
  * Get total search count
  */
-export function getSearchCount(): number {
-  return getStore().length
-}
-
-/**
- * Get recent searches
- */
-export function getRecentSearches(limit: number = 100): SearchLog[] {
-  return getStore().slice(-limit)
+export async function getSearchCount(): Promise<number> {
+  try {
+    await initializeDatabase()
+    const result = await query('SELECT COUNT(*) as count FROM searches')
+    return parseInt(result.rows[0].count, 10)
+  } catch (error) {
+    console.error('[Analytics] Failed to get search count:', error)
+    return 0
+  }
 }
 
 /**
  * Get analytics summary
  */
-export function getAnalyticsSummary() {
-  const store = getStore()
-  console.log(`[Analytics] Summary requested. Store has ${store.length} entries.`)
-  return {
-    totalSearches: store.length,
-    successfulSearches: store.filter(s => s.success).length,
-    failedSearches: store.filter(s => !s.success).length,
-    recentSearches: store.slice(-10).reverse(),
+export async function getAnalyticsSummary() {
+  try {
+    await initializeDatabase()
+
+    const [totals, recent] = await Promise.all([
+      query(`
+        SELECT
+          COUNT(*) as total,
+          COUNT(*) FILTER (WHERE success = true) as successful,
+          COUNT(*) FILTER (WHERE success = false) as failed
+        FROM searches
+      `),
+      query(`
+        SELECT question, success, methods, error, created_at as timestamp
+        FROM searches
+        ORDER BY created_at DESC
+        LIMIT 10
+      `)
+    ])
+
+    const row = totals.rows[0]
+    return {
+      totalSearches: parseInt(row.total, 10),
+      successfulSearches: parseInt(row.successful, 10),
+      failedSearches: parseInt(row.failed, 10),
+      recentSearches: recent.rows.map((r: { question: string; success: boolean; methods: string[] | null; error: string | null; timestamp: string }) => ({
+        question: r.question,
+        success: r.success,
+        methods: r.methods,
+        error: r.error,
+        timestamp: r.timestamp,
+      })),
+    }
+  } catch (error) {
+    console.error('[Analytics] Failed to get analytics summary:', error)
+    return {
+      totalSearches: 0,
+      successfulSearches: 0,
+      failedSearches: 0,
+      recentSearches: [],
+    }
   }
 }

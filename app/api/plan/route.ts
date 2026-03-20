@@ -23,6 +23,7 @@ import { retrieveContext, formatContextForPrompt } from '@/lib/retrieval'
 import { buildPrompt, estimateTokens } from '@/lib/planner'
 import { validateQuery } from '@/lib/utils/validator'
 import { logSearch } from '@/lib/analytics'
+import { saveProject } from '@/lib/projects'
 
 /**
  * Request body interface
@@ -440,19 +441,37 @@ export async function POST(request: NextRequest) {
           const processingTime = Date.now() - startTime
           console.log('[Plan API] Successfully generated plan in', processingTime, 'ms')
 
-          // Log successful search
+          // Log successful search (don't await - fire and forget)
           const methods = context.methodologies.map(m => m.id)
           logSearch({
             question,
             success: true,
             methods
-          })
+          }).catch(err => console.error('[Plan API] Analytics log failed:', err))
+
+          // Auto-save project and get shareable ID
+          let projectId: string | null = null
+          try {
+            projectId = await saveProject({
+              question,
+              plan,
+              metadata: {
+                methodsIncluded: methods,
+                estimatedTokens,
+                processingTimeMs: processingTime,
+                modelVersion: 'claude-sonnet-4-6'
+              }
+            })
+          } catch (err) {
+            console.error('[Plan API] Failed to save project:', err)
+          }
 
           // Send the complete parsed plan
           const finalData = JSON.stringify({
             type: 'complete',
             success: true,
             plan,
+            projectId,
             metadata: {
               methodsIncluded: methods,
               estimatedTokens,
@@ -465,12 +484,12 @@ export async function POST(request: NextRequest) {
         } catch (error) {
           console.error('[Plan API] Streaming error:', error)
 
-          // Log failed search
+          // Log failed search (don't await - fire and forget)
           logSearch({
             question,
             success: false,
             error: error instanceof Error ? error.message : 'Unknown streaming error'
-          })
+          }).catch(err => console.error('[Plan API] Analytics log failed:', err))
 
           const errorData = JSON.stringify({
             type: 'error',
