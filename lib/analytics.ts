@@ -1,7 +1,8 @@
 /**
  * Analytics Logger
  *
- * In-memory analytics to track search queries.
+ * In-memory analytics using globalThis to ensure state is shared
+ * across all Next.js API routes and module instances.
  * Works on ephemeral filesystems like Railway.
  * Data resets on redeploy but persists during runtime.
  */
@@ -14,8 +15,18 @@ interface SearchLog {
   error?: string
 }
 
-// In-memory store - persists for the lifetime of the server process
-const searchLogs: SearchLog[] = []
+// Extend globalThis to hold our analytics store
+declare global {
+  // eslint-disable-next-line no-var
+  var __analyticsStore: SearchLog[] | undefined
+}
+
+// Use globalThis so the same array is shared across all API routes
+// (Next.js can create separate module instances per route)
+if (!globalThis.__analyticsStore) {
+  globalThis.__analyticsStore = []
+}
+const searchLogs = globalThis.__analyticsStore
 
 /**
  * Log a search query
