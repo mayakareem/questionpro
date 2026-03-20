@@ -75,8 +75,40 @@ interface PlanResponse {
 }
 
 /**
+ * Simple in-memory rate limiter
+ * Tracks requests per IP with a sliding window
+ */
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT_WINDOW_MS = 60 * 1000 // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 10 // 10 requests per minute
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
+    return true
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return false
+  }
+
+  entry.count++
+  return true
+}
+
+// Clean up stale entries every 5 minutes
+setInterval(() => {
+  const now = Date.now()
+  for (const [ip, entry] of rateLimitMap.entries()) {
+    if (now > entry.resetAt) rateLimitMap.delete(ip)
+  }
+}, 5 * 60 * 1000)
+
+/**
  * Initialize Anthropic client
- * TODO: Ensure ANTHROPIC_API_KEY is set in environment variables
  */
 function getAnthropicClient(): Anthropic {
   const apiKey = process.env.ANTHROPIC_API_KEY
@@ -89,6 +121,7 @@ function getAnthropicClient(): Anthropic {
 
   return new Anthropic({ apiKey })
 }
+
 
 /**
  * Parse LLM response into structured plan
@@ -249,6 +282,30 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
+    // Rate limiting
+    const clientIp = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+    if (!checkRateLimit(clientIp)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'RATE_LIMITED',
+            message: 'Too many requests. Please wait a moment and try again.',
+            details: `Limit: ${RATE_LIMIT_MAX_REQUESTS} requests per minute`
+          }
+        } as PlanResponse,
+        {
+          status: 429,
+          headers: {
+            'Retry-After': '60',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+          }
+        }
+      )
+    }
+
     // Parse request body
     const body = (await request.json()) as PlanRequest
 
@@ -295,29 +352,51 @@ export async function POST(request: NextRequest) {
 
     console.log('[Plan API] Estimated tokens:', estimatedTokens)
 
-    // Step 3: Call Anthropic API
+    // Step 3: Call Anthropic API with retry logic
     console.log('[Plan API] Calling Anthropic API...')
-
-    // TODO: Add error handling for API failures
-    // TODO: Add retry logic with exponential backoff
-    // TODO: Add rate limiting
-    // TODO: Add request timeout
 
     const anthropic = getAnthropicClient()
 
-    // Create a streaming response
-    const stream = await anthropic.messages.stream({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 8000,
-      temperature: 0.7,
-      system: prompt.system,
-      messages: [
-        {
-          role: 'user',
-          content: prompt.user
+    // Create a streaming response with retry on failure
+    const createStream = () => {
+      return anthropic.messages.stream({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 8000,
+        temperature: 0.7,
+        system: prompt.system,
+        messages: [
+          {
+            role: 'user',
+            content: prompt.user
+          }
+        ]
+      })
+    }
+
+    let stream: ReturnType<typeof createStream>
+    let retryCount = 0
+    const maxRetries = 3
+
+    while (true) {
+      try {
+        stream = createStream()
+        break
+      } catch (error) {
+        retryCount++
+        if (retryCount > maxRetries) throw error
+
+        // Don't retry client errors except rate limits
+        if (error instanceof Anthropic.APIError) {
+          if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
+            throw error
+          }
         }
-      ]
-    })
+
+        const delay = 1000 * Math.pow(2, retryCount - 1) + Math.random() * 500
+        console.log(`[Plan API] Retry ${retryCount}/${maxRetries} after ${Math.round(delay)}ms`)
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
+    }
 
     console.log('[Plan API] Streaming response from Claude')
 
@@ -410,6 +489,12 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
         'Connection': 'keep-alive',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
       },
     })
   } catch (error) {

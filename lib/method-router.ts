@@ -130,8 +130,18 @@ const KEYWORD_PATTERNS: Record<string, KeywordPattern[]> = {
       weight: 'primary'
     },
     {
-      keywords: ['nps', 'net promoter', 'satisfaction', 'csat', 'ces', 'customer effort'],
-      methodologies: ['cx-driver-analysis'],
+      keywords: ['nps', 'net promoter', 'loyalty', 'recommend', 'promoter', 'detractor'],
+      methodologies: ['nps', 'cx-driver-analysis'],
+      weight: 'primary'
+    },
+    {
+      keywords: ['satisfaction', 'satisfied', 'csat', 'happy', 'unhappy', 'dissatisfied'],
+      methodologies: ['csat', 'cx-driver-analysis'],
+      weight: 'primary'
+    },
+    {
+      keywords: ['ces', 'customer effort', 'effort score', 'how easy', 'how hard', 'friction', 'ease of use'],
+      methodologies: ['ces', 'cx-driver-analysis'],
       weight: 'primary'
     }
   ],
@@ -226,6 +236,67 @@ const KEYWORD_PATTERNS: Record<string, KeywordPattern[]> = {
       keywords: ['diverse', 'different types', 'various', 'prioritize'],
       methodologies: ['segmentation'],
       weight: 'secondary'
+    }
+  ],
+
+  // A/B testing and experimentation
+  experimentation: [
+    {
+      keywords: [
+        'a/b test', 'ab test', 'split test', 'experiment', 'compare',
+        'which version', 'which performs better', 'convert', 'conversion',
+        'optimize', 'variant', 'control group', 'treatment'
+      ],
+      methodologies: ['ab-testing', 'concept-test'],
+      weight: 'primary'
+    },
+    {
+      keywords: ['test', 'which email', 'which message', 'which headline', 'which subject line'],
+      methodologies: ['ab-testing'],
+      weight: 'primary'
+    }
+  ],
+
+  // NPS and loyalty measurement
+  loyalty: [
+    {
+      keywords: [
+        'nps', 'net promoter', 'loyalty', 'recommend', 'promoter',
+        'detractor', 'passive', 'advocacy', 'referral', 'word of mouth'
+      ],
+      methodologies: ['nps', 'cx-driver-analysis'],
+      weight: 'primary'
+    },
+    {
+      keywords: ['benchmark', 'loyalty score', 'track loyalty', 'measure loyalty'],
+      methodologies: ['nps', 'brand-tracking'],
+      weight: 'primary'
+    }
+  ],
+
+  // Satisfaction measurement
+  satisfaction: [
+    {
+      keywords: [
+        'satisfaction', 'satisfied', 'csat', 'happy', 'unhappy',
+        'rate', 'rating', 'service quality', 'quality score',
+        'post-purchase', 'after purchase', 'feedback score'
+      ],
+      methodologies: ['csat', 'cx-driver-analysis'],
+      weight: 'primary'
+    }
+  ],
+
+  // Customer effort
+  effort: [
+    {
+      keywords: [
+        'effort', 'effort score', 'ces', 'easy', 'difficult', 'friction',
+        'seamless', 'smooth', 'frustrating', 'tedious', 'complicated',
+        'self-service', 'support effort', 'resolution'
+      ],
+      methodologies: ['ces', 'cx-driver-analysis', 'mystery-shopping'],
+      weight: 'primary'
     }
   ]
 }
@@ -350,9 +421,41 @@ const INTENT_PATTERNS: IntentPattern[] = [
   // "How satisfied" questions
   {
     pattern: /how\s+satisfied/i,
-    methodologies: ['cx-driver-analysis'],
+    methodologies: ['csat', 'cx-driver-analysis'],
     weight: 'primary',
     description: 'Satisfaction measurement'
+  },
+
+  // NPS-specific questions
+  {
+    pattern: /(?:measure|track|improve|increase|benchmark)\s+(?:nps|net promoter|loyalty)/i,
+    methodologies: ['nps', 'cx-driver-analysis'],
+    weight: 'primary',
+    description: 'NPS/loyalty measurement'
+  },
+
+  // Effort-specific questions
+  {
+    pattern: /how\s+(?:easy|hard|difficult|simple)\s+(?:is it|it is)/i,
+    methodologies: ['ces', 'cx-driver-analysis'],
+    weight: 'primary',
+    description: 'Effort measurement'
+  },
+
+  // A/B testing questions
+  {
+    pattern: /(?:which|what)\s+(?:version|variant|option|design|message|email)\s+(?:works|performs|converts)\s+better/i,
+    methodologies: ['ab-testing', 'concept-test'],
+    weight: 'primary',
+    description: 'A/B testing question'
+  },
+
+  // "Should we test" questions
+  {
+    pattern: /should\s+we\s+(?:test|experiment|try|run an? (?:a\/b|ab|split))/i,
+    methodologies: ['ab-testing', 'concept-test'],
+    weight: 'primary',
+    description: 'Experimentation question'
   },
 
   // "How do we compare" questions
