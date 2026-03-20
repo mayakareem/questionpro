@@ -1621,7 +1621,7 @@ export default function HomePage() {
               ✎ Search Analytics
             </h2>
 
-            {analytics && analytics.totalSearches > 0 ? (
+            {analytics ? (
               <>
             {/* Stats boxes */}
             <div className="grid md:grid-cols-3 gap-6 mb-10">
@@ -1666,6 +1666,7 @@ export default function HomePage() {
             </div>
 
             {/* Recent searches list */}
+            {analytics.recentSearches.length > 0 ? (
             <div className="max-w-4xl mx-auto">
               <h3 className="text-xl font-bold mb-4 transform rotate-0.5 inline-block"
                   style={{ fontFamily: '"Courier New", Courier, monospace' }}>
@@ -1714,6 +1715,13 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-sm text-gray-500" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                  Run a search to see detailed history here →
+                </p>
+              </div>
+            )}
             </>
             ) : (
               <div className="text-center py-12">
@@ -1723,13 +1731,10 @@ export default function HomePage() {
                        borderStyle: 'dashed',
                        boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
                      }}>
-                  <p className="text-lg text-gray-600 mb-2"
-                     style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                    No searches yet
-                  </p>
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto mb-3" />
                   <p className="text-sm text-gray-500"
                      style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                    Analytics will appear here after your first search →
+                    Loading analytics...
                   </p>
                 </div>
               </div>
