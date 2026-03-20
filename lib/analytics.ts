@@ -1,10 +1,10 @@
 /**
  * Analytics Logger
  *
- * In-memory analytics using globalThis to ensure state is shared
- * across all Next.js API routes and module instances.
- * Works on ephemeral filesystems like Railway.
- * Data resets on redeploy but persists during runtime.
+ * In-memory analytics using globalThis singleton pattern
+ * (same approach Prisma uses for Next.js).
+ * Always reads/writes via getter to avoid stale references
+ * across separately-bundled API route chunks.
  */
 
 interface SearchLog {
@@ -15,18 +15,20 @@ interface SearchLog {
   error?: string
 }
 
-// Extend globalThis to hold our analytics store
-declare global {
-  // eslint-disable-next-line no-var
-  var __analyticsStore: SearchLog[] | undefined
-}
+// Use a unique symbol-like key to avoid collisions
+const STORE_KEY = '__researchguide_analytics_v1'
 
-// Use globalThis so the same array is shared across all API routes
-// (Next.js can create separate module instances per route)
-if (!globalThis.__analyticsStore) {
-  globalThis.__analyticsStore = []
+/**
+ * Always access the store through this getter -
+ * never cache the reference in a module-level variable
+ */
+function getStore(): SearchLog[] {
+  const g = globalThis as Record<string, unknown>
+  if (!g[STORE_KEY]) {
+    g[STORE_KEY] = []
+  }
+  return g[STORE_KEY] as SearchLog[]
 }
-const searchLogs = globalThis.__analyticsStore
 
 /**
  * Log a search query
@@ -38,6 +40,7 @@ export function logSearch(data: {
   error?: string
 }) {
   try {
+    const store = getStore()
     const log: SearchLog = {
       timestamp: new Date().toISOString(),
       question: data.question,
@@ -46,14 +49,14 @@ export function logSearch(data: {
       ...(data.error && { error: data.error })
     }
 
-    searchLogs.push(log)
+    store.push(log)
 
     // Cap at 10,000 entries to prevent memory bloat
-    if (searchLogs.length > 10000) {
-      searchLogs.splice(0, searchLogs.length - 10000)
+    if (store.length > 10000) {
+      store.splice(0, store.length - 10000)
     }
 
-    console.log('[Analytics] Logged search:', data.question.substring(0, 50) + '...')
+    console.log(`[Analytics] Logged search (total: ${store.length}):`, data.question.substring(0, 50) + '...')
   } catch (error) {
     console.error('[Analytics] Failed to log search:', error)
   }
@@ -63,24 +66,26 @@ export function logSearch(data: {
  * Get total search count
  */
 export function getSearchCount(): number {
-  return searchLogs.length
+  return getStore().length
 }
 
 /**
  * Get recent searches
  */
 export function getRecentSearches(limit: number = 100): SearchLog[] {
-  return searchLogs.slice(-limit)
+  return getStore().slice(-limit)
 }
 
 /**
  * Get analytics summary
  */
 export function getAnalyticsSummary() {
+  const store = getStore()
+  console.log(`[Analytics] Summary requested. Store has ${store.length} entries.`)
   return {
-    totalSearches: searchLogs.length,
-    successfulSearches: searchLogs.filter(s => s.success).length,
-    failedSearches: searchLogs.filter(s => !s.success).length,
-    recentSearches: searchLogs.slice(-10).reverse(),
+    totalSearches: store.length,
+    successfulSearches: store.filter(s => s.success).length,
+    failedSearches: store.filter(s => !s.success).length,
+    recentSearches: store.slice(-10).reverse(),
   }
 }
