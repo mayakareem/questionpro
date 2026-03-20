@@ -797,134 +797,247 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Funky flowchart - MOVED BEFORE "See It In Action" */}
+        {/* Detailed Flowchart - How It Works */}
         {!result && (
           <div className="mb-20">
-            <h2 className="text-4xl font-bold text-center mb-12 text-black transform -rotate-1"
+            <h2 className="text-4xl font-bold text-center mb-4 text-black transform -rotate-1"
                 style={{ fontFamily: '"Courier New", Courier, monospace' }}>
               ★ How It Works ★
             </h2>
+            <p className="text-center text-gray-600 mb-12 text-sm"
+               style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+              From question to actionable research plan in 7 steps →
+            </p>
 
-            <div className="relative">
-              <div className="bg-white border-black p-12 transform rotate-0.5 relative"
-                   style={{
-                     borderWidth: '3px',
-                     borderStyle: 'dashed',
-                     boxShadow: '8px 8px 0px 0px rgba(0,0,0,1)'
-                   }}>
-                <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                  {/* Step 1 */}
-                  <div className="flex-1 text-center transform -rotate-2">
-                    <div className="inline-block border-black p-6 bg-white mb-4"
-                         style={{
-                           borderWidth: '3px',
-                           borderStyle: 'solid',
-                           boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                         }}>
-                      <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center text-6xl">
-                        ?
-                      </div>
-                      <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        ① Your Question
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 font-bold" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      Ask in plain English
-                    </p>
-                  </div>
+            <div className="max-w-3xl mx-auto relative">
+              {/* Vertical connector line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-black transform -translate-x-1/2 hidden md:block"
+                   style={{ zIndex: 0 }} />
 
-                  {/* Sketchy Arrow */}
-                  <div className="hidden md:block">
-                    <svg width="48" height="32" viewBox="0 0 48 32">
-                      <path d="M 2 16 Q 12 12, 24 16 T 42 16 M 42 16 L 36 12 M 42 16 L 36 20"
-                            stroke="black"
-                            strokeWidth="3"
-                            fill="none"
-                            strokeLinecap="round" />
-                    </svg>
+              {/* Step 1 - Input */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6 mb-2" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Type your business question in plain English, or pick a pre-built template
+                  </p>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-white flex items-center justify-center transform -rotate-2"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                    <span className="text-4xl">?</span>
                   </div>
-                  <div className="md:hidden">
-                    <svg width="32" height="48">
-                      <path d="M 16 2 Q 12 12, 16 24 T 16 42 M 16 42 L 12 36 M 16 42 L 20 36"
-                            stroke="black"
-                            strokeWidth="3"
-                            fill="none"
-                            strokeLinecap="round" />
-                    </svg>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div className="flex-1 text-center transform rotate-1">
-                    <div className="inline-block border-black p-6 bg-white mb-4"
-                         style={{
-                           borderWidth: '3px',
-                           borderStyle: 'solid',
-                           boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                         }}>
-                      <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center">
-                        <svg width="80" height="80" viewBox="0 0 80 80">
-                          <circle cx="40" cy="40" r="30" stroke="black" strokeWidth="3" fill="white" />
-                          <circle cx="32" cy="35" r="4" fill="black" />
-                          <circle cx="48" cy="35" r="4" fill="black" />
-                          <path d="M 28 50 Q 40 58, 52 50" stroke="black" strokeWidth="3" fill="none" strokeLinecap="round" />
-                        </svg>
-                      </div>
-                      <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        ② AI Analysis
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 font-bold" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      Context + Routing
-                    </p>
-                  </div>
-
-                  {/* Sketchy Arrow */}
-                  <div className="hidden md:block">
-                    <svg width="48" height="32" viewBox="0 0 48 32">
-                      <path d="M 2 16 Q 12 12, 24 16 T 42 16 M 42 16 L 36 12 M 42 16 L 36 20"
-                            stroke="black"
-                            strokeWidth="3"
-                            fill="none"
-                            strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <div className="md:hidden">
-                    <svg width="32" height="48">
-                      <path d="M 16 2 Q 12 12, 16 24 T 16 42 M 16 42 L 12 36 M 16 42 L 20 36"
-                            stroke="black"
-                            strokeWidth="3"
-                            fill="none"
-                            strokeLinecap="round" />
-                    </svg>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div className="flex-1 text-center transform -rotate-1">
-                    <div className="inline-block border-black p-6 bg-white mb-4"
-                         style={{
-                           borderWidth: '3px',
-                           borderStyle: 'solid',
-                           boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                         }}>
-                      <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center">
-                        <svg width="80" height="80" viewBox="0 0 80 80">
-                          <rect x="15" y="10" width="50" height="60" stroke="black" strokeWidth="3" fill="white" />
-                          <line x1="22" y1="22" x2="58" y2="22" stroke="black" strokeWidth="2" />
-                          <line x1="22" y1="35" x2="58" y2="35" stroke="black" strokeWidth="2" />
-                          <line x1="22" y1="48" x2="48" y2="48" stroke="black" strokeWidth="2" />
-                          <line x1="22" y1="61" x2="52" y2="61" stroke="black" strokeWidth="2" />
-                        </svg>
-                      </div>
-                      <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        ③ Research Plan
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 font-bold" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      Methods + Costs
-                    </p>
+                </div>
+                <div className="flex-1 order-3">
+                  <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ① Your Question
                   </div>
                 </div>
               </div>
+
+              {/* Arrow down */}
+              <div className="flex justify-center my-1">
+                <svg width="24" height="32" viewBox="0 0 24 32">
+                  <path d="M 12 2 Q 10 10, 12 18 T 12 28 M 12 28 L 8 22 M 12 28 L 16 22"
+                        stroke="black" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Step 2 - Validate */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6 mb-2" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <div className="font-bold text-sm uppercase text-right" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ② Input Validation
+                  </div>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-white flex items-center justify-center transform rotate-1"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                      <rect x="5" y="5" width="30" height="30" rx="3" stroke="black" strokeWidth="2.5" fill="none" />
+                      <path d="M 12 20 L 18 26 L 28 14" stroke="black" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1 order-3">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Checks length, relevance, and research-ability of your question
+                  </p>
+                </div>
+              </div>
+
+              {/* Arrow down */}
+              <div className="flex justify-center my-1">
+                <svg width="24" height="32" viewBox="0 0 24 32">
+                  <path d="M 12 2 Q 14 10, 12 18 T 12 28 M 12 28 L 8 22 M 12 28 L 16 22"
+                        stroke="black" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Step 3 - Methodology Routing */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6 mb-2" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Matches your question to the most relevant research methodologies from our knowledge base
+                  </p>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-white flex items-center justify-center transform -rotate-1"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                    <svg width="44" height="44" viewBox="0 0 44 44">
+                      <circle cx="22" cy="14" r="6" stroke="black" strokeWidth="2.5" fill="none" />
+                      <line x1="22" y1="20" x2="10" y2="36" stroke="black" strokeWidth="2" />
+                      <line x1="22" y1="20" x2="22" y2="36" stroke="black" strokeWidth="2" />
+                      <line x1="22" y1="20" x2="34" y2="36" stroke="black" strokeWidth="2" />
+                      <circle cx="10" cy="37" r="3" stroke="black" strokeWidth="2" fill="none" />
+                      <circle cx="22" cy="37" r="3" stroke="black" strokeWidth="2" fill="none" />
+                      <circle cx="34" cy="37" r="3" stroke="black" strokeWidth="2" fill="none" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1 order-3">
+                  <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ③ Methodology Routing
+                  </div>
+                </div>
+              </div>
+
+              {/* Arrow down */}
+              <div className="flex justify-center my-1">
+                <svg width="24" height="32" viewBox="0 0 24 32">
+                  <path d="M 12 2 Q 10 10, 12 18 T 12 28 M 12 28 L 8 22 M 12 28 L 16 22"
+                        stroke="black" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Step 4 - Knowledge Retrieval */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6 mb-2" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <div className="font-bold text-sm uppercase text-right" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ④ Knowledge Retrieval
+                  </div>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-white flex items-center justify-center transform rotate-2"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                      <rect x="4" y="6" width="14" height="28" rx="2" stroke="black" strokeWidth="2" fill="none" />
+                      <rect x="10" y="3" width="14" height="28" rx="2" stroke="black" strokeWidth="2" fill="white" />
+                      <rect x="16" y="0" width="14" height="28" rx="2" stroke="black" strokeWidth="2" fill="white" />
+                      <line x1="19" y1="6" x2="27" y2="6" stroke="black" strokeWidth="1.5" />
+                      <line x1="19" y1="10" x2="27" y2="10" stroke="black" strokeWidth="1.5" />
+                      <line x1="19" y1="14" x2="25" y2="14" stroke="black" strokeWidth="1.5" />
+                      <circle cx="28" cy="30" r="8" stroke="black" strokeWidth="2.5" fill="white" />
+                      <line x1="34" y1="36" x2="38" y2="40" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1 order-3">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Pulls detailed specs for each method - sample sizes, timelines, costs, QuestionPro features
+                  </p>
+                </div>
+              </div>
+
+              {/* Arrow down */}
+              <div className="flex justify-center my-1">
+                <svg width="24" height="32" viewBox="0 0 24 32">
+                  <path d="M 12 2 Q 14 10, 12 18 T 12 28 M 12 28 L 8 22 M 12 28 L 16 22"
+                        stroke="black" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Step 5 - AI Generation */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6 mb-2" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Claude AI synthesizes everything into a structured research plan, streamed in real-time
+                  </p>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-black flex items-center justify-center transform -rotate-1"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,0.5)' }}>
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                      <circle cx="20" cy="20" r="14" stroke="white" strokeWidth="2.5" fill="none" />
+                      <circle cx="14" cy="17" r="2.5" fill="white" />
+                      <circle cx="26" cy="17" r="2.5" fill="white" />
+                      <path d="M 12 25 Q 20 32, 28 25" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1 order-3">
+                  <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ⑤ AI Plan Generation
+                  </div>
+                </div>
+              </div>
+
+              {/* Arrow down */}
+              <div className="flex justify-center my-1">
+                <svg width="24" height="32" viewBox="0 0 24 32">
+                  <path d="M 12 2 Q 10 10, 12 18 T 12 28 M 12 28 L 8 22 M 12 28 L 16 22"
+                        stroke="black" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Step 6 - Structured Output */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6 mb-2" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <div className="font-bold text-sm uppercase text-right" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ⑥ Structured Output
+                  </div>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-white flex items-center justify-center transform rotate-1"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                      <rect x="5" y="2" width="30" height="36" stroke="black" strokeWidth="2.5" fill="white" rx="2" />
+                      <line x1="10" y1="9" x2="30" y2="9" stroke="black" strokeWidth="2" />
+                      <line x1="10" y1="15" x2="30" y2="15" stroke="black" strokeWidth="1.5" />
+                      <line x1="10" y1="20" x2="26" y2="20" stroke="black" strokeWidth="1.5" />
+                      <rect x="10" y="25" width="8" height="8" stroke="black" strokeWidth="1.5" fill="none" rx="1" />
+                      <rect x="22" y="25" width="8" height="8" stroke="black" strokeWidth="1.5" fill="none" rx="1" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1 order-3">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Business decision, objectives, methods (primary + secondary), implementation steps, sample sizes, timeline, costs
+                  </p>
+                </div>
+              </div>
+
+              {/* Arrow down */}
+              <div className="flex justify-center my-1">
+                <svg width="24" height="32" viewBox="0 0 24 32">
+                  <path d="M 12 2 Q 14 10, 12 18 T 12 28 M 12 28 L 8 22 M 12 28 L 16 22"
+                        stroke="black" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* Step 7 - Export & Share */}
+              <div className="relative flex flex-col md:flex-row items-center gap-6" style={{ zIndex: 1 }}>
+                <div className="flex-1 md:text-right order-2 md:order-1">
+                  <p className="text-sm text-gray-700" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Download as PDF, share via URL, save as a reusable template, or preview the output deck
+                  </p>
+                </div>
+                <div className="order-1 md:order-2 flex-shrink-0">
+                  <div className="w-20 h-20 border-black bg-white flex items-center justify-center transform -rotate-2"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                    <svg width="42" height="42" viewBox="0 0 42 42">
+                      <path d="M 8 20 L 21 30 L 21 26 L 34 26 L 34 14 L 21 14 L 21 10 Z" stroke="black" strokeWidth="2.5" fill="none" strokeLinejoin="round" />
+                      <line x1="21" y1="34" x2="21" y2="38" stroke="black" strokeWidth="2" strokeLinecap="round" />
+                      <line x1="14" y1="38" x2="28" y2="38" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1 order-3">
+                  <div className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ⑦ Export & Share
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         )}
