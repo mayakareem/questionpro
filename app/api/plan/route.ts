@@ -174,6 +174,9 @@ function parseLLMResponse(response: string): PlanResponse['plan'] {
       rationale = rationaleMatch[1].trim()
     }
 
+    // Strip any leftover markdown bold markers
+    methodName = methodName.replace(/\*\*/g, '').trim()
+
     if (methodName && methodName.length > 2) {
       methods.push({
         name: methodName,
