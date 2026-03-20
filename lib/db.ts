@@ -3,22 +3,32 @@
  *
  * Singleton pool using the Prisma-style globalThis pattern
  * to prevent connection leaks during Next.js hot reloads.
+ *
+ * IMPORTANT: DATABASE_URL is read inside getPool() - not at module
+ * load time - because Railway injects env vars at runtime and they
+ * may not be available when the module is first imported.
  */
 
 import { Pool, QueryResult } from 'pg'
-
-const DATABASE_URL = process.env.DATABASE_URL
 
 const globalForDb = globalThis as unknown as { dbPool: Pool | undefined }
 
 function getPool(): Pool {
   if (!globalForDb.dbPool) {
-    if (!DATABASE_URL) {
-      throw new Error('DATABASE_URL environment variable is not set')
+    // Read env var at call time, not module load time
+    const databaseUrl = process.env.DATABASE_URL || process.env.DATABASE_PUBLIC_URL
+
+    if (!databaseUrl) {
+      throw new Error(
+        'DATABASE_URL environment variable is not set. ' +
+        'Available env keys: ' + Object.keys(process.env).filter(k => k.includes('DATABASE') || k.includes('PG')).join(', ')
+      )
     }
 
+    console.log('[DB] Connecting to:', databaseUrl.substring(0, 40) + '...')
+
     globalForDb.dbPool = new Pool({
-      connectionString: DATABASE_URL,
+      connectionString: databaseUrl,
       max: 10,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 5000,
