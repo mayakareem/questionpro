@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
         dbConnected: false,
         error: error instanceof Error ? error.message : String(error),
         databaseUrl: process.env.DATABASE_URL ? 'set (' + process.env.DATABASE_URL.substring(0, 30) + '...)' : 'NOT SET',
+        allEnvKeys: Object.keys(process.env).sort().join(', '),
       }, { status: 500 })
     }
   }
