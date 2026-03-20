@@ -599,99 +599,6 @@ export default function HomePage() {
           </form>
         </div>
 
-        {/* Template Picker Section */}
-        {!result && (
-          <div className="mb-12">
-            <button
-              onClick={() => setShowTemplates(!showTemplates)}
-              className="w-full flex items-center justify-center gap-3 py-4 border-black bg-white hover:bg-gray-50 transition-all transform hover:scale-[1.01]"
-              style={{
-                fontFamily: '"Courier New", Courier, monospace',
-                borderWidth: '3px',
-                borderStyle: 'dashed',
-                boxShadow: '4px 4px 0px 0px rgba(0,0,0,0.5)'
-              }}
-            >
-              <BookOpen className="h-5 w-5" />
-              <span className="font-bold uppercase text-sm tracking-wider">
-                {showTemplates ? 'Hide Templates' : 'Start from a Template'}
-              </span>
-              <span className="text-xs text-gray-500">({templates.length} available)</span>
-            </button>
-
-            {showTemplates && templates.length > 0 && (
-              <div className="mt-6">
-                {/* Category filter pills */}
-                <div className="flex flex-wrap gap-2 mb-6 justify-center">
-                  <button
-                    onClick={() => setTemplateFilter(null)}
-                    className={`px-4 py-2 text-xs font-bold uppercase border-2 border-black transition-all ${
-                      !templateFilter ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'
-                    }`}
-                    style={{ fontFamily: '"Courier New", Courier, monospace' }}
-                  >
-                    All
-                  </button>
-                  {[...new Set(templates.map(t => t.category))].map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => setTemplateFilter(templateFilter === cat ? null : cat)}
-                      className={`px-4 py-2 text-xs font-bold uppercase border-2 border-black transition-all ${
-                        templateFilter === cat ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'
-                      }`}
-                      style={{ fontFamily: '"Courier New", Courier, monospace' }}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Template cards */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {templates
-                    .filter(t => !templateFilter || t.category === templateFilter)
-                    .map(template => (
-                    <button
-                      key={template.id}
-                      onClick={() => {
-                        setQuestion(template.questionTemplate)
-                        setShowTemplates(false)
-                        window.scrollTo({ top: 0, behavior: 'smooth' })
-                      }}
-                      className="text-left p-5 border-black bg-white hover:bg-gray-50 transition-all transform hover:-rotate-0.5 hover:scale-[1.02]"
-                      style={{
-                        borderWidth: '2px',
-                        borderStyle: 'solid',
-                        boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
-                      }}
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <span className="font-bold text-sm" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                          {template.name}
-                        </span>
-                        <span className={`text-xs px-2 py-0.5 font-bold uppercase ${
-                          template.isBuiltin ? 'bg-black text-white' : 'bg-yellow-200 text-black border border-black'
-                        }`}
-                              style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                          {template.isBuiltin ? template.category : 'Custom'}
-                        </span>
-                      </div>
-                      <p className="text-xs text-gray-600 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        {template.description}
-                      </p>
-                      <p className="text-xs text-gray-400 italic" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        "{template.questionTemplate.length > 80
-                          ? template.questionTemplate.substring(0, 80) + '...'
-                          : template.questionTemplate}"
-                      </p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Categorized Example Questions Section - MOVED UP */}
         {!result && (
           <div className="mb-12">
@@ -1759,13 +1666,7 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            ) : (
-              <div className="text-center py-4">
-                <p className="text-sm text-gray-500" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                  Run a search to see detailed history here →
-                </p>
-              </div>
-            )}
+            ) : null}
             </>
             ) : (
               <div className="text-center py-12">
