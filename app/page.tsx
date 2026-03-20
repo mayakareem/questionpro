@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Loader2, Download, ArrowRight, Share2, Clock, ExternalLink, Copy, Check } from 'lucide-react'
+import { Loader2, Download, ArrowRight, Share2, Clock, ExternalLink, Copy, Check, BookOpen, Plus, Save, X } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 interface PlanResponse {
@@ -127,6 +127,16 @@ interface ProjectSummary {
   createdAt: string
 }
 
+interface TemplateItem {
+  id: string
+  name: string
+  description: string
+  category: string
+  questionTemplate: string
+  isBuiltin: boolean
+  config?: Record<string, unknown>
+}
+
 interface AnalyticsData {
   totalSearches: number
   successfulSearches: number
@@ -152,6 +162,13 @@ export default function HomePage() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
   const [projects, setProjects] = useState<ProjectSummary[]>([])
   const [copied, setCopied] = useState(false)
+  const [templates, setTemplates] = useState<TemplateItem[]>([])
+  const [showTemplates, setShowTemplates] = useState(false)
+  const [templateFilter, setTemplateFilter] = useState<string | null>(null)
+  const [showSaveTemplate, setShowSaveTemplate] = useState(false)
+  const [saveTemplateName, setSaveTemplateName] = useState('')
+  const [saveTemplateCategory, setSaveTemplateCategory] = useState('Custom')
+  const [isSavingTemplate, setIsSavingTemplate] = useState(false)
 
   // Fetch analytics and project history on mount
   useEffect(() => {
@@ -181,6 +198,20 @@ export default function HomePage() {
       }
     }
     fetchProjects()
+
+    // Fetch templates
+    const fetchTemplates = async () => {
+      try {
+        const response = await fetch('/api/templates')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success) setTemplates(data.templates)
+        }
+      } catch (error) {
+        console.error('Failed to fetch templates:', error)
+      }
+    }
+    fetchTemplates()
 
     // Check URL for shared project ID
     const urlParams = new URLSearchParams(window.location.search)
@@ -231,6 +262,41 @@ export default function HomePage() {
       document.body.removeChild(input)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  // Save current plan as a template
+  const handleSaveAsTemplate = async () => {
+    if (!result?.plan || !saveTemplateName.trim()) return
+    setIsSavingTemplate(true)
+    try {
+      const response = await fetch('/api/templates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: saveTemplateName.trim(),
+          description: `Template based on: ${result.plan.userQuestion.substring(0, 100)}`,
+          category: saveTemplateCategory,
+          questionTemplate: result.plan.userQuestion,
+          config: {
+            methods: result.plan.recommendedMethods?.map(m => m.name.replace(/\*\*/g, '')) || [],
+          },
+        }),
+      })
+      if (response.ok) {
+        setShowSaveTemplate(false)
+        setSaveTemplateName('')
+        // Refresh templates
+        const tplRes = await fetch('/api/templates')
+        if (tplRes.ok) {
+          const data = await tplRes.json()
+          if (data.success) setTemplates(data.templates)
+        }
+      }
+    } catch (error) {
+      console.error('Failed to save template:', error)
+    } finally {
+      setIsSavingTemplate(false)
     }
   }
 
@@ -382,61 +448,47 @@ export default function HomePage() {
     }
   }
 
-  const downloadReport = () => {
+  const [isExporting, setIsExporting] = useState(false)
+
+  const downloadReport = async () => {
     if (!result?.plan) return
 
-    const plan = result.plan
-    const reportContent = `
-AI RESEARCH GUIDE - RESEARCH PLAN
-"${plan.userQuestion}"
-═══════════════════════════════════════════════════════════════
+    setIsExporting(true)
+    try {
+      // If we have a project ID, use the GET endpoint (simpler)
+      if (result.projectId) {
+        const a = document.createElement('a')
+        a.href = `/api/export?p=${result.projectId}`
+        a.download = `research-plan-${result.projectId}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+      } else {
+        // POST the plan data directly
+        const response = await fetch('/api/export', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan: result.plan })
+        })
 
-BUSINESS DECISION
-${plan.businessDecision}
+        if (!response.ok) throw new Error('Export failed')
 
-RESEARCH OBJECTIVE
-${plan.researchObjective}
-
-RECOMMENDED METHODOLOGIES
-${(plan.recommendedMethods || []).map((m, i) =>
-  `${i + 1}. [${m.isPrimary ? 'PRIMARY' : 'SECONDARY'}] ${m.name}
-   ${m.rationale}`
-).join('\n\n')}
-
-IMPLEMENTATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Sample Size: ${plan.implementation?.sampleSize || 'N/A'}
-Timeline: ${plan.implementation?.timeline || 'N/A'}
-
-Steps:
-${plan.implementation?.questionProSteps || 'No implementation steps provided'}
-
-EXPECTED OUTPUTS
-${plan.expectedOutputs || 'No expected outputs specified'}
-
-DECISION SUPPORT
-${plan.decisionSupport}
-
-ASSUMPTIONS
-${(plan.assumptions || []).map((a, i) => `• ${a}`).join('\n')}
-
-CAVEATS
-${(plan.caveats || []).map((c, i) => `• ${c}`).join('\n')}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Generated by AI Research Guide | ${new Date().toLocaleDateString()}
-`.trim()
-
-    const blob = new Blob([reportContent], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `research-plan-${Date.now()}.txt`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `research-plan-${Date.now()}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+      }
+    } catch (error) {
+      console.error('PDF export failed:', error)
+      alert('PDF export failed. Please try again.')
+    } finally {
+      setIsExporting(false)
+    }
   }
 
   return (
@@ -546,6 +598,99 @@ Generated by AI Research Guide | ${new Date().toLocaleDateString()}
             </div>
           </form>
         </div>
+
+        {/* Template Picker Section */}
+        {!result && (
+          <div className="mb-12">
+            <button
+              onClick={() => setShowTemplates(!showTemplates)}
+              className="w-full flex items-center justify-center gap-3 py-4 border-black bg-white hover:bg-gray-50 transition-all transform hover:scale-[1.01]"
+              style={{
+                fontFamily: '"Courier New", Courier, monospace',
+                borderWidth: '3px',
+                borderStyle: 'dashed',
+                boxShadow: '4px 4px 0px 0px rgba(0,0,0,0.5)'
+              }}
+            >
+              <BookOpen className="h-5 w-5" />
+              <span className="font-bold uppercase text-sm tracking-wider">
+                {showTemplates ? 'Hide Templates' : 'Start from a Template'}
+              </span>
+              <span className="text-xs text-gray-500">({templates.length} available)</span>
+            </button>
+
+            {showTemplates && templates.length > 0 && (
+              <div className="mt-6">
+                {/* Category filter pills */}
+                <div className="flex flex-wrap gap-2 mb-6 justify-center">
+                  <button
+                    onClick={() => setTemplateFilter(null)}
+                    className={`px-4 py-2 text-xs font-bold uppercase border-2 border-black transition-all ${
+                      !templateFilter ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'
+                    }`}
+                    style={{ fontFamily: '"Courier New", Courier, monospace' }}
+                  >
+                    All
+                  </button>
+                  {[...new Set(templates.map(t => t.category))].map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => setTemplateFilter(templateFilter === cat ? null : cat)}
+                      className={`px-4 py-2 text-xs font-bold uppercase border-2 border-black transition-all ${
+                        templateFilter === cat ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'
+                      }`}
+                      style={{ fontFamily: '"Courier New", Courier, monospace' }}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Template cards */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {templates
+                    .filter(t => !templateFilter || t.category === templateFilter)
+                    .map(template => (
+                    <button
+                      key={template.id}
+                      onClick={() => {
+                        setQuestion(template.questionTemplate)
+                        setShowTemplates(false)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }}
+                      className="text-left p-5 border-black bg-white hover:bg-gray-50 transition-all transform hover:-rotate-0.5 hover:scale-[1.02]"
+                      style={{
+                        borderWidth: '2px',
+                        borderStyle: 'solid',
+                        boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
+                      }}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <span className="font-bold text-sm" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          {template.name}
+                        </span>
+                        <span className={`text-xs px-2 py-0.5 font-bold uppercase ${
+                          template.isBuiltin ? 'bg-black text-white' : 'bg-yellow-200 text-black border border-black'
+                        }`}
+                              style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          {template.isBuiltin ? template.category : 'Custom'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-600 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                        {template.description}
+                      </p>
+                      <p className="text-xs text-gray-400 italic" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                        "{template.questionTemplate.length > 80
+                          ? template.questionTemplate.substring(0, 80) + '...'
+                          : template.questionTemplate}"
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Categorized Example Questions Section - MOVED UP */}
         {!result && (
@@ -896,6 +1041,7 @@ Generated by AI Research Guide | ${new Date().toLocaleDateString()}
         {result && (
           <div id="results-section" className="space-y-8">
             {result.success && result.plan ? (
+              <>
               <div className="relative">
                 <div className="bg-white border-black p-10 transform -rotate-0.5"
                      style={{
@@ -924,8 +1070,8 @@ Generated by AI Research Guide | ${new Date().toLocaleDateString()}
                         boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
                       }}
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      Download ↓
+                      {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                      {isExporting ? 'Exporting...' : 'Download PDF'}
                     </Button>
                   </div>
 
@@ -1185,10 +1331,212 @@ Generated by AI Research Guide | ${new Date().toLocaleDateString()}
                           {copied ? 'Copied!' : 'Share →'}
                         </Button>
                       )}
+                      <Button
+                        onClick={() => setShowSaveTemplate(true)}
+                        className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-8 border-black uppercase transition-all transform hover:rotate-1"
+                        style={{
+                          fontFamily: '"Courier New", Courier, monospace',
+                          letterSpacing: '0.05em',
+                          borderWidth: '3px',
+                          boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+                        }}
+                      >
+                        <Save className="mr-2 h-4 w-4" />
+                        Save as Template
+                      </Button>
                     </div>
+
+                    {/* Save as Template Modal */}
+                    {showSaveTemplate && (
+                      <div className="mt-6 border-black p-6 bg-yellow-50"
+                           style={{
+                             borderWidth: '3px',
+                             borderStyle: 'solid',
+                             boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+                           }}>
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="font-bold uppercase text-sm" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                            Save as Custom Template
+                          </h4>
+                          <button onClick={() => setShowSaveTemplate(false)}>
+                            <X className="h-5 w-5" />
+                          </button>
+                        </div>
+                        <div className="space-y-3">
+                          <input
+                            type="text"
+                            placeholder="Template name..."
+                            value={saveTemplateName}
+                            onChange={(e) => setSaveTemplateName(e.target.value)}
+                            className="w-full p-3 border-2 border-black text-sm"
+                            style={{ fontFamily: '"Courier New", Courier, monospace' }}
+                          />
+                          <select
+                            value={saveTemplateCategory}
+                            onChange={(e) => setSaveTemplateCategory(e.target.value)}
+                            className="w-full p-3 border-2 border-black text-sm bg-white"
+                            style={{ fontFamily: '"Courier New", Courier, monospace' }}
+                          >
+                            <option value="Custom">Custom</option>
+                            <option value="SaaS">SaaS</option>
+                            <option value="Brand">Brand</option>
+                            <option value="CX">CX</option>
+                            <option value="Product">Product</option>
+                            <option value="People">People</option>
+                            <option value="Growth">Growth</option>
+                          </select>
+                          <Button
+                            onClick={handleSaveAsTemplate}
+                            disabled={!saveTemplateName.trim() || isSavingTemplate}
+                            className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 border-black uppercase"
+                            style={{
+                              fontFamily: '"Courier New", Courier, monospace',
+                              borderWidth: '3px',
+                              boxShadow: '3px 3px 0px 0px rgba(0,0,0,0.4)'
+                            }}
+                          >
+                            {isSavingTemplate ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+                            {isSavingTemplate ? 'Saving...' : 'Save Template'}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+
+              {/* Output Preview - What the final report would look like */}
+              <div className="mt-10 border-black bg-white p-8 transform rotate-0.5"
+                   style={{
+                     borderWidth: '3px',
+                     borderStyle: 'dashed',
+                     boxShadow: '6px 6px 0px 0px rgba(0,0,0,0.15)'
+                   }}>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-2xl font-bold uppercase transform -rotate-0.5"
+                        style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      📊 What Your Final Report Would Look Like
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      Preview of the presentation deck with data visualizations
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mock slide preview grid */}
+                <div className="grid md:grid-cols-3 gap-4 mb-6">
+                  {/* Slide 1 - Title */}
+                  <div className="border-2 border-gray-300 bg-gradient-to-br from-gray-900 to-gray-700 p-4 aspect-video flex flex-col justify-center items-center text-white"
+                       style={{ borderRadius: '2px' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 1</div>
+                    <div className="text-sm font-bold text-center leading-tight">
+                      {result.plan?.userQuestion && result.plan.userQuestion.length > 60
+                        ? result.plan.userQuestion.substring(0, 60) + '...'
+                        : result.plan?.userQuestion}
+                    </div>
+                    <div className="text-xs text-gray-400 mt-2">Research Findings Report</div>
+                  </div>
+
+                  {/* Slide 2 - Chart mockup */}
+                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
+                       style={{ borderRadius: '2px' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 3</div>
+                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Key Findings</div>
+                    <div className="flex-1 flex items-end gap-1 px-2">
+                      <div className="bg-blue-600 w-full" style={{ height: '70%' }}></div>
+                      <div className="bg-blue-500 w-full" style={{ height: '55%' }}></div>
+                      <div className="bg-blue-400 w-full" style={{ height: '85%' }}></div>
+                      <div className="bg-blue-300 w-full" style={{ height: '40%' }}></div>
+                      <div className="bg-blue-600 w-full" style={{ height: '65%' }}></div>
+                      <div className="bg-blue-500 w-full" style={{ height: '45%' }}></div>
+                    </div>
+                  </div>
+
+                  {/* Slide 3 - Pie chart mockup */}
+                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
+                       style={{ borderRadius: '2px' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 5</div>
+                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Segment Analysis</div>
+                    <div className="flex-1 flex items-center justify-center">
+                      <svg viewBox="0 0 100 100" className="w-16 h-16">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#2563EB" strokeWidth="20" strokeDasharray="75 175" transform="rotate(-90 50 50)" />
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#60A5FA" strokeWidth="20" strokeDasharray="50 200" strokeDashoffset="-75" transform="rotate(-90 50 50)" />
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#93C5FD" strokeWidth="20" strokeDasharray="45 205" strokeDashoffset="-125" transform="rotate(-90 50 50)" />
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#BFDBFE" strokeWidth="20" strokeDasharray="80 170" strokeDashoffset="-170" transform="rotate(-90 50 50)" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Slide 4 - Data table mockup */}
+                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
+                       style={{ borderRadius: '2px' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 6</div>
+                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Comparative Data</div>
+                    <div className="flex-1 space-y-1">
+                      <div className="h-2 bg-gray-200 rounded w-full"></div>
+                      <div className="h-2 bg-gray-100 rounded w-full"></div>
+                      <div className="h-2 bg-gray-200 rounded w-full"></div>
+                      <div className="h-2 bg-gray-100 rounded w-full"></div>
+                      <div className="h-2 bg-gray-200 rounded w-full"></div>
+                      <div className="h-2 bg-gray-100 rounded w-full"></div>
+                    </div>
+                  </div>
+
+                  {/* Slide 5 - Recommendations */}
+                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
+                       style={{ borderRadius: '2px' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 8</div>
+                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Recommendations</div>
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="h-2 bg-gray-200 rounded w-full"></div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-yellow-500 rounded-full flex-shrink-0"></div>
+                        <div className="h-2 bg-gray-200 rounded w-3/4"></div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
+                        <div className="h-2 bg-gray-200 rounded w-5/6"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Slide 6 - Next steps */}
+                  <div className="border-2 border-gray-300 bg-gradient-to-br from-blue-700 to-blue-900 p-4 aspect-video flex flex-col justify-center items-center text-white"
+                       style={{ borderRadius: '2px' }}>
+                    <div className="text-xs uppercase tracking-wider text-blue-300 mb-2">Slide 10</div>
+                    <div className="text-sm font-bold text-center">Next Steps &</div>
+                    <div className="text-sm font-bold text-center">Action Plan</div>
+                    <div className="text-xs text-blue-300 mt-2">QuestionPro Implementation</div>
+                  </div>
+                </div>
+
+                {/* CTA for full deck */}
+                <div className="text-center border-t-2 border-dashed border-gray-300 pt-6">
+                  <p className="text-sm font-bold mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Get a 10-slide presentation deck with real charts, inferences, and recommendations
+                  </p>
+                  <Button
+                    disabled
+                    className="bg-gray-400 text-white font-bold py-3 px-8 border-gray-400 uppercase cursor-not-allowed"
+                    style={{
+                      fontFamily: '"Courier New", Courier, monospace',
+                      letterSpacing: '0.05em',
+                      borderWidth: '3px',
+                      boxShadow: '4px 4px 0px 0px rgba(0,0,0,0.3)'
+                    }}
+                  >
+                    Generate Full Deck - Coming Soon
+                  </Button>
+                  <p className="text-xs text-gray-400 mt-2" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Professional PPTX with data visualizations - available in the next update
+                  </p>
+                </div>
+              </div>
+              </>
             ) : result.error ? (
               <div className="border-black bg-white p-8 transform rotate-1"
                    style={{
