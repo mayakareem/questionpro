@@ -5,6 +5,10 @@
  * GET  /api/export?p=<projectId> - Generate PDF from a saved project
  */
 
+// Force Node.js runtime (PDFKit needs fs/fontkit)
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import PDFDocument from 'pdfkit'
 import { getProject } from '@/lib/projects'
@@ -264,7 +268,11 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('[Export API] PDF generation error:', error)
-    return NextResponse.json({ error: 'Failed to generate PDF' }, { status: 500 })
+    return NextResponse.json({
+      error: 'Failed to generate PDF',
+      details: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack?.split('\n').slice(0, 5) : undefined
+    }, { status: 500 })
   }
 }
 

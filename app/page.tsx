@@ -896,21 +896,17 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Top navigation bar when results are showing */}
+        {/* Top action bar when results are showing */}
         {result && result.success && result.plan && (
-          <div className="mb-8 flex items-center justify-between gap-4 border-black p-4 bg-white"
+          <div className="mb-8 flex items-center justify-end gap-3 border-black p-4 bg-white"
                style={{
                  borderWidth: '3px',
                  borderStyle: 'solid',
                  boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
                }}>
             <Button
-              onClick={() => {
-                setResult(null)
-                setQuestion('')
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-              }}
-              className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 border-black uppercase transition-all transform hover:-rotate-1"
+              onClick={downloadReport}
+              className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
               style={{
                 fontFamily: '"Courier New", Courier, monospace',
                 letterSpacing: '0.05em',
@@ -918,13 +914,13 @@ export default function HomePage() {
                 boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
               }}
             >
-              <Home className="mr-2 h-4 w-4" />
-              Back to Home
+              {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+              {isExporting ? 'Exporting...' : 'Download PDF'}
             </Button>
-            <div className="flex gap-3">
+            {result.projectId && (
               <Button
-                onClick={downloadReport}
-                className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
+                onClick={() => handleShare(result.projectId!)}
+                className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
                 style={{
                   fontFamily: '"Courier New", Courier, monospace',
                   letterSpacing: '0.05em',
@@ -932,25 +928,10 @@ export default function HomePage() {
                   boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
                 }}
               >
-                {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                {isExporting ? 'Exporting...' : 'Download PDF'}
+                {copied ? <Check className="mr-2 h-4 w-4" /> : <Share2 className="mr-2 h-4 w-4" />}
+                {copied ? 'Copied!' : 'Share'}
               </Button>
-              {result.projectId && (
-                <Button
-                  onClick={() => handleShare(result.projectId!)}
-                  className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
-                  style={{
-                    fontFamily: '"Courier New", Courier, monospace',
-                    letterSpacing: '0.05em',
-                    borderWidth: '3px',
-                    boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
-                  }}
-                >
-                  {copied ? <Check className="mr-2 h-4 w-4" /> : <Share2 className="mr-2 h-4 w-4" />}
-                  {copied ? 'Copied!' : 'Share'}
-                </Button>
-              )}
-            </div>
+            )}
           </div>
         )}
 
@@ -1241,119 +1222,146 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Output Preview - What the final report would look like */}
-              <div className="mt-10 border-black bg-white p-8 transform rotate-0.5"
+              {/* Output Preview - Inline Deck Format */}
+              <div className="mt-10 border-black bg-white p-8"
                    style={{
                      borderWidth: '3px',
                      borderStyle: 'dashed',
                      boxShadow: '6px 6px 0px 0px rgba(0,0,0,0.15)'
                    }}>
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4 mb-8">
+                  {/* Hand-drawn chart icon */}
+                  <div className="flex-shrink-0">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <rect x="4" y="4" width="40" height="40" rx="2" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="0" />
+                      <path d="M 12 36 L 12 22 Q 12 20, 14 20 L 16 20 Q 18 20, 18 22 L 18 36" stroke="black" strokeWidth="2" fill="black" opacity="0.8" />
+                      <path d="M 21 36 L 21 16 Q 21 14, 23 14 L 25 14 Q 27 14, 27 16 L 27 36" stroke="black" strokeWidth="2" fill="black" opacity="0.6" />
+                      <path d="M 30 36 L 30 26 Q 30 24, 32 24 L 34 24 Q 36 24, 36 26 L 36 36" stroke="black" strokeWidth="2" fill="black" opacity="0.4" />
+                      <path d="M 8 36 Q 20 37, 40 36" stroke="black" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M 10 10 Q 18 8, 26 14 T 38 12" stroke="black" strokeWidth="1.5" strokeLinecap="round" fill="none" strokeDasharray="3 3" />
+                    </svg>
+                  </div>
                   <div>
                     <h3 className="text-2xl font-bold uppercase transform -rotate-0.5"
                         style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      📊 What Your Final Report Would Look Like
+                      What Your Final Report Would Look Like
                     </h3>
                     <p className="text-sm text-gray-500 mt-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      Preview of the presentation deck with data visualizations
+                      Presentation deck preview based on your research plan
                     </p>
                   </div>
                 </div>
 
-                {/* Mock slide preview grid */}
-                <div className="grid md:grid-cols-3 gap-4 mb-6">
-                  {/* Slide 1 - Title */}
-                  <div className="border-2 border-gray-300 bg-gradient-to-br from-gray-900 to-gray-700 p-4 aspect-video flex flex-col justify-center items-center text-white"
-                       style={{ borderRadius: '2px' }}>
-                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 1</div>
-                    <div className="text-sm font-bold text-center leading-tight">
-                      {result.plan?.userQuestion && result.plan.userQuestion.length > 60
-                        ? result.plan.userQuestion.substring(0, 60) + '...'
-                        : result.plan?.userQuestion}
-                    </div>
-                    <div className="text-xs text-gray-400 mt-2">Research Findings Report</div>
+                {/* Inline deck slides in website style */}
+                <div className="space-y-6">
+
+                  {/* Slide 1 - Title Slide */}
+                  <div className="border-black bg-black text-white p-8 transform -rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,0.3)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 1 - Title</div>
+                    <h4 className="text-xl font-bold mb-2" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      {result.plan?.userQuestion}
+                    </h4>
+                    <p className="text-sm text-gray-400" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      Research Findings Report - QuestionPro
+                    </p>
                   </div>
 
-                  {/* Slide 2 - Chart mockup */}
-                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
-                       style={{ borderRadius: '2px' }}>
-                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 3</div>
-                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Key Findings</div>
-                    <div className="flex-1 flex items-end gap-1 px-2">
-                      <div className="bg-blue-600 w-full" style={{ height: '70%' }}></div>
-                      <div className="bg-blue-500 w-full" style={{ height: '55%' }}></div>
-                      <div className="bg-blue-400 w-full" style={{ height: '85%' }}></div>
-                      <div className="bg-blue-300 w-full" style={{ height: '40%' }}></div>
-                      <div className="bg-blue-600 w-full" style={{ height: '65%' }}></div>
-                      <div className="bg-blue-500 w-full" style={{ height: '45%' }}></div>
-                    </div>
+                  {/* Slide 2 - Executive Summary from Business Decision */}
+                  <div className="border-black bg-white p-8 transform rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 2 - Executive Summary</div>
+                    <h4 className="text-lg font-bold mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>★ The Business Decision</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      {result.plan?.businessDecision ? result.plan.businessDecision.replace(/\*\*/g, '').substring(0, 250) + (result.plan.businessDecision.length > 250 ? '...' : '') : 'Business decision context'}
+                    </p>
                   </div>
 
-                  {/* Slide 3 - Pie chart mockup */}
-                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
-                       style={{ borderRadius: '2px' }}>
-                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 5</div>
-                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Segment Analysis</div>
-                    <div className="flex-1 flex items-center justify-center">
-                      <svg viewBox="0 0 100 100" className="w-16 h-16">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#2563EB" strokeWidth="20" strokeDasharray="75 175" transform="rotate(-90 50 50)" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#60A5FA" strokeWidth="20" strokeDasharray="50 200" strokeDashoffset="-75" transform="rotate(-90 50 50)" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#93C5FD" strokeWidth="20" strokeDasharray="45 205" strokeDashoffset="-125" transform="rotate(-90 50 50)" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#BFDBFE" strokeWidth="20" strokeDasharray="80 170" strokeDashoffset="-170" transform="rotate(-90 50 50)" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Slide 4 - Data table mockup */}
-                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
-                       style={{ borderRadius: '2px' }}>
-                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 6</div>
-                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Comparative Data</div>
-                    <div className="flex-1 space-y-1">
-                      <div className="h-2 bg-gray-200 rounded w-full"></div>
-                      <div className="h-2 bg-gray-100 rounded w-full"></div>
-                      <div className="h-2 bg-gray-200 rounded w-full"></div>
-                      <div className="h-2 bg-gray-100 rounded w-full"></div>
-                      <div className="h-2 bg-gray-200 rounded w-full"></div>
-                      <div className="h-2 bg-gray-100 rounded w-full"></div>
+                  {/* Slide 3 - Methodology Breakdown with bar chart */}
+                  <div className="border-black bg-white p-8 transform -rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 3 - Methodology</div>
+                    <h4 className="text-lg font-bold mb-4" style={{ fontFamily: '"Courier New", Courier, monospace' }}>✓ Research Methods Selected</h4>
+                    <div className="space-y-3">
+                      {(result.plan?.recommendedMethods || []).map((method, idx) => (
+                        <div key={idx} className="flex items-center gap-4">
+                          <div className="flex-shrink-0 w-24 text-right">
+                            <span className="text-xs font-bold uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                              {method.isPrimary ? '★ Primary' : '☆ Support'}
+                            </span>
+                          </div>
+                          <div className="flex-1 bg-gray-100 h-8 border-2 border-black relative overflow-hidden">
+                            <div className={`h-full ${method.isPrimary ? 'bg-black' : 'bg-gray-600'}`}
+                                 style={{ width: method.isPrimary ? '85%' : `${55 + idx * 10}%` }} />
+                            <span className="absolute inset-0 flex items-center px-3 text-xs font-bold mix-blend-difference text-white"
+                                  style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                              {method.name.replace(/\*\*/g, '')}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Slide 5 - Recommendations */}
-                  <div className="border-2 border-gray-300 bg-white p-4 aspect-video flex flex-col"
-                       style={{ borderRadius: '2px' }}>
-                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Slide 8</div>
-                    <div className="text-xs font-bold mb-2" style={{ fontFamily: '"Courier New", monospace' }}>Recommendations</div>
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"></div>
-                        <div className="h-2 bg-gray-200 rounded w-full"></div>
+                  {/* Slide 4 - Key Metrics from Implementation */}
+                  <div className="border-black bg-white p-8 transform rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 4 - Project Scope</div>
+                    <h4 className="text-lg font-bold mb-4" style={{ fontFamily: '"Courier New", Courier, monospace' }}>▸ Implementation Overview</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="border-2 border-black p-4 text-center transform -rotate-1">
+                        <div className="text-xs uppercase text-gray-500 mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Sample Size</div>
+                        <div className="text-2xl font-bold" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          {result.plan?.implementation?.sampleSize || 'TBD'}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full flex-shrink-0"></div>
-                        <div className="h-2 bg-gray-200 rounded w-3/4"></div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
-                        <div className="h-2 bg-gray-200 rounded w-5/6"></div>
+                      <div className="border-2 border-black p-4 text-center transform rotate-1">
+                        <div className="text-xs uppercase text-gray-500 mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Timeline</div>
+                        <div className="text-2xl font-bold" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          {result.plan?.implementation?.timeline || 'TBD'}
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Slide 6 - Next steps */}
-                  <div className="border-2 border-gray-300 bg-gradient-to-br from-blue-700 to-blue-900 p-4 aspect-video flex flex-col justify-center items-center text-white"
-                       style={{ borderRadius: '2px' }}>
-                    <div className="text-xs uppercase tracking-wider text-blue-300 mb-2">Slide 10</div>
-                    <div className="text-sm font-bold text-center">Next Steps &</div>
-                    <div className="text-sm font-bold text-center">Action Plan</div>
-                    <div className="text-xs text-blue-300 mt-2">QuestionPro Implementation</div>
+                  {/* Slide 5 - Expected Outputs */}
+                  <div className="border-black bg-white p-8 transform -rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 5 - Deliverables</div>
+                    <h4 className="text-lg font-bold mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>◆ Expected Outputs</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      {result.plan?.expectedOutputs ? result.plan.expectedOutputs.replace(/\*\*/g, '').replace(/#{1,6}\s*/g, '').substring(0, 300) + (result.plan.expectedOutputs.length > 300 ? '...' : '') : 'Deliverables and outputs'}
+                    </p>
+                  </div>
+
+                  {/* Slide 6 - Decision Support */}
+                  <div className="border-black bg-white p-8 transform rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 6 - Decision Framework</div>
+                    <h4 className="text-lg font-bold mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>✓ How This Supports Your Decision</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      {result.plan?.decisionSupport ? result.plan.decisionSupport.replace(/\*\*/g, '').replace(/#{1,6}\s*/g, '').substring(0, 300) + (result.plan.decisionSupport.length > 300 ? '...' : '') : 'Decision support framework'}
+                    </p>
+                  </div>
+
+                  {/* Slide 7 - Next Steps */}
+                  <div className="border-black bg-black text-white p-8 transform -rotate-0.5"
+                       style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,0.3)' }}>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Slide 7 - Next Steps</div>
+                    <h4 className="text-lg font-bold mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>→ Action Plan</h4>
+                    <div className="space-y-2 text-sm text-gray-300" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      <p>1. Configure study in QuestionPro platform</p>
+                      <p>2. Launch fieldwork with target audience</p>
+                      <p>3. Analyze results and generate insights</p>
+                      <p>4. Present findings to stakeholders</p>
+                    </div>
                   </div>
                 </div>
 
                 {/* CTA for full deck */}
-                <div className="text-center border-t-2 border-dashed border-gray-300 pt-6">
+                <div className="text-center border-t-2 border-dashed border-gray-300 pt-6 mt-8">
                   <p className="text-sm font-bold mb-3" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                    Get a 10-slide presentation deck with real charts, inferences, and recommendations
+                    Get a full presentation deck with real data visualizations and recommendations
                   </p>
                   <Button
                     disabled
@@ -1367,9 +1375,6 @@ export default function HomePage() {
                   >
                     Generate Full Deck - Coming Soon
                   </Button>
-                  <p className="text-xs text-gray-400 mt-2" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                    Professional PPTX with data visualizations - available in the next update
-                  </p>
                 </div>
               </div>
               </>
@@ -1408,163 +1413,89 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Project History Section */}
-        {!result && projects.length > 0 && (
-          <div className="mt-20 mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8 text-black transform rotate-1"
-                style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-              <Clock className="inline-block mr-2 h-7 w-7" />
-              Research History
-            </h2>
-            <div className="space-y-3 max-w-4xl mx-auto">
-              {projects.slice(0, 10).map((project) => (
-                <div
-                  key={project.id}
-                  onClick={() => loadSharedProject(project.id)}
-                  className="border-black p-4 bg-white transform hover:-rotate-0.5 transition-all cursor-pointer hover:bg-gray-50"
-                  style={{
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                    boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <p className="font-bold text-sm mb-1"
-                         style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        {project.question.length > 100
-                          ? project.question.substring(0, 100) + '...'
-                          : project.question}
-                      </p>
-                      <span className="text-xs text-gray-500"
-                            style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                        {new Date(project.createdAt).toLocaleDateString()} at {new Date(project.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </span>
-                    </div>
-                    <ExternalLink className="h-4 w-4 text-gray-400 flex-shrink-0 ml-4" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Analytics Section */}
+        {/* Combined Research Activity Section */}
         {!result && (
           <div className="mt-20 mb-16">
             <h2 className="text-3xl font-bold text-center mb-8 text-black transform -rotate-1"
                 style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-              ✎ Search Analytics
+              <Clock className="inline-block mr-2 h-7 w-7" />
+              Research Activity
             </h2>
 
-            {analytics ? (
-              <>
             {/* Stats boxes */}
-            <div className="grid md:grid-cols-3 gap-6 mb-10">
-              <div className="border-black p-6 bg-white text-center transform -rotate-1"
-                   style={{
-                     borderWidth: '3px',
-                     borderStyle: 'solid',
-                     boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                   }}>
-                <div className="text-4xl font-bold mb-2">{analytics.totalSearches}</div>
-                <div className="text-sm uppercase font-bold text-gray-600"
-                     style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                  Total Searches
+            {analytics && (
+              <div className="grid md:grid-cols-3 gap-6 mb-10">
+                <div className="border-black p-6 bg-white text-center transform -rotate-1"
+                     style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                  <div className="text-4xl font-bold mb-2">{analytics.totalSearches}</div>
+                  <div className="text-sm uppercase font-bold text-gray-600"
+                       style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Total Searches
+                  </div>
+                </div>
+                <div className="border-black p-6 bg-white text-center transform rotate-1"
+                     style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                  <div className="text-4xl font-bold mb-2 text-green-700">{analytics.successfulSearches}</div>
+                  <div className="text-sm uppercase font-bold text-gray-600"
+                       style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Successful ✓
+                  </div>
+                </div>
+                <div className="border-black p-6 bg-white text-center transform -rotate-0.5"
+                     style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
+                  <div className="text-4xl font-bold mb-2 text-red-700">{analytics.failedSearches}</div>
+                  <div className="text-sm uppercase font-bold text-gray-600"
+                       style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Failed ✗
+                  </div>
                 </div>
               </div>
+            )}
 
-              <div className="border-black p-6 bg-white text-center transform rotate-1"
-                   style={{
-                     borderWidth: '3px',
-                     borderStyle: 'solid',
-                     boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                   }}>
-                <div className="text-4xl font-bold mb-2 text-green-700">{analytics.successfulSearches}</div>
-                <div className="text-sm uppercase font-bold text-gray-600"
-                     style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                  Successful ✓
-                </div>
-              </div>
-
-              <div className="border-black p-6 bg-white text-center transform -rotate-0.5"
-                   style={{
-                     borderWidth: '3px',
-                     borderStyle: 'solid',
-                     boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                   }}>
-                <div className="text-4xl font-bold mb-2 text-red-700">{analytics.failedSearches}</div>
-                <div className="text-sm uppercase font-bold text-gray-600"
-                     style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                  Failed ✗
-                </div>
-              </div>
-            </div>
-
-            {/* Recent searches list */}
-            {analytics.recentSearches.length > 0 ? (
-            <div className="max-w-4xl mx-auto">
-              <h3 className="text-xl font-bold mb-4 transform rotate-0.5 inline-block"
-                  style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                → Latest Searches
-              </h3>
-              <div className="space-y-3">
-                {analytics.recentSearches.map((search, idx) => (
-                  <div
-                    key={idx}
-                    className="border-black p-4 bg-white transform -rotate-0.5"
-                    style={{
-                      borderWidth: '2px',
-                      borderStyle: 'solid',
-                      boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
-                    }}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <span className={`text-2xl ${search.success ? 'text-green-600' : 'text-red-600'}`}>
-                          {search.success ? '✓' : '✗'}
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-bold mb-1"
-                           style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                          {search.question.length > 120
-                            ? search.question.substring(0, 120) + '...'
-                            : search.question}
-                        </p>
-                        <div className="flex gap-4 text-xs text-gray-600"
+            {/* Recent research history - clickable to reload */}
+            {projects.length > 0 && (
+              <div className="max-w-4xl mx-auto">
+                <h3 className="text-xl font-bold mb-4 transform rotate-0.5 inline-block"
+                    style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                  → Recent Research Plans
+                </h3>
+                <div className="space-y-3">
+                  {projects.slice(0, 10).map((project) => (
+                    <div
+                      key={project.id}
+                      onClick={() => loadSharedProject(project.id)}
+                      className="border-black p-4 bg-white transform hover:-rotate-0.5 transition-all cursor-pointer hover:bg-gray-50"
+                      style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <p className="font-bold text-sm mb-1"
                              style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                          <span>{new Date(search.timestamp).toLocaleString()}</span>
-                          {search.methods && search.methods.length > 0 && (
-                            <span>Methods: {search.methods.join(', ')}</span>
-                          )}
-                        </div>
-                        {search.error && (
-                          <p className="text-xs text-red-600 mt-1"
-                             style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                            Error: {search.error}
+                            {project.question.length > 100
+                              ? project.question.substring(0, 100) + '...'
+                              : project.question}
                           </p>
-                        )}
+                          <span className="text-xs text-gray-500"
+                                style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                            {new Date(project.createdAt).toLocaleDateString()} at {new Date(project.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                        </div>
+                        <ExternalLink className="h-4 w-4 text-gray-400 flex-shrink-0 ml-4" />
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-            ) : null}
-            </>
-            ) : (
+            )}
+
+            {/* Empty state */}
+            {!analytics && projects.length === 0 && (
               <div className="text-center py-12">
                 <div className="inline-block border-black p-8 bg-gray-50 transform -rotate-1"
-                     style={{
-                       borderWidth: '3px',
-                       borderStyle: 'dashed',
-                       boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                     }}>
-                  <Loader2 className="h-6 w-6 animate-spin mx-auto mb-3" />
+                     style={{ borderWidth: '3px', borderStyle: 'dashed', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
                   <p className="text-sm text-gray-500"
                      style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                    Loading analytics...
+                    Run a search to start building your research history
                   </p>
                 </div>
               </div>
