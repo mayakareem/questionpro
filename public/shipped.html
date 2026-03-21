@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuestionPro - Shipped Features Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0C2340 0%, #1B3A6B 100%);
+    padding: 32px 40px 28px;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(12, 35, 64, 0.3);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .header h1 span {
+    color: #FFD700;
+  }
+
+  .header-meta {
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px 20px;
+    min-width: 140px;
+  }
+
+  .stat-pill .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    margin-bottom: 4px;
+  }
+
+  .stat-pill .value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #FFD700;
+  }
+
+  .stat-pill .value.white { color: white; }
+
+  .controls {
+    padding: 20px 40px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 240px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .search-box input:focus { border-color: #2878E0; }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    color: #94a3b8;
+  }
+
+  .filter-btn {
+    padding: 10px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #64748b;
+  }
+
+  .filter-btn:hover { border-color: #2878E0; color: #2878E0; }
+  .filter-btn.active { background: #0C2340; color: white; border-color: #0C2340; }
+
+  .sort-select {
+    padding: 10px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    background: white;
+    color: #64748b;
+  }
+
+  .features-grid {
+    padding: 24px 40px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    transition: all 0.25s ease;
+    border: 1px solid #e8ecf1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(12,35,64,0.12);
+    border-color: #2878E0;
+  }
+
+  .card-accent {
+    height: 4px;
+    background: linear-gradient(90deg, #0C2340, #2878E0, #FFD700);
+  }
+
+  .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .card-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    background: #2878E0;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .card-category {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .cat-cx { background: #EFF6FF; color: #1D4ED8; }
+  .cat-research { background: #F0FDF4; color: #15803D; }
+  .cat-ex { background: #FDF4FF; color: #9333EA; }
+  .cat-communities { background: #FFFBEB; color: #B45309; }
+  .cat-analytics { background: #FFF1F2; color: #BE123C; }
+  .cat-video { background: #F0FDFA; color: #0F766E; }
+
+  .feature-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0C2340;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+
+  .shipped-by {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 16px;
+  }
+
+  .shipped-by strong { color: #475569; }
+
+  .links-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .link-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid;
+  }
+
+  .link-chip.rts { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+  .link-chip.rts:hover { background: #1D4ED8; color: white; }
+  .link-chip.blog { background: #F0FDF4; color: #15803D; border-color: #BBF7D0; }
+  .link-chip.blog:hover { background: #15803D; color: white; }
+  .link-chip.help { background: #FFFBEB; color: #B45309; border-color: #FDE68A; }
+  .link-chip.help:hover { background: #B45309; color: white; }
+  .link-chip.linkedin { background: #EFF6FF; color: #0369A1; border-color: #BAE6FD; }
+  .link-chip.linkedin:hover { background: #0369A1; color: white; }
+  .link-chip.video { background: #FFF1F2; color: #BE123C; border-color: #FECDD3; }
+  .link-chip.video:hover { background: #BE123C; color: white; }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: #94a3b8;
+  }
+
+  .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state p { font-size: 16px; }
+
+  .timeline-view { display: none; padding: 24px 40px 40px; }
+  .timeline-view.active { display: block; }
+  .features-grid.hidden { display: none; }
+
+  .timeline-month {
+    margin-bottom: 32px;
+  }
+
+  .timeline-month h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0C2340;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #FFD700;
+    display: inline-block;
+  }
+
+  .timeline-items { display: flex; flex-direction: column; gap: 12px; }
+
+  .timeline-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e8ecf1;
+    transition: all 0.2s;
+  }
+
+  .timeline-item:hover {
+    border-color: #2878E0;
+    box-shadow: 0 4px 12px rgba(12,35,64,0.08);
+  }
+
+  .tl-date {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2878E0;
+    min-width: 60px;
+    white-space: nowrap;
+  }
+
+  .tl-content { flex: 1; }
+
+  .tl-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0C2340;
+    margin-bottom: 4px;
+  }
+
+  .tl-meta {
+    font-size: 13px;
+    color: #94a3b8;
+  }
+
+  .tl-links {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .view-toggle {
+    display: flex;
+    gap: 4px;
+    background: #f0f2f5;
+    padding: 3px;
+    border-radius: 10px;
+  }
+
+  .view-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #64748b;
+    transition: all 0.2s;
+  }
+
+  .view-btn.active { background: white; color: #0C2340; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+  @media (max-width: 768px) {
+    .header { padding: 20px; }
+    .controls { padding: 16px 20px; }
+    .features-grid { padding: 16px 20px; grid-template-columns: 1fr; }
+    .timeline-view { padding: 16px 20px; }
+    .stats-bar { gap: 12px; }
+    .stat-pill { min-width: 100px; padding: 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>#shipped <span>Feature Tracker</span></h1>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced Mar 21, 2026</div>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView('grid')">Cards</button>
+      <button class="view-btn" onclick="setView('timeline')">Timeline</button>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-pill">
+      <div class="label">Features Shipped</div>
+      <div class="value" id="totalCount">8</div>
+    </div>
+    <div class="stat-pill">
+      <div class="label">This Month</div>
+      <div class="value" id="monthCount">2</div>
+    </div>
+    <div class="stat-pill">
+      <div class="label">Product Areas</div>
+      <div class="value white" id="areaCount">6</div>
+    </div>
+    <div class="stat-pill">
+      <div class="label">Date Range</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Mar 20</div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-box">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="searchInput" placeholder="Search features, people, products..." oninput="filterFeatures()">
+  </div>
+  <button class="filter-btn active" data-filter="all" onclick="setFilter(this)">All</button>
+  <button class="filter-btn" data-filter="CX" onclick="setFilter(this)">CX</button>
+  <button class="filter-btn" data-filter="Research" onclick="setFilter(this)">Research</button>
+  <button class="filter-btn" data-filter="EX" onclick="setFilter(this)">EX</button>
+  <button class="filter-btn" data-filter="Analytics" onclick="setFilter(this)">Analytics</button>
+  <button class="filter-btn" data-filter="Communities" onclick="setFilter(this)">Communities</button>
+  <button class="filter-btn" data-filter="Video" onclick="setFilter(this)">Video</button>
+  <select class="sort-select" id="sortSelect" onchange="filterFeatures()">
+    <option value="newest">Newest First</option>
+    <option value="oldest">Oldest First</option>
+    <option value="name">A - Z</option>
+  </select>
+</div>
+
+<div class="features-grid" id="featuresGrid"></div>
+<div class="timeline-view" id="timelineView"></div>
+
+<script>
+const features = [
+  {
+    name: "LivePolls Unified Editor",
+    date: "2026-03-20",
+    displayDate: "Mar 20",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Vivek Bhaskaran",
+    description: "No more forcing users to differentiate between a quiz and a poll. The LivePolls editor and system interface have been unified into a single streamlined workspace.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1CuTWhvDDcyrCl9A-TweoSHKVD1ycZb8cociAwz5BfrA/edit?tab=t.s4s7lcq4y4hx", type: "rts" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/livepolls-unified-editor/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/vivekbhaskaran_survey-poll-quiz-activity-7440734539108487168-CJuW", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Conversations in EX/Empower",
+    date: "2026-03-12",
+    displayDate: "Mar 12",
+    category: "EX",
+    catClass: "cat-ex",
+    shippedBy: "Sanja Licina",
+    description: "AI-powered open-ended follow-up conversations embedded in Empower employee experience surveys. Enables deeper qualitative insights through intelligent probing based on initial responses.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/16O0S8CFk1pYp89-BbwXYEnBZLw2UrXTSzt57uiy2X4c/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/workforce/empower-conversations.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/conversations-real-time-anonymous-employee-feedback-tool/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/sanjalicina_there-is-a-place-for-well-thought-out-employee-share-7437852614261846016-qnQd", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Journey Map Import from PDF/Excel",
+    date: "2026-02-25",
+    displayDate: "Feb 25",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Vivek Bhaskaran",
+    description: "Import existing customer journey maps directly from PDF or Excel files into QuestionPro's journey mapping tool. Bring offline maps online with automatic parsing.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1k7TnI3ulD0dcoz8I1HuI_qTvrWI-VQn6_SxH2Lmy_cc/edit?tab=t.0", type: "rts" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/bring-your-offline-journey-maps-online/", type: "blog" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/Import-Map.html", type: "help" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/vivekbhaskaran_are-you-pdf-journey-maps-gathering-dust-activity-7432237517866745856-EQyI", type: "linkedin" }
+    ]
+  },
+  {
+    name: "BI Advanced Cross-Tabulation",
+    date: "2026-02-23",
+    displayDate: "Feb 23",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "Advanced cross-tabulation analysis in the BI analytics module. Compare variables across multiple dimensions with statistical significance testing, weighted data, and exportable pivot tables. (Shipped Q4 2025, retroactively posted.)",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1_QQq7tGNvTgLvb3bkvh5ES2HIWGVlS6bh2WJ3Z0uphU/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/advanced-cross-tabulation.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/bi-advanced-cross-tabulation/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_questionpro-bi-share-7431635013139361792-g03H", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Communities Statistics Dashboard",
+    date: "2026-02-16",
+    displayDate: "Feb 16",
+    category: "Communities",
+    catClass: "cat-communities",
+    shippedBy: "Laura Baker",
+    description: "Comprehensive statistics dashboard for QuestionPro Communities. Track member engagement, activity trends, response rates, and community health metrics in one centralized view.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/11uq-QDThXvBn-7FFF1Vgiw3q4D4oIxLtlGHRMlMBbzU/edit?tab=t.czi1861094av", type: "rts" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/community-health-vs-response-rates-in-research-communities/", type: "blog" },
+      { label: "Help", url: "https://www.questionpro.com/help/communities/community-statistics.html", type: "help" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/feed/update/urn:li:share:7429016164820893696/", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Journey Map Layers",
+    date: "2026-02-13",
+    displayDate: "Feb 13",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Vivek Bhaskaran",
+    description: "Add multiple data layers to customer journey maps - overlay operational metrics, sentiment scores, NPS data, and custom KPIs on a single journey view for richer context.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/153NcXgRolWeisPqY5kr0hbaNre_Urvgh7T-wpOtyKXg/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/Layers.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/introducing-journey-layers-reducing-clutter-to-increase-understanding/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/vivekbhaskaran_shipped-activity-7427852413560365056-BhP0", type: "linkedin" },
+      { label: "YouTube", url: "https://youtu.be/hKPwKRgZlhE", type: "video" }
+    ]
+  },
+  {
+    name: "LiveCast / VideoAI",
+    date: "2026-02-06",
+    displayDate: "Feb 6",
+    category: "Video",
+    catClass: "cat-video",
+    shippedBy: "Dan Fleetwood",
+    description: "Video-based research tool with AI-powered analysis. Record, transcribe, and analyze video responses with automated sentiment detection, theme extraction, and highlight reels.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1FmFsyzAwmG86e7gAUYefgr2N2WQ65D1O6M_I9wLbS6E/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/livecast.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/livecast-video-surveys/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/danfleetwood_open-ended-text-is-helpful-video-is-transformative-ugcPost-7425236666333777920-6KOm", type: "linkedin" }
+    ]
+  },
+  {
+    name: "BI Stats Highlight Widget",
+    date: "2026-02-05",
+    displayDate: "Feb 5",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Kartik Bhat",
+    description: "New dashboard widget for BI that auto-surfaces statistically significant findings. Highlights key metrics, trends, and anomalies so stakeholders spot what matters instantly.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1Ny-u54Wuk7cWOj181kk8ZtHtAdq_XoJZV4JLZRKDj9U/edit?tab=t.0#heading=h.t99082y389n9", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/stats-highlight.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/questionpro-bi-stat-highlight-widget/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/kartikbhat23_a-widget-with-too-many-data-points-is-actually-activity-7425112203076378624-BpMG", type: "linkedin" }
+    ]
+  }
+];
+
+let currentFilter = "all";
+let currentView = "grid";
+
+function setView(view) {
+  currentView = view;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.view-btn[onclick="setView('${view}')"]`).classList.add('active');
+
+  if (view === 'grid') {
+    document.getElementById('featuresGrid').classList.remove('hidden');
+    document.getElementById('timelineView').classList.remove('active');
+  } else {
+    document.getElementById('featuresGrid').classList.add('hidden');
+    document.getElementById('timelineView').classList.add('active');
+  }
+  filterFeatures();
+}
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.dataset.filter;
+  filterFeatures();
+}
+
+function filterFeatures() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+
+  let filtered = features.filter(f => {
+    const matchesFilter = currentFilter === 'all' || f.category === currentFilter;
+    const matchesSearch = !query ||
+      f.name.toLowerCase().includes(query) ||
+      f.description.toLowerCase().includes(query) ||
+      f.shippedBy.toLowerCase().includes(query) ||
+      f.category.toLowerCase().includes(query);
+    return matchesFilter && matchesSearch;
+  });
+
+  if (sort === 'newest') filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+  else if (sort === 'oldest') filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+  else if (sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+  document.getElementById('totalCount').textContent = filtered.length;
+
+  // Render grid
+  const grid = document.getElementById('featuresGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">ð</div><p>No features match your search</p></div>';
+  } else {
+    grid.innerHTML = filtered.map(f => `
+      <div class="feature-card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-date">${f.displayDate}</span>
+            <span class="card-category ${f.catClass}">${f.category}</span>
+          </div>
+          <div class="feature-name">${f.name}</div>
+          <div class="feature-desc">${f.description}</div>
+          <div class="shipped-by">Shipped by <strong>${f.shippedBy}</strong></div>
+          <div class="links-row">
+            ${f.links.map(l => `<a href="${l.url}" target="_blank" class="link-chip ${l.type}">${l.label} &#8599;</a>`).join('')}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Render timeline
+  const timeline = document.getElementById('timelineView');
+  const months = {};
+  filtered.forEach(f => {
+    const d = new Date(f.date);
+    const key = d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    if (!months[key]) months[key] = [];
+    months[key].push(f);
+  });
+
+  timeline.innerHTML = Object.entries(months).map(([month, items]) => `
+    <div class="timeline-month">
+      <h3>${month}</h3>
+      <div class="timeline-items">
+        ${items.map(f => `
+          <div class="timeline-item">
+            <div class="tl-date">${f.displayDate}</div>
+            <div class="tl-content">
+              <div class="tl-name">${f.name}</div>
+              <div class="tl-meta">by ${f.shippedBy} - <span class="card-category ${f.catClass}" style="font-size:11px;padding:2px 8px;border-radius:4px;">${f.category}</span></div>
+              <div class="tl-links">
+                ${f.links.map(l => `<a href="${l.url}" target="_blank" class="link-chip ${l.type}">${l.label} &#8599;</a>`).join('')}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// Initial render
+filterFeatures();
+</script>
+</body>
+</html>
