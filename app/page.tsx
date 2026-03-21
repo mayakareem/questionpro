@@ -1234,249 +1234,277 @@ export default function HomePage() {
                        onClick={() => setZoomedSlide(null)}>
                     <button onClick={() => setZoomedSlide(null)}
                             className="absolute top-4 right-4 z-[60] text-white text-xl font-bold bg-black bg-opacity-60 w-10 h-10 flex items-center justify-center border-2 border-white hover:bg-opacity-80 transition-colors"
-                            style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                            style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
                       X
                     </button>
-                    <div className="max-w-5xl w-full aspect-video" onClick={(e) => e.stopPropagation()}>
+                    <div className="max-w-5xl w-full aspect-video bg-white" onClick={(e) => e.stopPropagation()} style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
-                      {/* Slide 1 - Title (zoomed) */}
+                      {/* Slide 1 - Title Slide */}
                       {zoomedSlide === 1 && (
-                        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-8 md:p-14 w-full h-full flex flex-col justify-between border border-gray-700">
-                          <div>
-                            <div className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-2">QuestionPro Research</div>
-                            <div className="w-20 h-1 bg-blue-500 mb-6" />
+                        <div className="w-full h-full flex flex-col justify-between p-12 bg-white relative">
+                          <div className="absolute top-0 right-0 h-full w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
+                            <div className="flex-1 bg-teal-200" />
                           </div>
+                          <div className="absolute top-2 right-2 text-xs font-bold text-gray-500">CONFIDENTIAL</div>
                           <div>
-                            <h4 className="text-white text-xl md:text-3xl font-bold leading-tight mb-4" style={{ fontFamily: 'system-ui, sans-serif' }}>
-                              {result.plan?.userQuestion}
-                            </h4>
-                            <p className="text-gray-400 text-sm md:text-base uppercase tracking-wider">Research Findings & Strategic Recommendations</p>
+                            <h1 className="text-4xl font-bold text-gray-900 mb-2">{result.plan?.userQuestion || 'Research Question'}</h1>
+                            <div className="w-16 h-1 bg-teal-600" />
                           </div>
-                          <div className="flex justify-between items-end">
-                            <span className="text-sm text-gray-500">{new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
-                            <span className="text-xs text-gray-500 bg-gray-800 px-3 py-1 border border-gray-700">CONFIDENTIAL</span>
+                          <div className="space-y-4">
+                            <p className="text-lg text-gray-700">QuestionPro Research</p>
+                            <p className="text-sm text-gray-500">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                          </div>
+                          <div className="flex gap-1 mt-4">
+                            <div className="flex-1 h-1 bg-teal-600" />
+                            <div className="flex-1 h-1 bg-teal-400" />
+                            <div className="flex-1 h-1 bg-amber-500" />
+                            <div className="flex-1 h-1 bg-green-500" />
                           </div>
                         </div>
                       )}
 
-                      {/* Slide 2 - Executive Summary (zoomed) */}
+                      {/* Slide 2 - Research Objectives (Section Divider) */}
                       {zoomedSlide === 2 && (
-                        <div className="bg-white p-8 md:p-14 w-full h-full flex flex-col border border-gray-200">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-1.5 h-8 bg-blue-600" />
-                            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 font-bold">Executive Summary</span>
-                          </div>
-                          <h4 className="text-xl md:text-2xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'system-ui, sans-serif' }}>The Business Decision</h4>
-                          <p className="text-sm md:text-base text-gray-600 leading-relaxed flex-1" style={{ fontFamily: 'system-ui, sans-serif' }}>
-                            {result.plan?.businessDecision?.replace(/\*\*/g, '')}
-                          </p>
-                          <div className="mt-6 flex gap-3">
-                            <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1 font-bold uppercase">Strategic</span>
-                            <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 font-bold uppercase">High Impact</span>
-                            <span className="text-xs bg-green-50 text-green-700 px-3 py-1 font-bold uppercase">Data-Driven</span>
-                          </div>
+                        <div className="w-full h-full bg-teal-600 flex flex-col items-center justify-center p-12 relative">
+                          <div className="absolute top-2 right-4 text-xs font-bold text-white opacity-60">01</div>
+                          <div className="text-9xl font-bold text-white opacity-30 mb-4">01</div>
+                          <h1 className="text-5xl font-bold text-white text-center">Research Objectives</h1>
+                          <div className="mt-8 max-w-2xl text-white text-lg">{result.plan?.researchObjective || 'Establish research direction and success metrics'}</div>
                         </div>
                       )}
 
-                      {/* Slide 3 - Methodology (zoomed) */}
+                      {/* Slide 3 - Executive Summary */}
                       {zoomedSlide === 3 && (
-                        <div className="bg-white p-8 md:p-14 w-full h-full flex flex-col border border-gray-200">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-1.5 h-8 bg-blue-600" />
-                            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 font-bold">Methodology Framework</span>
+                        <div className="w-full h-full flex flex-col p-12 bg-white">
+                          <div className="absolute top-0 right-0 h-16 w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
                           </div>
-                          <div className="flex-1 flex gap-8">
-                            <div className="flex-1 flex items-end gap-3 pb-4">
-                              {(result.plan?.recommendedMethods || []).slice(0, 4).map((method, idx) => (
-                                <div key={idx} className="flex-1 flex flex-col items-center gap-2">
-                                  <div className={`w-full rounded-t ${method.isPrimary ? 'bg-blue-600' : 'bg-blue-300'}`}
-                                       style={{ height: method.isPrimary ? '80%' : `${40 + idx * 12}%`, minHeight: '40px', maxHeight: '200px' }} />
-                                  <span className="text-xs text-gray-600 text-center leading-tight">
-                                    {method.name.replace(/\*\*/g, '')}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="w-40 space-y-3 pt-4">
-                              <div className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-600 rounded-sm" /><span className="text-sm text-gray-600">Primary Method</span></div>
-                              <div className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-300 rounded-sm" /><span className="text-sm text-gray-600">Supporting</span></div>
-                              <div className="mt-4 p-3 bg-gray-50 border border-gray-200">
-                                <div className="text-xs text-gray-400 uppercase font-bold">Sample Size</div>
-                                <div className="text-lg font-bold text-gray-900">{result.plan?.implementation?.sampleSize || 'TBD'}</div>
-                              </div>
-                            </div>
+                          <h2 className="text-2xl font-bold text-gray-900 mb-2">Business Decision</h2>
+                          <div className="w-12 h-1 bg-teal-600 mb-6" />
+                          <p className="text-base text-gray-700 leading-relaxed flex-1 mb-6">{result.plan?.businessDecision?.replace(/\*\*/g, '') || 'Strategic decision context'}</p>
+                          <div className="grid grid-cols-4 gap-3 mt-4">
+                            <div className="bg-teal-50 p-3 border-l-4 border-teal-600"><div className="text-xs font-bold text-teal-700">Research</div></div>
+                            <div className="bg-amber-50 p-3 border-l-4 border-amber-500"><div className="text-xs font-bold text-amber-700">Insights</div></div>
+                            <div className="bg-green-50 p-3 border-l-4 border-green-600"><div className="text-xs font-bold text-green-700">Action</div></div>
+                            <div className="bg-pink-50 p-3 border-l-4 border-pink-600"><div className="text-xs font-bold text-pink-700">Impact</div></div>
+                          </div>
+                          <div className="flex gap-2 mt-6 pt-4 border-t text-xs text-gray-500">
+                            <span>01 Research Objectives</span>
+                            <span className="text-teal-600 font-bold">02 Executive Summary</span>
+                            <span>03 Methodology</span>
+                            <span>04 Key Findings</span>
                           </div>
                         </div>
                       )}
 
-                      {/* Slide 4 - KPI Dashboard (zoomed) */}
+                      {/* Slide 4 - Methodology Framework */}
                       {zoomedSlide === 4 && (
-                        <div className="bg-white p-8 md:p-14 w-full h-full flex flex-col border border-gray-200">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-1.5 h-8 bg-blue-600" />
-                            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 font-bold">Project Scope & KPIs</span>
+                        <div className="w-full h-full flex flex-col p-12 bg-white">
+                          <div className="absolute top-0 right-0 h-16 w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
                           </div>
-                          <div className="flex-1 grid grid-cols-2 gap-6">
-                            <div className="bg-gray-50 p-6 flex flex-col justify-center border border-gray-100">
-                              <div className="text-xs uppercase text-gray-400 font-bold mb-1">Sample Size</div>
-                              <div className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'system-ui, sans-serif' }}>{result.plan?.implementation?.sampleSize || 'TBD'}</div>
-                              <div className="w-full bg-gray-200 h-2 mt-3 rounded-full"><div className="bg-blue-600 h-2 rounded-full" style={{ width: '72%' }} /></div>
-                              <div className="text-xs text-gray-400 mt-1">Target completion: 72%</div>
-                            </div>
-                            <div className="bg-gray-50 p-6 flex flex-col justify-center border border-gray-100">
-                              <div className="text-xs uppercase text-gray-400 font-bold mb-1">Timeline</div>
-                              <div className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'system-ui, sans-serif' }}>{result.plan?.implementation?.timeline || 'TBD'}</div>
-                              <div className="w-full bg-gray-200 h-2 mt-3 rounded-full"><div className="bg-green-500 h-2 rounded-full" style={{ width: '60%' }} /></div>
-                              <div className="text-xs text-gray-400 mt-1">Phase progress: 60%</div>
-                            </div>
-                            <div className="bg-gray-50 p-6 flex flex-col justify-center border border-gray-100">
-                              <div className="text-xs uppercase text-gray-400 font-bold mb-1">Methods</div>
-                              <div className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'system-ui, sans-serif' }}>{result.plan?.recommendedMethods?.length || 0}</div>
-                              <div className="text-sm text-gray-500 mt-1">research approaches combined</div>
-                            </div>
-                            <div className="bg-gray-50 p-6 flex flex-col justify-center border border-gray-100">
-                              <div className="text-xs uppercase text-gray-400 font-bold mb-1">Confidence Level</div>
-                              <div className="text-3xl font-bold text-green-700" style={{ fontFamily: 'system-ui, sans-serif' }}>95%</div>
-                              <div className="text-sm text-gray-500 mt-1">statistical significance</div>
-                            </div>
+                          <h2 className="text-2xl font-bold text-gray-900 mb-2">Methodology Framework</h2>
+                          <div className="w-12 h-1 bg-teal-600 mb-6" />
+                          <div className="flex-1 flex flex-col gap-3 mb-6">
+                            <table className="w-full text-sm">
+                              <thead>
+                                <tr className="bg-teal-600 text-white">
+                                  <th className="p-2 text-left">Method</th>
+                                  <th className="p-2 text-left">Type</th>
+                                  <th className="p-2 text-left">Rationale</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {(result.plan?.recommendedMethods || []).slice(0, 3).map((method, idx) => (
+                                  <tr key={idx} className={idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                    <td className="p-2 font-medium text-gray-900">{method.name.replace(/\*\*/g, '')}</td>
+                                    <td className="p-2 text-gray-600">{method.isPrimary ? 'Primary' : 'Supporting'}</td>
+                                    <td className="p-2 text-gray-600 text-xs">{method.rationale?.replace(/\*\*/g, '').substring(0, 40) || 'Core research approach'}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="flex gap-6 border-t pt-4">
+                            <div className="flex-1"><div className="text-xs font-bold text-gray-500">Sample Size</div><div className="text-2xl font-bold text-teal-600">{result.plan?.implementation?.sampleSize || 'TBD'}</div></div>
+                            <div className="flex-1"><div className="text-xs font-bold text-gray-500">Timeline</div><div className="text-2xl font-bold text-teal-600">{result.plan?.implementation?.timeline || 'TBD'}</div></div>
+                          </div>
+                          <div className="flex gap-2 mt-6 pt-4 border-t text-xs text-gray-500">
+                            <span>01 Research Objectives</span>
+                            <span>02 Executive Summary</span>
+                            <span className="text-teal-600 font-bold">03 Methodology</span>
+                            <span>04 Key Findings</span>
                           </div>
                         </div>
                       )}
 
-                      {/* Slide 5 - Trend Analysis (zoomed) */}
+                      {/* Slide 5 - Key Findings / KPI Dashboard */}
                       {zoomedSlide === 5 && (
-                        <div className="bg-white p-8 md:p-14 w-full h-full flex flex-col border border-gray-200">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-1.5 h-8 bg-blue-600" />
-                            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 font-bold">Expected Trend Analysis</span>
+                        <div className="w-full h-full flex flex-col p-12 bg-white">
+                          <div className="absolute top-0 right-0 h-16 w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
                           </div>
-                          <div className="flex-1 relative">
-                            <svg viewBox="0 0 500 200" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                              <line x1="50" y1="15" x2="50" y2="170" stroke="#E5E7EB" strokeWidth="1" />
-                              <line x1="50" y1="170" x2="480" y2="170" stroke="#E5E7EB" strokeWidth="1" />
-                              <line x1="50" y1="92" x2="480" y2="92" stroke="#E5E7EB" strokeWidth="0.5" strokeDasharray="4" />
-                              <line x1="50" y1="50" x2="480" y2="50" stroke="#E5E7EB" strokeWidth="0.5" strokeDasharray="4" />
-                              <line x1="50" y1="131" x2="480" y2="131" stroke="#E5E7EB" strokeWidth="0.5" strokeDasharray="4" />
-                              <polyline points="65,145 125,130 185,110 245,80 305,65 365,50 425,35 465,25"
-                                        fill="none" stroke="#2563EB" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                              <polyline points="65,150 125,145 185,135 245,125 305,115 365,100 425,88 465,75"
-                                        fill="none" stroke="#93C5FD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="6 3" />
-                              {[65,125,185,245,305,365,425,465].map((x, i) => (
-                                <circle key={i} cx={x} cy={145 - i * 17} r="4" fill="#2563EB" />
-                              ))}
-                              <text x="65" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W1</text>
-                              <text x="125" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W2</text>
-                              <text x="185" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W3</text>
-                              <text x="245" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W4</text>
-                              <text x="305" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W5</text>
-                              <text x="365" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W6</text>
-                              <text x="425" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W7</text>
-                              <text x="465" y="186" fontSize="11" fill="#9CA3AF" textAnchor="middle">W8</text>
-                              <text x="15" y="148" fontSize="9" fill="#9CA3AF">Low</text>
-                              <text x="15" y="55" fontSize="9" fill="#9CA3AF">High</text>
-                            </svg>
+                          <h2 className="text-2xl font-bold text-gray-900 mb-2">Key Findings</h2>
+                          <div className="w-12 h-1 bg-teal-600 mb-6" />
+                          <div className="flex-1 grid grid-cols-2 gap-6 mb-6">
+                            <div className="bg-teal-50 p-6 border-l-4 border-teal-600">
+                              <div className="text-4xl font-bold text-teal-600">87%</div>
+                              <div className="text-sm text-gray-700 mt-1">Confidence Level</div>
+                              <div className="text-xs text-gray-600 mt-2">vs. 78% baseline</div>
+                            </div>
+                            <div className="bg-amber-50 p-6 border-l-4 border-amber-500">
+                              <div className="text-4xl font-bold text-amber-600">92%</div>
+                              <div className="text-sm text-gray-700 mt-1">Response Rate</div>
+                              <div className="text-xs text-gray-600 mt-2">vs. 84% expected</div>
+                            </div>
+                            <div className="bg-green-50 p-6 border-l-4 border-green-600">
+                              <div className="text-4xl font-bold text-green-600">64%</div>
+                              <div className="text-sm text-gray-700 mt-1">Key Metric</div>
+                              <div className="text-xs text-gray-600 mt-2">vs. 58% prior</div>
+                            </div>
+                            <div className="bg-pink-50 p-6 border-l-4 border-pink-600">
+                              <div className="text-4xl font-bold text-pink-600">4.2</div>
+                              <div className="text-sm text-gray-700 mt-1">Satisfaction Score</div>
+                              <div className="text-xs text-gray-600 mt-2">vs. 3.8 last year</div>
+                            </div>
                           </div>
-                          <div className="flex gap-6 mt-3">
-                            <div className="flex items-center gap-2"><div className="w-6 h-1 bg-blue-600 rounded" /><span className="text-sm text-gray-500">Primary KPI Projection</span></div>
-                            <div className="flex items-center gap-2"><div className="w-6 h-0.5 bg-blue-300" style={{ borderTop: '2px dashed #93C5FD' }} /><span className="text-sm text-gray-500">Industry Benchmark</span></div>
+                          <div className="flex gap-2 mt-4 pt-4 border-t text-xs text-gray-500">
+                            <span>01 Research Objectives</span>
+                            <span>02 Executive Summary</span>
+                            <span>03 Methodology</span>
+                            <span className="text-teal-600 font-bold">04 Key Findings</span>
                           </div>
                         </div>
                       )}
 
-                      {/* Slide 6 - Segment Analysis (zoomed) */}
+                      {/* Slide 6 - Trend Analysis with Charts */}
                       {zoomedSlide === 6 && (
-                        <div className="bg-white p-8 md:p-14 w-full h-full flex flex-col border border-gray-200">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-1.5 h-8 bg-blue-600" />
-                            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 font-bold">Segment Analysis</span>
+                        <div className="w-full h-full flex flex-col p-12 bg-white">
+                          <div className="absolute top-0 right-0 h-16 w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
                           </div>
-                          <div className="flex-1 flex gap-8 items-center">
-                            <svg viewBox="0 0 100 100" className="w-40 h-40 flex-shrink-0">
-                              <circle cx="50" cy="50" r="40" fill="none" stroke="#2563EB" strokeWidth="18" strokeDasharray="88 163" transform="rotate(-90 50 50)" />
-                              <circle cx="50" cy="50" r="40" fill="none" stroke="#60A5FA" strokeWidth="18" strokeDasharray="55 196" strokeDashoffset="-88" transform="rotate(-90 50 50)" />
-                              <circle cx="50" cy="50" r="40" fill="none" stroke="#93C5FD" strokeWidth="18" strokeDasharray="42 209" strokeDashoffset="-143" transform="rotate(-90 50 50)" />
-                              <circle cx="50" cy="50" r="40" fill="none" stroke="#BFDBFE" strokeWidth="18" strokeDasharray="66 185" strokeDashoffset="-185" transform="rotate(-90 50 50)" />
+                          <h2 className="text-2xl font-bold text-gray-900 mb-2">Trend Analysis</h2>
+                          <div className="w-12 h-1 bg-teal-600 mb-6" />
+                          <div className="flex-1 relative flex items-center justify-center mb-6">
+                            <svg viewBox="0 0 500 200" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                              <line x1="40" y1="30" x2="40" y2="160" stroke="#D1D5DB" strokeWidth="2" />
+                              <line x1="40" y1="160" x2="480" y2="160" stroke="#D1D5DB" strokeWidth="2" />
+                              {[0, 1, 2, 3, 4].map(i => (<line key={`h${i}`} x1="40" y1={160 - i * 32.5} x2="480" y2={160 - i * 32.5} stroke="#F3F4F6" strokeWidth="1" />))}
+                              {/* Previous year (gray) */}
+                              <rect x="60" y="130" width="20" height="30" fill="#D1D5DB" />
+                              {/* Current year (teal) */}
+                              <rect x="85" y="110" width="20" height="50" fill="#009B8D" />
+                              <rect x="120" y="120" width="20" height="40" fill="#D1D5DB" />
+                              <rect x="145" y="100" width="20" height="60" fill="#009B8D" />
+                              <rect x="180" y="115" width="20" height="45" fill="#D1D5DB" />
+                              <rect x="205" y="95" width="20" height="65" fill="#009B8D" />
+                              <polyline points="75,130 110,110 135,100 160,95 185,90 210,85" fill="none" stroke="#009B8D" strokeWidth="2" strokeDasharray="5,5" />
+                              <text x="60" y="180" fontSize="12" fill="#6B7280">Q1</text>
+                              <text x="135" y="180" fontSize="12" fill="#6B7280">Q2</text>
+                              <text x="210" y="180" fontSize="12" fill="#6B7280">Q3</text>
                             </svg>
-                            <div className="space-y-4 flex-1">
-                              <div className="flex items-center justify-between p-3 bg-blue-50 border-l-3 border-blue-600" style={{ borderLeftWidth: '3px', borderLeftColor: '#2563EB' }}>
-                                <div className="flex items-center gap-3"><div className="w-4 h-4 bg-blue-600 rounded-sm" /><span className="text-sm text-gray-700 font-medium">Core Target Audience</span></div>
-                                <div className="text-right"><span className="text-lg font-bold text-gray-900">35%</span><span className="text-xs text-green-600 ml-2 font-bold">HIGH</span></div>
-                              </div>
-                              <div className="flex items-center justify-between p-3 bg-gray-50">
-                                <div className="flex items-center gap-3"><div className="w-4 h-4 bg-blue-400 rounded-sm" /><span className="text-sm text-gray-700 font-medium">Growth Segment</span></div>
-                                <div className="text-right"><span className="text-lg font-bold text-gray-900">22%</span><span className="text-xs text-blue-600 ml-2 font-bold">MEDIUM</span></div>
-                              </div>
-                              <div className="flex items-center justify-between p-3 bg-gray-50">
-                                <div className="flex items-center gap-3"><div className="w-4 h-4 bg-blue-300 rounded-sm" /><span className="text-sm text-gray-700 font-medium">Emerging Market</span></div>
-                                <div className="text-right"><span className="text-lg font-bold text-gray-900">17%</span><span className="text-xs text-blue-600 ml-2 font-bold">MEDIUM</span></div>
-                              </div>
-                              <div className="flex items-center justify-between p-3 bg-gray-50">
-                                <div className="flex items-center gap-3"><div className="w-4 h-4 bg-blue-100 rounded-sm" /><span className="text-sm text-gray-700 font-medium">Others</span></div>
-                                <div className="text-right"><span className="text-lg font-bold text-gray-900">26%</span><span className="text-xs text-gray-400 ml-2 font-bold">MONITOR</span></div>
-                              </div>
-                            </div>
+                          </div>
+                          <div className="flex gap-6">
+                            <div className="flex items-center gap-2"><div className="w-6 h-4 bg-gray-400" /><span className="text-sm text-gray-600">Prior Year</span></div>
+                            <div className="flex items-center gap-2"><div className="w-6 h-4 bg-teal-600" /><span className="text-sm text-gray-600">Current Year</span></div>
+                            <div className="flex items-center gap-2"><div className="w-6 h-1 border-t-2 border-dashed border-teal-600" /><span className="text-sm text-gray-600">Trend</span></div>
+                          </div>
+                          <div className="flex gap-2 mt-6 pt-4 border-t text-xs text-gray-500">
+                            <span>01 Research Objectives</span>
+                            <span>02 Executive Summary</span>
+                            <span>03 Methodology</span>
+                            <span className="text-teal-600 font-bold">04 Trend Analysis</span>
                           </div>
                         </div>
                       )}
 
-                      {/* Slide 7 - Strategic Recommendations (zoomed) */}
+                      {/* Slide 7 - Segment Analysis */}
                       {zoomedSlide === 7 && (
-                        <div className="bg-white p-8 md:p-14 w-full h-full flex flex-col border border-gray-200">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-1.5 h-8 bg-blue-600" />
-                            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 font-bold">Strategic Recommendations</span>
+                        <div className="w-full h-full flex flex-col p-12 bg-white">
+                          <div className="absolute top-0 right-0 h-16 w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
                           </div>
-                          <div className="flex-1 space-y-4">
-                            <div className="flex items-start gap-4 bg-green-50 p-5 border-l-4 border-green-500">
-                              <span className="text-base font-bold text-green-700 flex-shrink-0">01</span>
-                              <div>
-                                <div className="text-base font-bold text-gray-800 mb-1">Immediate Action - Deploy Primary Research</div>
-                                <div className="text-sm text-gray-600">Launch primary research methodology within 2 weeks. Configure study parameters on QuestionPro and begin data collection with target audience segments.</div>
+                          <h2 className="text-2xl font-bold text-gray-900 mb-2">Segment Analysis</h2>
+                          <div className="w-12 h-1 bg-teal-600 mb-6" />
+                          <div className="flex-1 flex gap-8 items-center">
+                            <svg viewBox="0 0 120 120" className="w-48 h-48 flex-shrink-0">
+                              <circle cx="60" cy="60" r="45" fill="none" stroke="#009B8D" strokeWidth="16" strokeDasharray="75 251.2" transform="rotate(-90 60 60)" />
+                              <circle cx="60" cy="60" r="45" fill="none" stroke="#E8A838" strokeWidth="16" strokeDasharray="50 251.2" strokeDashoffset="-75" transform="rotate(-90 60 60)" />
+                              <circle cx="60" cy="60" r="45" fill="none" stroke="#4CAF50" strokeWidth="16" strokeDasharray="50 251.2" strokeDashoffset="-125" transform="rotate(-90 60 60)" />
+                              <circle cx="60" cy="60" r="45" fill="none" stroke="#C2185B" strokeWidth="16" strokeDasharray="76 251.2" strokeDashoffset="-175" transform="rotate(-90 60 60)" />
+                              <text x="60" y="65" fontSize="18" fontWeight="bold" fill="#009B8D" textAnchor="middle">30%</text>
+                            </svg>
+                            <div className="flex-1 space-y-3">
+                              <div className="flex items-center justify-between p-3 bg-teal-50 border-l-4 border-teal-600">
+                                <span className="font-medium text-gray-900">Primary Segment</span>
+                                <span className="font-bold text-teal-600">30%</span>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-amber-50 border-l-4 border-amber-500">
+                                <span className="font-medium text-gray-900">Secondary Segment</span>
+                                <span className="font-bold text-amber-600">20%</span>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-green-50 border-l-4 border-green-600">
+                                <span className="font-medium text-gray-900">Growth Segment</span>
+                                <span className="font-bold text-green-600">20%</span>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-pink-50 border-l-4 border-pink-600">
+                                <span className="font-medium text-gray-900">Emerging Segment</span>
+                                <span className="font-bold text-pink-600">30%</span>
                               </div>
                             </div>
-                            <div className="flex items-start gap-4 bg-blue-50 p-5 border-l-4 border-blue-500">
-                              <span className="text-base font-bold text-blue-700 flex-shrink-0">02</span>
-                              <div>
-                                <div className="text-base font-bold text-gray-800 mb-1">Short-term - Analyze & Refine</div>
-                                <div className="text-sm text-gray-600">Analyze initial data wave results and refine targeting criteria based on response patterns. Identify key segments showing highest engagement.</div>
-                              </div>
-                            </div>
-                            <div className="flex items-start gap-4 bg-gray-50 p-5 border-l-4 border-gray-400">
-                              <span className="text-base font-bold text-gray-600 flex-shrink-0">03</span>
-                              <div>
-                                <div className="text-base font-bold text-gray-800 mb-1">Medium-term - Present & Implement</div>
-                                <div className="text-sm text-gray-600">Compile final insights report with data visualizations. Present findings to stakeholders and implement data-driven strategic recommendations.</div>
-                              </div>
-                            </div>
+                          </div>
+                          <div className="flex gap-2 mt-6 pt-4 border-t text-xs text-gray-500">
+                            <span>01 Research Objectives</span>
+                            <span>02 Executive Summary</span>
+                            <span>03 Methodology</span>
+                            <span className="text-teal-600 font-bold">04 Segments</span>
                           </div>
                         </div>
                       )}
 
-                      {/* Slide 8 - Implementation Roadmap (zoomed) */}
+                      {/* Slide 8 - Strategic Recommendations */}
                       {zoomedSlide === 8 && (
-                        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-8 md:p-14 w-full h-full flex flex-col justify-between border border-gray-700">
-                          <div>
-                            <div className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-2">Next Steps</div>
-                            <div className="w-20 h-1 bg-blue-500 mb-6" />
-                            <h4 className="text-white text-xl md:text-2xl font-bold mb-6" style={{ fontFamily: 'system-ui, sans-serif' }}>Implementation Roadmap</h4>
+                        <div className="w-full h-full flex flex-col p-12 bg-white">
+                          <div className="absolute top-0 right-0 h-16 w-20 flex">
+                            <div className="flex-1 bg-teal-600" />
+                            <div className="flex-1 bg-teal-400" />
                           </div>
-                          <div className="space-y-5">
-                            <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 rounded-full border-2 border-blue-400 flex items-center justify-center flex-shrink-0"><span className="text-sm text-blue-400 font-bold">1</span></div>
-                              <div><div className="text-white text-base font-medium">Configure study on QuestionPro</div><div className="text-gray-500 text-sm">Set up survey instruments, sampling, and distribution</div></div>
+                          <h2 className="text-2xl font-bold text-gray-900 mb-2">Strategic Recommendations</h2>
+                          <div className="w-12 h-1 bg-teal-600 mb-6" />
+                          <div className="flex-1 space-y-3 mb-6">
+                            <div className="flex items-start gap-4 p-4 bg-green-50 border-l-4 border-green-600">
+                              <span className="font-bold text-lg text-green-600">1</span>
+                              <div><div className="font-bold text-gray-900">Immediate Action</div><div className="text-sm text-gray-700">Deploy primary research within 2 weeks</div></div>
                             </div>
-                            <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 rounded-full border-2 border-blue-400 flex items-center justify-center flex-shrink-0"><span className="text-sm text-blue-400 font-bold">2</span></div>
-                              <div><div className="text-white text-base font-medium">Launch fieldwork with target audience</div><div className="text-gray-500 text-sm">Deploy surveys and begin collecting responses at scale</div></div>
+                            <div className="flex items-start gap-4 p-4 bg-amber-50 border-l-4 border-amber-500">
+                              <span className="font-bold text-lg text-amber-600">2</span>
+                              <div><div className="font-bold text-gray-900">Short-term Focus</div><div className="text-sm text-gray-700">Analyze initial results and refine targeting</div></div>
                             </div>
-                            <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 rounded-full border-2 border-blue-400 flex items-center justify-center flex-shrink-0"><span className="text-sm text-blue-400 font-bold">3</span></div>
-                              <div><div className="text-white text-base font-medium">Analyze and present strategic insights</div><div className="text-gray-500 text-sm">Generate comprehensive report with actionable recommendations</div></div>
+                            <div className="flex items-start gap-4 p-4 bg-gray-50 border-l-4 border-gray-400">
+                              <span className="font-bold text-lg text-gray-600">3</span>
+                              <div><div className="font-bold text-gray-900">Medium-term Plan</div><div className="text-sm text-gray-700">Present findings and implement insights</div></div>
                             </div>
                           </div>
-                          <div className="flex justify-between items-end mt-6">
-                            <span className="text-sm text-gray-500">QuestionPro Research Platform</span>
-                            <span className="text-sm text-gray-500">researchguide.up.railway.app</span>
+                          <div className="bg-gray-100 rounded p-3">
+                            <div className="text-xs font-bold text-gray-600 mb-2">Implementation Timeline</div>
+                            <div className="flex h-2 gap-1">
+                              <div className="flex-1 bg-green-600" />
+                              <div className="flex-1 bg-amber-500" />
+                              <div className="flex-1 bg-gray-400" />
+                            </div>
+                          </div>
+                          <div className="flex gap-2 mt-6 pt-4 border-t text-xs text-gray-500">
+                            <span>01 Research Objectives</span>
+                            <span>02 Executive Summary</span>
+                            <span>03 Methodology</span>
+                            <span className="text-teal-600 font-bold">05 Recommendations</span>
                           </div>
                         </div>
                       )}
@@ -1485,183 +1513,176 @@ export default function HomePage() {
                   </div>
                 )}
 
-                {/* Slide grid - compact 4-column layout */}
+                {/* Slide grid - compact 4-column layout with ENEC design */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
 
-                  {/* Slide 1 - Title */}
-                  <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-3 aspect-[16/10] flex flex-col justify-between cursor-pointer hover:scale-[1.03] transition-transform border border-gray-700 rounded-sm"
+                  {/* Slide 1 - Title Slide */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col justify-between cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative overflow-hidden"
                        onClick={() => setZoomedSlide(1)}>
-                    <div>
-                      <div className="text-[7px] uppercase tracking-[0.2em] text-gray-500">QuestionPro Research</div>
-                      <div className="w-8 h-0.5 bg-blue-500 mt-1" />
+                    <div className="absolute top-0 right-0 w-8 h-full flex flex-col">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
+                      <div className="flex-1 bg-teal-200" />
                     </div>
-                    <div>
-                      <h4 className="text-white text-[10px] md:text-xs font-bold leading-tight mb-1" style={{ fontFamily: 'system-ui, sans-serif' }}>
-                        {result.plan?.userQuestion && result.plan.userQuestion.length > 50
-                          ? result.plan.userQuestion.substring(0, 50) + '...'
+                    <div className="absolute top-0.5 right-0.5 text-[5px] font-bold text-gray-400">CONF</div>
+                    <div className="pr-2">
+                      <h4 className="text-white text-[8px] md:text-[9px] font-bold leading-tight mb-1 bg-gradient-to-b from-teal-900 to-teal-700 p-1 rounded" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+                        {result.plan?.userQuestion && result.plan.userQuestion.length > 40
+                          ? result.plan.userQuestion.substring(0, 40) + '...'
                           : result.plan?.userQuestion}
                       </h4>
-                      <p className="text-gray-500 text-[7px] uppercase tracking-wider">Research Findings</p>
+                      <p className="text-gray-600 text-[6px] uppercase">QuestionPro</p>
                     </div>
-                    <div className="flex justify-between items-end">
-                      <span className="text-[7px] text-gray-600">{new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-                      <span className="text-[6px] text-gray-600 bg-gray-800 px-1 py-0.5">CONFIDENTIAL</span>
+                    <div className="flex gap-0.5">
+                      <div className="flex-1 h-0.5 bg-teal-600" />
+                      <div className="flex-1 h-0.5 bg-amber-500" />
                     </div>
                   </div>
 
-                  {/* Slide 2 - Executive Summary */}
-                  <div className="bg-white p-3 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-200 rounded-sm"
+                  {/* Slide 2 - Research Objectives (Section Divider) */}
+                  <div className="bg-teal-600 p-2 aspect-[16/10] flex flex-col items-center justify-center cursor-pointer hover:scale-[1.03] transition-transform border border-teal-700 rounded-sm"
                        onClick={() => setZoomedSlide(2)}>
-                    <div className="flex items-center gap-1.5 mb-2">
-                      <div className="w-0.5 h-3 bg-blue-600" />
-                      <span className="text-[7px] uppercase tracking-[0.15em] text-gray-400 font-bold">Executive Summary</span>
+                    <div className="text-6xl font-bold text-white opacity-40">01</div>
+                    <h4 className="text-white text-[9px] font-bold text-center uppercase leading-tight">Research Objectives</h4>
+                  </div>
+
+                  {/* Slide 3 - Executive Summary */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative"
+                       onClick={() => setZoomedSlide(3)}>
+                    <div className="absolute top-0 right-0 w-6 h-6 flex">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
                     </div>
-                    <p className="text-[8px] text-gray-600 leading-relaxed flex-1 overflow-hidden" style={{ fontFamily: 'system-ui, sans-serif' }}>
-                      {result.plan?.businessDecision ? result.plan.businessDecision.replace(/\*\*/g, '').substring(0, 120) + '...' : ''}
-                    </p>
-                    <div className="flex gap-1 mt-1">
-                      <span className="text-[6px] bg-blue-50 text-blue-700 px-1 py-0.5 font-bold uppercase">Strategic</span>
-                      <span className="text-[6px] bg-gray-100 text-gray-600 px-1 py-0.5 font-bold uppercase">High Impact</span>
+                    <h5 className="text-[7px] font-bold text-gray-800 uppercase mb-1">Business Decision</h5>
+                    <p className="text-[7px] text-gray-600 leading-tight flex-1 overflow-hidden mb-1">{result.plan?.businessDecision ? result.plan.businessDecision.replace(/\*\*/g, '').substring(0, 80) + '...' : ''}</p>
+                    <div className="flex gap-0.5">
+                      <div className="flex-1 h-0.5 bg-teal-600" />
+                      <div className="flex-1 h-0.5 bg-amber-500" />
+                      <div className="flex-1 h-0.5 bg-green-600" />
+                      <div className="flex-1 h-0.5 bg-pink-600" />
                     </div>
                   </div>
 
-                  {/* Slide 3 - Methodology with chart */}
-                  <div className="bg-white p-3 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-200 rounded-sm"
-                       onClick={() => setZoomedSlide(3)}>
-                    <div className="flex items-center gap-1.5 mb-2">
-                      <div className="w-0.5 h-3 bg-blue-600" />
-                      <span className="text-[7px] uppercase tracking-[0.15em] text-gray-400 font-bold">Methodology</span>
+                  {/* Slide 4 - Methodology Framework */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative"
+                       onClick={() => setZoomedSlide(4)}>
+                    <div className="absolute top-0 right-0 w-6 h-6 flex">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
                     </div>
+                    <h5 className="text-[7px] font-bold text-gray-800 uppercase mb-1">Methodology</h5>
                     <div className="flex-1 flex items-end gap-0.5 pb-1">
                       {(result.plan?.recommendedMethods || []).slice(0, 4).map((method, idx) => (
-                        <div key={idx} className="flex-1 flex flex-col items-center gap-0.5">
-                          <div className={`w-full rounded-t-sm ${method.isPrimary ? 'bg-blue-600' : 'bg-blue-300'}`}
-                               style={{ height: method.isPrimary ? '75%' : `${35 + idx * 10}%`, minHeight: '12px', maxHeight: '50px' }} />
-                          <span className="text-[5px] text-gray-500 text-center truncate w-full">
-                            {method.name.replace(/\*\*/g, '').split(' ')[0]}
-                          </span>
+                        <div key={idx} className="flex-1">
+                          <div className={`w-full rounded-t-sm ${method.isPrimary ? 'bg-teal-600' : 'bg-teal-300'}`}
+                               style={{ height: method.isPrimary ? '70%' : `${30 + idx * 10}%`, minHeight: '8px', maxHeight: '40px' }} />
                         </div>
                       ))}
                     </div>
-                    <div className="text-[6px] text-gray-400 mt-1">n = {result.plan?.implementation?.sampleSize || 'TBD'}</div>
+                    <div className="text-[5px] text-gray-500">n={result.plan?.implementation?.sampleSize || 'TBD'}</div>
                   </div>
 
-                  {/* Slide 4 - Key Metrics Dashboard */}
-                  <div className="bg-white p-3 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-200 rounded-sm"
-                       onClick={() => setZoomedSlide(4)}>
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-0.5 h-3 bg-blue-600" />
-                      <span className="text-[7px] uppercase tracking-[0.15em] text-gray-400 font-bold">KPIs</span>
-                    </div>
-                    <div className="flex-1 grid grid-cols-2 gap-1.5">
-                      <div className="bg-gray-50 p-1.5">
-                        <div className="text-[5px] uppercase text-gray-400 font-bold">Sample</div>
-                        <div className="text-[10px] font-bold text-gray-900">{result.plan?.implementation?.sampleSize || 'TBD'}</div>
-                      </div>
-                      <div className="bg-gray-50 p-1.5">
-                        <div className="text-[5px] uppercase text-gray-400 font-bold">Timeline</div>
-                        <div className="text-[10px] font-bold text-gray-900">{result.plan?.implementation?.timeline || 'TBD'}</div>
-                      </div>
-                      <div className="bg-gray-50 p-1.5">
-                        <div className="text-[5px] uppercase text-gray-400 font-bold">Methods</div>
-                        <div className="text-[10px] font-bold text-gray-900">{result.plan?.recommendedMethods?.length || 0}</div>
-                      </div>
-                      <div className="bg-gray-50 p-1.5">
-                        <div className="text-[5px] uppercase text-gray-400 font-bold">Confidence</div>
-                        <div className="text-[10px] font-bold text-green-700">95%</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Slide 5 - Trend Analysis */}
-                  <div className="bg-white p-3 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-200 rounded-sm"
+                  {/* Slide 5 - Key Findings / KPI Dashboard */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative"
                        onClick={() => setZoomedSlide(5)}>
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <div className="w-0.5 h-3 bg-blue-600" />
-                      <span className="text-[7px] uppercase tracking-[0.15em] text-gray-400 font-bold">Trend Analysis</span>
+                    <div className="absolute top-0 right-0 w-6 h-6 flex">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
                     </div>
+                    <h5 className="text-[7px] font-bold text-gray-800 uppercase mb-1">Key Findings</h5>
+                    <div className="flex-1 grid grid-cols-2 gap-1 mb-1">
+                      <div className="bg-teal-50 p-1 border-l border-teal-600">
+                        <div className="text-[9px] font-bold text-teal-600">87%</div>
+                        <div className="text-[5px] text-gray-600">Confidence</div>
+                      </div>
+                      <div className="bg-amber-50 p-1 border-l border-amber-500">
+                        <div className="text-[9px] font-bold text-amber-600">92%</div>
+                        <div className="text-[5px] text-gray-600">Response</div>
+                      </div>
+                      <div className="bg-green-50 p-1 border-l border-green-600">
+                        <div className="text-[9px] font-bold text-green-600">64%</div>
+                        <div className="text-[5px] text-gray-600">Metric</div>
+                      </div>
+                      <div className="bg-pink-50 p-1 border-l border-pink-600">
+                        <div className="text-[9px] font-bold text-pink-600">4.2</div>
+                        <div className="text-[5px] text-gray-600">Score</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Slide 6 - Trend Analysis with Charts */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative"
+                       onClick={() => setZoomedSlide(6)}>
+                    <div className="absolute top-0 right-0 w-6 h-6 flex">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
+                    </div>
+                    <h5 className="text-[7px] font-bold text-gray-800 uppercase mb-1">Trend Analysis</h5>
                     <div className="flex-1 relative">
-                      <svg viewBox="0 0 300 100" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                        <line x1="20" y1="85" x2="280" y2="85" stroke="#E5E7EB" strokeWidth="0.5" />
-                        <polyline points="25,75 65,65 105,52 145,40 185,32 225,25 265,18"
-                                  fill="none" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <polyline points="25,78 65,74 105,68 145,62 185,56 225,48 265,42"
-                                  fill="none" stroke="#93C5FD" strokeWidth="1" strokeDasharray="3 2" />
-                        {[25,65,105,145,185,225,265].map((x, i) => (
-                          <circle key={i} cx={x} cy={75 - i * 8.5} r="2" fill="#2563EB" />
-                        ))}
+                      <svg viewBox="0 0 300 80" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                        <line x1="20" y1="70" x2="280" y2="70" stroke="#E5E7EB" strokeWidth="0.5" />
+                        <rect x="35" y="55" width="8" height="15" fill="#9CA3AF" />
+                        <rect x="48" y="45" width="8" height="25" fill="#009B8D" />
+                        <rect x="65" y="52" width="8" height="18" fill="#9CA3AF" />
+                        <rect x="78" y="40" width="8" height="30" fill="#009B8D" />
+                        <rect x="95" y="50" width="8" height="20" fill="#9CA3AF" />
+                        <rect x="108" y="35" width="8" height="35" fill="#009B8D" />
+                        <polyline points="39,55 52,45 69,52 82,40 99,50 112,35" fill="none" stroke="#009B8D" strokeWidth="1" strokeDasharray="2,2" />
                       </svg>
                     </div>
                   </div>
 
-                  {/* Slide 6 - Segment Breakdown */}
-                  <div className="bg-white p-3 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-200 rounded-sm"
-                       onClick={() => setZoomedSlide(6)}>
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-0.5 h-3 bg-blue-600" />
-                      <span className="text-[7px] uppercase tracking-[0.15em] text-gray-400 font-bold">Segments</span>
+                  {/* Slide 7 - Segment Analysis */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative"
+                       onClick={() => setZoomedSlide(7)}>
+                    <div className="absolute top-0 right-0 w-6 h-6 flex">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
                     </div>
+                    <h5 className="text-[7px] font-bold text-gray-800 uppercase mb-1">Segments</h5>
                     <div className="flex-1 flex gap-2 items-center">
-                      <svg viewBox="0 0 100 100" className="w-12 h-12 flex-shrink-0">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#2563EB" strokeWidth="18" strokeDasharray="88 163" transform="rotate(-90 50 50)" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#60A5FA" strokeWidth="18" strokeDasharray="55 196" strokeDashoffset="-88" transform="rotate(-90 50 50)" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#93C5FD" strokeWidth="18" strokeDasharray="42 209" strokeDashoffset="-143" transform="rotate(-90 50 50)" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#BFDBFE" strokeWidth="18" strokeDasharray="66 185" strokeDashoffset="-185" transform="rotate(-90 50 50)" />
+                      <svg viewBox="0 0 80 80" className="w-12 h-12 flex-shrink-0">
+                        <circle cx="40" cy="40" r="30" fill="none" stroke="#009B8D" strokeWidth="10" strokeDasharray="47 188.4" transform="rotate(-90 40 40)" />
+                        <circle cx="40" cy="40" r="30" fill="none" stroke="#E8A838" strokeWidth="10" strokeDasharray="32 188.4" strokeDashoffset="-47" transform="rotate(-90 40 40)" />
+                        <circle cx="40" cy="40" r="30" fill="none" stroke="#4CAF50" strokeWidth="10" strokeDasharray="32 188.4" strokeDashoffset="-79" transform="rotate(-90 40 40)" />
+                        <circle cx="40" cy="40" r="30" fill="none" stroke="#C2185B" strokeWidth="10" strokeDasharray="47 188.4" strokeDashoffset="-111" transform="rotate(-90 40 40)" />
                       </svg>
                       <div className="space-y-0.5 flex-1">
-                        <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-blue-600" /><span className="text-[6px] text-gray-600">Core 35%</span></div>
-                        <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-blue-400" /><span className="text-[6px] text-gray-600">Growth 22%</span></div>
-                        <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-blue-300" /><span className="text-[6px] text-gray-600">Emerging 17%</span></div>
-                        <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-blue-100" /><span className="text-[6px] text-gray-600">Other 26%</span></div>
+                        <div className="flex items-center gap-1"><div className="w-1 h-1 bg-teal-600 rounded-full" /><span className="text-[5px] text-gray-600">30%</span></div>
+                        <div className="flex items-center gap-1"><div className="w-1 h-1 bg-amber-500 rounded-full" /><span className="text-[5px] text-gray-600">20%</span></div>
+                        <div className="flex items-center gap-1"><div className="w-1 h-1 bg-green-600 rounded-full" /><span className="text-[5px] text-gray-600">20%</span></div>
+                        <div className="flex items-center gap-1"><div className="w-1 h-1 bg-pink-600 rounded-full" /><span className="text-[5px] text-gray-600">30%</span></div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Slide 7 - Recommendations */}
-                  <div className="bg-white p-3 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-200 rounded-sm"
-                       onClick={() => setZoomedSlide(7)}>
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-0.5 h-3 bg-blue-600" />
-                      <span className="text-[7px] uppercase tracking-[0.15em] text-gray-400 font-bold">Recommendations</span>
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center gap-1.5 bg-green-50 p-1 border-l border-green-500">
-                        <span className="text-[7px] font-bold text-green-700">01</span>
-                        <span className="text-[7px] text-gray-700">Deploy primary research</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-blue-50 p-1 border-l border-blue-500">
-                        <span className="text-[7px] font-bold text-blue-700">02</span>
-                        <span className="text-[7px] text-gray-700">Analyze & refine targeting</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-gray-50 p-1 border-l border-gray-400">
-                        <span className="text-[7px] font-bold text-gray-600">03</span>
-                        <span className="text-[7px] text-gray-700">Present strategic insights</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Slide 8 - Roadmap */}
-                  <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-3 aspect-[16/10] flex flex-col justify-between cursor-pointer hover:scale-[1.03] transition-transform border border-gray-700 rounded-sm"
+                  {/* Slide 8 - Strategic Recommendations */}
+                  <div className="bg-white p-2 aspect-[16/10] flex flex-col cursor-pointer hover:scale-[1.03] transition-transform border border-gray-300 rounded-sm relative"
                        onClick={() => setZoomedSlide(8)}>
-                    <div>
-                      <div className="text-[7px] uppercase tracking-[0.2em] text-gray-500">Roadmap</div>
-                      <div className="w-8 h-0.5 bg-blue-500 mt-1" />
+                    <div className="absolute top-0 right-0 w-6 h-6 flex">
+                      <div className="flex-1 bg-teal-600" />
+                      <div className="flex-1 bg-teal-400" />
                     </div>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-3 h-3 rounded-full border border-blue-400 flex items-center justify-center"><span className="text-[5px] text-blue-400 font-bold">1</span></div>
-                        <span className="text-[7px] text-gray-300">Configure study</span>
+                    <h5 className="text-[7px] font-bold text-gray-800 uppercase mb-1">Recommendations</h5>
+                    <div className="flex-1 space-y-0.5">
+                      <div className="flex items-center gap-1 p-1 bg-green-50 border-l border-green-600">
+                        <span className="text-[6px] font-bold text-green-600">1</span>
+                        <span className="text-[5px] text-gray-700">Immediate Action</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-3 h-3 rounded-full border border-blue-400 flex items-center justify-center"><span className="text-[5px] text-blue-400 font-bold">2</span></div>
-                        <span className="text-[7px] text-gray-300">Launch fieldwork</span>
+                      <div className="flex items-center gap-1 p-1 bg-amber-50 border-l border-amber-500">
+                        <span className="text-[6px] font-bold text-amber-600">2</span>
+                        <span className="text-[5px] text-gray-700">Short-term Focus</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-3 h-3 rounded-full border border-blue-400 flex items-center justify-center"><span className="text-[5px] text-blue-400 font-bold">3</span></div>
-                        <span className="text-[7px] text-gray-300">Present insights</span>
+                      <div className="flex items-center gap-1 p-1 bg-gray-50 border-l border-gray-400">
+                        <span className="text-[6px] font-bold text-gray-600">3</span>
+                        <span className="text-[5px] text-gray-700">Medium-term</span>
                       </div>
                     </div>
-                    <span className="text-[5px] text-gray-600">QuestionPro</span>
+                    <div className="flex h-0.5 gap-0.5 mt-1">
+                      <div className="flex-1 bg-green-600" />
+                      <div className="flex-1 bg-amber-500" />
+                      <div className="flex-1 bg-gray-400" />
+                    </div>
                   </div>
 
                 </div>
