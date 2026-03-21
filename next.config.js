@@ -4,7 +4,7 @@ const nextConfig = {
   // Railway's env var injection isn't reaching the runtime,
   // so we set it here as a build-time fallback
   env: {
-    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:GynqYICVfLytHRzZZclxuTHntliKYylK@postgres.railway.internal:5432/railway',
+    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:GynqYICVfLytHRzZZclxuTHntliKYylK@ballast.proxy.rlwy.net:57665/railway',
   },
   images: {
     domains: [],
