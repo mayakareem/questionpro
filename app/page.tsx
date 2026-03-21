@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Loader2, Download, ArrowRight, Share2, Clock, ExternalLink, Copy, Check, BookOpen, Plus, Save, X } from 'lucide-react'
+import { Loader2, Download, ArrowRight, Share2, Clock, ExternalLink, Copy, Check, Home } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 interface PlanResponse {
@@ -127,16 +127,6 @@ interface ProjectSummary {
   createdAt: string
 }
 
-interface TemplateItem {
-  id: string
-  name: string
-  description: string
-  category: string
-  questionTemplate: string
-  isBuiltin: boolean
-  config?: Record<string, unknown>
-}
-
 interface AnalyticsData {
   totalSearches: number
   successfulSearches: number
@@ -162,13 +152,6 @@ export default function HomePage() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
   const [projects, setProjects] = useState<ProjectSummary[]>([])
   const [copied, setCopied] = useState(false)
-  const [templates, setTemplates] = useState<TemplateItem[]>([])
-  const [showTemplates, setShowTemplates] = useState(false)
-  const [templateFilter, setTemplateFilter] = useState<string | null>(null)
-  const [showSaveTemplate, setShowSaveTemplate] = useState(false)
-  const [saveTemplateName, setSaveTemplateName] = useState('')
-  const [saveTemplateCategory, setSaveTemplateCategory] = useState('Custom')
-  const [isSavingTemplate, setIsSavingTemplate] = useState(false)
 
   // Fetch analytics and project history on mount
   useEffect(() => {
@@ -198,20 +181,6 @@ export default function HomePage() {
       }
     }
     fetchProjects()
-
-    // Fetch templates
-    const fetchTemplates = async () => {
-      try {
-        const response = await fetch('/api/templates')
-        if (response.ok) {
-          const data = await response.json()
-          if (data.success) setTemplates(data.templates)
-        }
-      } catch (error) {
-        console.error('Failed to fetch templates:', error)
-      }
-    }
-    fetchTemplates()
 
     // Check URL for shared project ID
     const urlParams = new URLSearchParams(window.location.search)
@@ -265,40 +234,6 @@ export default function HomePage() {
     }
   }
 
-  // Save current plan as a template
-  const handleSaveAsTemplate = async () => {
-    if (!result?.plan || !saveTemplateName.trim()) return
-    setIsSavingTemplate(true)
-    try {
-      const response = await fetch('/api/templates', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: saveTemplateName.trim(),
-          description: `Template based on: ${result.plan.userQuestion.substring(0, 100)}`,
-          category: saveTemplateCategory,
-          questionTemplate: result.plan.userQuestion,
-          config: {
-            methods: result.plan.recommendedMethods?.map(m => m.name.replace(/\*\*/g, '')) || [],
-          },
-        }),
-      })
-      if (response.ok) {
-        setShowSaveTemplate(false)
-        setSaveTemplateName('')
-        // Refresh templates
-        const tplRes = await fetch('/api/templates')
-        if (tplRes.ok) {
-          const data = await tplRes.json()
-          if (data.success) setTemplates(data.templates)
-        }
-      }
-    } catch (error) {
-      console.error('Failed to save template:', error)
-    } finally {
-      setIsSavingTemplate(false)
-    }
-  }
 
   // Auto-scroll to results when they're ready (only when NOT streaming)
   useEffect(() => {
@@ -455,34 +390,24 @@ export default function HomePage() {
 
     setIsExporting(true)
     try {
-      // If we have a project ID, use the GET endpoint (simpler)
-      if (result.projectId) {
-        const a = document.createElement('a')
-        a.href = `/api/export?p=${result.projectId}`
-        a.download = `research-plan-${result.projectId}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-      } else {
-        // POST the plan data directly
-        const response = await fetch('/api/export', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan: result.plan })
-        })
+      // Always POST the plan data directly (no DB dependency)
+      const response = await fetch('/api/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: result.plan })
+      })
 
-        if (!response.ok) throw new Error('Export failed')
+      if (!response.ok) throw new Error('Export failed')
 
-        const blob = await response.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = `research-plan-${Date.now()}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        URL.revokeObjectURL(url)
-      }
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `research-plan-${result.projectId || Date.now()}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
     } catch (error) {
       console.error('PDF export failed:', error)
       alert('PDF export failed. Please try again.')
@@ -920,7 +845,6 @@ export default function HomePage() {
                   <div className="flex gap-3 pt-2">
                     <div className="bg-black text-white px-4 py-2 text-xs font-bold uppercase">Download PDF</div>
                     <div className="border-2 border-black px-4 py-2 text-xs font-bold uppercase">Share →</div>
-                    <div className="border-2 border-black px-4 py-2 text-xs font-bold uppercase">Save Template</div>
                   </div>
                 </div>
               </div>
@@ -972,18 +896,60 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Loading success message */}
-        {result && (
-          <div className="mb-8 text-center">
-            <div className="inline-block border-black p-4 bg-yellow-100 transform -rotate-1"
-                 style={{
-                   borderWidth: '3px',
-                   borderStyle: 'solid',
-                   boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)'
-                 }}>
-              <p className="text-lg font-bold" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                ✓ Plan Ready! Scroll down to view →
-              </p>
+        {/* Top navigation bar when results are showing */}
+        {result && result.success && result.plan && (
+          <div className="mb-8 flex items-center justify-between gap-4 border-black p-4 bg-white"
+               style={{
+                 borderWidth: '3px',
+                 borderStyle: 'solid',
+                 boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+               }}>
+            <Button
+              onClick={() => {
+                setResult(null)
+                setQuestion('')
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 border-black uppercase transition-all transform hover:-rotate-1"
+              style={{
+                fontFamily: '"Courier New", Courier, monospace',
+                letterSpacing: '0.05em',
+                borderWidth: '3px',
+                boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
+              }}
+            >
+              <Home className="mr-2 h-4 w-4" />
+              Back to Home
+            </Button>
+            <div className="flex gap-3">
+              <Button
+                onClick={downloadReport}
+                className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
+                style={{
+                  fontFamily: '"Courier New", Courier, monospace',
+                  letterSpacing: '0.05em',
+                  borderWidth: '3px',
+                  boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
+                }}
+              >
+                {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                {isExporting ? 'Exporting...' : 'Download PDF'}
+              </Button>
+              {result.projectId && (
+                <Button
+                  onClick={() => handleShare(result.projectId!)}
+                  className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
+                  style={{
+                    fontFamily: '"Courier New", Courier, monospace',
+                    letterSpacing: '0.05em',
+                    borderWidth: '3px',
+                    boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)'
+                  }}
+                >
+                  {copied ? <Check className="mr-2 h-4 w-4" /> : <Share2 className="mr-2 h-4 w-4" />}
+                  {copied ? 'Copied!' : 'Share'}
+                </Button>
+              )}
             </div>
           </div>
         )}
@@ -1009,22 +975,6 @@ export default function HomePage() {
                     </h1>
                   </div>
 
-                  {/* Download button */}
-                  <div className="flex justify-end mb-8">
-                    <Button
-                      onClick={downloadReport}
-                      className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 border-black uppercase transition-all transform hover:rotate-1"
-                      style={{
-                        fontFamily: '"Courier New", Courier, monospace',
-                        letterSpacing: '0.05em',
-                        borderWidth: '3px',
-                        boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                      }}
-                    >
-                      {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                      {isExporting ? 'Exporting...' : 'Download PDF'}
-                    </Button>
-                  </div>
 
                   <div className="prose prose-lg max-w-none" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
 
@@ -1230,46 +1180,35 @@ export default function HomePage() {
                       </div>
                     </div>
 
-                    {/* Action buttons */}
-                    <div className="pt-8 flex gap-4">
-                      <svg className="w-full mb-4" height="4" viewBox="0 0 800 4">
+                    {/* Bottom action buttons */}
+                    <div className="pt-8">
+                      <svg className="w-full mb-6" height="4" viewBox="0 0 800 4">
                         <path d="M 0 2 Q 100 1, 200 2 T 400 2 T 600 2 T 800 2"
                               stroke="black"
                               strokeWidth="3"
                               fill="none"
                               strokeLinecap="round" />
                       </svg>
-                      <Button
-                        onClick={() => {
-                          setResult(null)
-                          setQuestion('')
-                        }}
-                        className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-8 border-black uppercase transition-all transform hover:-rotate-1"
-                        style={{
-                          fontFamily: '"Courier New", Courier, monospace',
-                          letterSpacing: '0.05em',
-                          borderWidth: '3px',
-                          boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                        }}
-                      >
-                        ← New Question
-                      </Button>
-                      <Button
-                        onClick={downloadReport}
-                        className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-8 border-black uppercase transition-all transform hover:rotate-1"
-                        style={{
-                          fontFamily: '"Courier New", Courier, monospace',
-                          letterSpacing: '0.05em',
-                          borderWidth: '3px',
-                          boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                        }}
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Download ↓
-                      </Button>
-                      {result.projectId && (
+                      <div className="flex gap-4 flex-wrap">
                         <Button
-                          onClick={() => handleShare(result.projectId!)}
+                          onClick={() => {
+                            setResult(null)
+                            setQuestion('')
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                          }}
+                          className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-8 border-black uppercase transition-all transform hover:-rotate-1"
+                          style={{
+                            fontFamily: '"Courier New", Courier, monospace',
+                            letterSpacing: '0.05em',
+                            borderWidth: '3px',
+                            boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+                          }}
+                        >
+                          <Home className="mr-2 h-4 w-4" />
+                          Back to Home
+                        </Button>
+                        <Button
+                          onClick={downloadReport}
                           className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-8 border-black uppercase transition-all transform hover:rotate-1"
                           style={{
                             fontFamily: '"Courier New", Courier, monospace',
@@ -1278,80 +1217,26 @@ export default function HomePage() {
                             boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
                           }}
                         >
-                          {copied ? <Check className="mr-2 h-4 w-4" /> : <Share2 className="mr-2 h-4 w-4" />}
-                          {copied ? 'Copied!' : 'Share →'}
+                          <Download className="mr-2 h-4 w-4" />
+                          Download PDF
                         </Button>
-                      )}
-                      <Button
-                        onClick={() => setShowSaveTemplate(true)}
-                        className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-8 border-black uppercase transition-all transform hover:rotate-1"
-                        style={{
-                          fontFamily: '"Courier New", Courier, monospace',
-                          letterSpacing: '0.05em',
-                          borderWidth: '3px',
-                          boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                        }}
-                      >
-                        <Save className="mr-2 h-4 w-4" />
-                        Save as Template
-                      </Button>
-                    </div>
-
-                    {/* Save as Template Modal */}
-                    {showSaveTemplate && (
-                      <div className="mt-6 border-black p-6 bg-yellow-50"
-                           style={{
-                             borderWidth: '3px',
-                             borderStyle: 'solid',
-                             boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
-                           }}>
-                        <div className="flex items-center justify-between mb-4">
-                          <h4 className="font-bold uppercase text-sm" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                            Save as Custom Template
-                          </h4>
-                          <button onClick={() => setShowSaveTemplate(false)}>
-                            <X className="h-5 w-5" />
-                          </button>
-                        </div>
-                        <div className="space-y-3">
-                          <input
-                            type="text"
-                            placeholder="Template name..."
-                            value={saveTemplateName}
-                            onChange={(e) => setSaveTemplateName(e.target.value)}
-                            className="w-full p-3 border-2 border-black text-sm"
-                            style={{ fontFamily: '"Courier New", Courier, monospace' }}
-                          />
-                          <select
-                            value={saveTemplateCategory}
-                            onChange={(e) => setSaveTemplateCategory(e.target.value)}
-                            className="w-full p-3 border-2 border-black text-sm bg-white"
-                            style={{ fontFamily: '"Courier New", Courier, monospace' }}
-                          >
-                            <option value="Custom">Custom</option>
-                            <option value="SaaS">SaaS</option>
-                            <option value="Brand">Brand</option>
-                            <option value="CX">CX</option>
-                            <option value="Product">Product</option>
-                            <option value="People">People</option>
-                            <option value="Growth">Growth</option>
-                          </select>
+                        {result.projectId && (
                           <Button
-                            onClick={handleSaveAsTemplate}
-                            disabled={!saveTemplateName.trim() || isSavingTemplate}
-                            className="bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 border-black uppercase"
+                            onClick={() => handleShare(result.projectId!)}
+                            className="bg-white hover:bg-gray-100 text-black font-bold py-3 px-8 border-black uppercase transition-all transform hover:rotate-1"
                             style={{
                               fontFamily: '"Courier New", Courier, monospace',
+                              letterSpacing: '0.05em',
                               borderWidth: '3px',
-                              boxShadow: '3px 3px 0px 0px rgba(0,0,0,0.4)'
+                              boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
                             }}
                           >
-                            {isSavingTemplate ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                            {isSavingTemplate ? 'Saving...' : 'Save Template'}
+                            {copied ? <Check className="mr-2 h-4 w-4" /> : <Share2 className="mr-2 h-4 w-4" />}
+                            {copied ? 'Copied!' : 'Share'}
                           </Button>
-                        </div>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               </div>
