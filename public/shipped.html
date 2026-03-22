@@ -211,6 +211,7 @@
   .cat-communities { background: #FFFBEB; color: #B45309; }
   .cat-analytics { background: #FFF1F2; color: #BE123C; }
   .cat-video { background: #F0FDFA; color: #0F766E; }
+  .cat-livepolls { background: #FFF7ED; color: #C2410C; }
 
   .feature-name {
     font-size: 20px;
@@ -399,7 +400,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
-      <div class="value white" id="areaCount">6</div>
+      <div class="value white" id="areaCount">7</div>
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
@@ -420,6 +421,7 @@
   <button class="filter-btn" data-filter="Analytics" onclick="setFilter(this)">Analytics</button>
   <button class="filter-btn" data-filter="Communities" onclick="setFilter(this)">Communities</button>
   <button class="filter-btn" data-filter="Video" onclick="setFilter(this)">Video</button>
+  <button class="filter-btn" data-filter="LivePolls" onclick="setFilter(this)">LivePolls</button>
   <select class="sort-select" id="sortSelect" onchange="filterFeatures()">
     <option value="newest">Newest First</option>
     <option value="oldest">Oldest First</option>
@@ -436,8 +438,8 @@ const features = [
     name: "LivePolls Unified Editor",
     date: "2026-03-20",
     displayDate: "Mar 20",
-    category: "CX",
-    catClass: "cat-cx",
+    category: "LivePolls",
+    catClass: "cat-livepolls",
     shippedBy: "Vivek Bhaskaran",
     description: "No more forcing users to differentiate between a quiz and a poll. The LivePolls editor and system interface have been unified into a single streamlined workspace.",
     links: [
