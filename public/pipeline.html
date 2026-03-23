@@ -1186,6 +1186,13 @@
     }
 
     function createSlackCharts() {
+        var cfg = {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{
+                legend:{labels:{color:'#4b5563',font:{size:11},padding:12}},
+                tooltip:{backgroundColor:'#fff',titleColor:'#1B3380',bodyColor:'#4b5563',borderColor:'#e5e7eb',borderWidth:1,padding:10}
+            }
+        };
         var byMonth = {};
         var byRep = {};
         for (var i = 0; i < SLACK_SALES.length; i++) {
