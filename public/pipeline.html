@@ -172,7 +172,7 @@
         <header>
             <div>
                 <h1>QuestionPro MEA - Pipeline Command Center</h1>
-                <p class="subtitle">Real-time Sales Pipeline, Renewals &amp; Forecast Dashboard</p>
+                <p class="subtitle">Real-time Sales Pipeline, Renewals & Forecast Dashboard</p>
             </div>
         </header>
 
@@ -196,6 +196,7 @@
             <button class="reset-btn" id="resetFilters">Reset Filters</button>
         </div>
 
+        <!-- KPIs -->
         <div class="kpi-row">
             <div class="kpi-card">
                 <div class="kpi-label">Closed Won YTD</div>
@@ -239,6 +240,7 @@
             </div>
         </div>
 
+        <!-- Pipeline Charts -->
         <div class="section-header">HubSpot Pipeline</div>
         <div class="charts-section">
             <div class="chart-container">
@@ -259,6 +261,7 @@
             </div>
         </div>
 
+        <!-- Deal Tables -->
         <div class="tables-section">
             <div class="table-container">
                 <div class="table-title">Top Open Deals <span id="filteredCount" style="color:#9ca3af;font-weight:400;text-transform:none;"></span></div>
@@ -289,6 +292,7 @@
             </div>
         </div>
 
+        <!-- 2026 Renewals Section -->
         <div class="section-header">2026 Renewals Tracker</div>
         <div class="kpi-row" style="margin-bottom:16px;">
             <div class="kpi-card">
@@ -336,9 +340,11 @@
             </div>
         </div>
 
+        <!-- AMO Targets Section -->
         <div class="section-header">Account Manager Objectives (AMO)</div>
         <div class="amo-grid" id="amoGrid"></div>
 
+        <!-- Monthly Tracker -->
         <div class="section-header">Monthly Tracker - Target vs Achieved</div>
         <div class="charts-section">
             <div class="chart-container" style="grid-column: 1 / -1;">
@@ -347,6 +353,7 @@
             </div>
         </div>
 
+        <!-- Upsell Pipeline -->
         <div class="section-header">Upsell Pipeline (Existing Business)</div>
         <div class="tables-section">
             <div class="table-container">
@@ -375,6 +382,54 @@
             </div>
         </div>
 
+        <!-- Lead Activity & SDR Metrics -->
+        <div class="section-header">Lead Activity & SDR Metrics</div>
+        <div class="kpi-row" style="margin-bottom:16px;">
+            <div class="kpi-card">
+                <div class="kpi-label">Contacts Created (YTD)</div>
+                <div class="kpi-value" style="color:#1B87E6;">2,986</div>
+                <div class="kpi-subtext">Across all MEA reps</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Meetings Booked (YTD)</div>
+                <div class="kpi-value" style="color:#1B3380;">216</div>
+                <div class="kpi-subtext">Logged in HubSpot</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Deals Created (Last 4 Wks)</div>
+                <div class="kpi-value" style="color:#FF9F00;">58</div>
+                <div class="kpi-subtext">MENA pipeline entries</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">SDR Meetings (Lea + Christa)</div>
+                <div class="kpi-value" style="color:#16a34a;">26</div>
+                <div class="kpi-subtext">14 Lea / 12 Christa YTD</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Partnerships (Mussadiq)</div>
+                <div class="kpi-value" style="color:#8b5cf6;">4</div>
+                <div class="kpi-subtext">Meetings YTD / 2 contacts</div>
+            </div>
+        </div>
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-title">Contacts Created per Week (Last 4 Weeks)</div>
+                <div class="chart-wrapper"><canvas id="weeklyContactsChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Meetings Booked YTD by Rep</div>
+                <div class="chart-wrapper"><canvas id="meetingsByOwnerChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Deals Created per Week (Last 4 Weeks)</div>
+                <div class="chart-wrapper"><canvas id="weeklyDealsChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">SDR & Partnership Activity (YTD)</div>
+                <div class="chart-wrapper"><canvas id="sdrActivityChart"></canvas></div>
+            </div>
+        </div>
+
         <footer>
             <p>Data: HubSpot MENA Pipeline (ID: 8799139) + Metabase Renewals | Updated March 23, 2026</p>
             <p>QuestionPro MEA - Pipeline Command Center</p>
@@ -382,6 +437,7 @@
     </div>
 
     <script>
+    /* ===== HUBSPOT PIPELINE DATA ===== */
     var DATA = {
         annualTarget: 4000000,
         wonTotal: 787714,
@@ -428,6 +484,7 @@
         ]
     };
 
+    /* ===== RENEWAL DATA (from Metabase) ===== */
     var RENEWAL = {
         totalDue: 2224530,
         totalCount: 171,
@@ -443,6 +500,7 @@
         byOwner: {"Radhu":1116291,"Waleed":467046,"Unassigned":352639,"Rajeev":234236,"Zach":18000,"Nabil":15310,"Ahmed":13488,"Kerolos":7520}
     };
 
+    /* ===== LOST ARR DATA ===== */
     var LOST_ARR = {
         total: 2159888,
         byMonth: {
@@ -468,6 +526,7 @@
         ]
     };
 
+    /* ===== AMO DATA (revised targets) ===== */
     var AMO = [
         {"name":"Radhu (CX)","total":1512451,"accounts":25,"willNotRenew":382583,"nrr":1.03,"growth":430000,"newBiz":300000,"pnl":1559868,"scope":"CX Only - SA"},
         {"name":"Zach","total":0,"accounts":0,"willNotRenew":0,"nrr":0,"growth":0,"newBiz":300000,"pnl":0,"scope":"New Business CX"},
@@ -476,6 +535,7 @@
         {"name":"Rajeev","total":211114,"accounts":36,"willNotRenew":51381,"nrr":0,"growth":114715,"newBiz":171000,"pnl":0,"scope":"Commercial+Research+WF"}
     ];
 
+    /* ===== MONTHLY TRACKER DATA ===== */
     var MONTHLY_TRACKER = {
         months: ["Jan","Feb","Mar"],
         reps: {
@@ -486,6 +546,7 @@
         }
     };
 
+    /* ===== UPSELL DATA ===== */
     var UPSELLS = [
         {"name":"Honda","product":"CX","acv":75000},
         {"name":"Cardo","product":"CX","acv":20000},
@@ -494,6 +555,27 @@
         {"name":"DP World","product":"CX","acv":25000},
         {"name":"Growth in ACV for renewals","product":"Various","acv":50000}
     ];
+
+    /* ===== LEAD ACTIVITY DATA (from HubSpot) ===== */
+    var ACTIVITY = {
+        contactsYTD: 2986,
+        meetingsYTD: 216,
+        dealsLast4Wk: 58,
+        weeklyContacts: {
+            "W9": {"Rajeev":42,"Radhu":8,"Zach":4,"Waleed":2,"Nabil":1,"Shalaka":0,"Mussadiq":0,"Lea":0,"Christa":0},
+            "W10": {"Rajeev":52,"Radhu":10,"Zach":5,"Waleed":1,"Nabil":0,"Shalaka":1,"Mussadiq":1,"Lea":0,"Christa":0},
+            "W11": {"Rajeev":64,"Radhu":15,"Zach":9,"Waleed":1,"Nabil":0,"Shalaka":0,"Mussadiq":1,"Lea":1,"Christa":0},
+            "W12": {"Rajeev":84,"Radhu":13,"Zach":3,"Waleed":1,"Nabil":0,"Shalaka":0,"Mussadiq":0,"Lea":0,"Christa":0}
+        },
+        meetingsByOwner: {"Rajeev":63,"Zach":36,"Radhu":33,"Shalaka":23,"Lea":14,"Nabil":13,"Christa":12,"Mussadiq":4,"Waleed":2},
+        weeklyDeals: {"W9":14,"W10":15,"W11":20,"W12":9},
+        dealsByOwner: {"Rajeev":27,"Shalaka":20,"Waleed":7,"Radhu":3,"Nabil":1,"Zach":0,"Mussadiq":0,"Lea":0,"Christa":0},
+        sdrMetrics: {
+            "Lea":    {"contacts":1,"meetings":14,"deals":0,"role":"SDR"},
+            "Christa":{"contacts":0,"meetings":12,"deals":0,"role":"SDR"},
+            "Mussadiq":{"contacts":2,"meetings":4,"deals":0,"role":"Partnerships"}
+        }
+    };
 
     var filteredDeals = DATA.topDeals.slice();
     var chartInstances = {};
@@ -564,6 +646,7 @@
     }
 
     function updateChartsForFilter(ownerF, stageF) {
+        /* Update owner pipeline chart to highlight selected owner */
         if (chartInstances.ownerPipe) {
             var ol = Object.keys(DATA.pipeByOwner).filter(function(o){return DATA.pipeByOwner[o].amount>0;}).sort(function(a,b){return DATA.pipeByOwner[b].amount-DATA.pipeByOwner[a].amount;});
             var colors = ol.map(function(o) { return (!ownerF || o === ownerF) ? '#1B87E6' : '#d1d5db'; });
@@ -619,6 +702,7 @@
             }
         };
 
+        /* Stage Chart */
         var so=['Very Early','Discovery','Early Stage','Qualified','Engaged','Proposal/Demo','Advanced','Closing'];
         var sl=so.filter(function(s){return DATA.pipeByStage[s];});
         var sa=sl.map(function(s){return DATA.pipeByStage[s].amount;});
@@ -629,6 +713,7 @@
             options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Won by Month */
         var mo=['Jan','Feb','Mar','Apr','May'];
         var ma=[DATA.wonByMonth['2026-01']||0,DATA.wonByMonth['2026-02']||0,DATA.wonByMonth['2026-03']||0,DATA.wonByMonth['2026-04']||0,DATA.wonByMonth['2026-05']||0];
         chartInstances.month = new Chart(document.getElementById('monthChart').getContext('2d'),{
@@ -637,6 +722,7 @@
             options:Object.assign({},cfg,{scales:{y:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},x:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Pipeline by Owner */
         var ol=Object.keys(DATA.pipeByOwner).filter(function(o){return DATA.pipeByOwner[o].amount>0;}).sort(function(a,b){return DATA.pipeByOwner[b].amount-DATA.pipeByOwner[a].amount;});
         var oa=ol.map(function(o){return DATA.pipeByOwner[o].amount;});
         chartInstances.ownerPipe = new Chart(document.getElementById('ownerPipeChart').getContext('2d'),{
@@ -645,6 +731,7 @@
             options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Won by Owner */
         var wl=Object.keys(DATA.wonByOwner).filter(function(o){return DATA.wonByOwner[o]>0;}).sort(function(a,b){return DATA.wonByOwner[b]-DATA.wonByOwner[a];});
         var wa=wl.map(function(o){return DATA.wonByOwner[o];});
         chartInstances.ownerWon = new Chart(document.getElementById('ownerWonChart').getContext('2d'),{
@@ -653,6 +740,7 @@
             options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Renewal by Month */
         var rmo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         var rma = rmo.map(function(m) { return RENEWAL.byMonth[m] || 0; });
         chartInstances.renewalMonth = new Chart(document.getElementById('renewalMonthChart').getContext('2d'),{
@@ -661,6 +749,7 @@
             options:Object.assign({},cfg,{scales:{y:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},x:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Renewal by Product */
         var pLabels = Object.keys(RENEWAL.byProduct).sort(function(a,b){return RENEWAL.byProduct[b]-RENEWAL.byProduct[a];});
         var pAmounts = pLabels.map(function(p){return RENEWAL.byProduct[p];});
         var pColors = ['#1B3380','#1B87E6','#FF9F00','#0ea5e9','#8b5cf6','#16a34a'];
@@ -670,6 +759,7 @@
             options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Renewal by Owner */
         var roLabels = Object.keys(RENEWAL.byOwner).sort(function(a,b){return RENEWAL.byOwner[b]-RENEWAL.byOwner[a];});
         var roAmounts = roLabels.map(function(o){return RENEWAL.byOwner[o];});
         chartInstances.renewalOwner = new Chart(document.getElementById('renewalOwnerChart').getContext('2d'),{
@@ -678,6 +768,7 @@
             options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Lost ARR by Month */
         var lostAmounts = rmo.map(function(m) { return LOST_ARR.byMonth[m] || 0; });
         chartInstances.lostArr = new Chart(document.getElementById('lostArrChart').getContext('2d'),{
             type:'bar',
@@ -685,6 +776,7 @@
             options:Object.assign({},cfg,{scales:{y:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},x:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
 
+        /* Monthly Tracker - grouped bar */
         var mtData = MONTHLY_TRACKER;
         var repNames = Object.keys(mtData.reps);
         var barGroups = [];
@@ -758,6 +850,81 @@
         });
     }
 
+    function createActivityCharts() {
+        var cfg = {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{
+                legend:{labels:{color:'#4b5563',font:{size:11},padding:12}},
+                tooltip:{backgroundColor:'#fff',titleColor:'#1B3380',bodyColor:'#4b5563',borderColor:'#e5e7eb',borderWidth:1,padding:10}
+            }
+        };
+
+        /* Weekly Contacts - stacked bar */
+        var weeks = ['W9','W10','W11','W12'];
+        var contactReps = ['Rajeev','Radhu','Zach','Waleed','Nabil','Shalaka','Mussadiq','Lea','Christa'];
+        var contactColors = ['#1B3380','#1B87E6','#FF9F00','#0ea5e9','#8b5cf6','#16a34a','#6366f1','#f59e0b','#ec4899'];
+        var contactDatasets = contactReps.map(function(rep, i) {
+            return {
+                label: rep,
+                data: weeks.map(function(w) { return ACTIVITY.weeklyContacts[w][rep] || 0; }),
+                backgroundColor: contactColors[i],
+                borderWidth: 0,
+                borderRadius: 2
+            };
+        });
+        chartInstances.weeklyContacts = new Chart(document.getElementById('weeklyContactsChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: weeks, datasets: contactDatasets },
+            options: Object.assign({}, cfg, {
+                plugins: Object.assign({}, cfg.plugins, { legend: { display: true, position: 'bottom', labels: { color: '#4b5563', font: { size: 9 }, padding: 8, boxWidth: 12 } } }),
+                scales: {
+                    x: { stacked: true, ticks: { color: '#4b5563' }, grid: { display: false } },
+                    y: { stacked: true, ticks: { color: '#9ca3af' }, grid: { color: '#f3f4f6' }, beginAtZero: true }
+                }
+            })
+        });
+
+        /* Meetings by Owner - horizontal bar */
+        var mOwners = Object.keys(ACTIVITY.meetingsByOwner).sort(function(a, b) { return ACTIVITY.meetingsByOwner[b] - ACTIVITY.meetingsByOwner[a]; });
+        var mValues = mOwners.map(function(o) { return ACTIVITY.meetingsByOwner[o]; });
+        var mColors = mOwners.map(function(o) {
+            if (o === 'Lea' || o === 'Christa') return '#f59e0b';
+            if (o === 'Mussadiq') return '#8b5cf6';
+            return '#1B87E6';
+        });
+        chartInstances.meetingsOwner = new Chart(document.getElementById('meetingsByOwnerChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: mOwners, datasets: [{ label: 'Meetings YTD', data: mValues, backgroundColor: mColors, borderWidth: 0, borderRadius: 3 }] },
+            options: Object.assign({}, cfg, { indexAxis: 'y', scales: { x: { ticks: { color: '#9ca3af' }, grid: { color: '#f3f4f6' }, beginAtZero: true }, y: { ticks: { color: '#4b5563' }, grid: { display: false } } } })
+        });
+
+        /* Weekly Deals - bar chart */
+        var dealWeeks = ['W9','W10','W11','W12'];
+        var dealValues = dealWeeks.map(function(w) { return ACTIVITY.weeklyDeals[w]; });
+        chartInstances.weeklyDeals = new Chart(document.getElementById('weeklyDealsChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: dealWeeks, datasets: [{ label: 'Deals Created', data: dealValues, backgroundColor: '#FF9F00', borderWidth: 0, borderRadius: 3 }] },
+            options: Object.assign({}, cfg, { scales: { y: { ticks: { color: '#9ca3af' }, grid: { color: '#f3f4f6' }, beginAtZero: true }, x: { ticks: { color: '#4b5563' }, grid: { display: false } } } })
+        });
+
+        /* SDR & Partnership Activity - grouped bar */
+        var sdrNames = ['Lea','Christa','Mussadiq'];
+        var sdrContacts = sdrNames.map(function(n) { return ACTIVITY.sdrMetrics[n].contacts; });
+        var sdrMeetings = sdrNames.map(function(n) { return ACTIVITY.sdrMetrics[n].meetings; });
+        var sdrLabels = sdrNames.map(function(n) { return n + ' (' + ACTIVITY.sdrMetrics[n].role + ')'; });
+        chartInstances.sdrActivity = new Chart(document.getElementById('sdrActivityChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: sdrLabels,
+                datasets: [
+                    { label: 'Contacts Created', data: sdrContacts, backgroundColor: '#1B87E6', borderWidth: 0, borderRadius: 3 },
+                    { label: 'Meetings Booked', data: sdrMeetings, backgroundColor: '#FF9F00', borderWidth: 0, borderRadius: 3 }
+                ]
+            },
+            options: Object.assign({}, cfg, { scales: { y: { ticks: { color: '#9ca3af' }, grid: { color: '#f3f4f6' }, beginAtZero: true }, x: { ticks: { color: '#4b5563' }, grid: { display: false } } } })
+        });
+    }
+
     function sortTable(tid,ci) {
         var tb=document.getElementById(tid).getElementsByTagName('tbody')[0];
         var rows=Array.from(tb.getElementsByTagName('tr'));
@@ -765,6 +932,7 @@
         rows.forEach(function(r){tb.appendChild(r);});
     }
 
+    /* Filter event listeners */
     document.getElementById('ownerFilter').addEventListener('change', function() { applyFilters(); });
     document.getElementById('stageFilter').addEventListener('change', function() { applyFilters(); });
     document.getElementById('typeFilter').addEventListener('change', function() { applyFilters(); });
@@ -775,6 +943,7 @@
         applyFilters();
     });
 
+    /* Init everything on DOM ready */
     window.addEventListener('DOMContentLoaded', function() {
         initKPIs();
         initFilters();
@@ -783,6 +952,7 @@
         buildAMOCards();
         buildUpsellTable();
         buildLostArrTable();
+        createActivityCharts();
     });
     </script>
 </body>
