@@ -152,14 +152,19 @@
         .amo-val { font-weight: 600; color: #1a1a2e; }
         .mini-progress { height: 4px; background: #e5e7eb; border-radius: 2px; margin-top: 8px; }
         .mini-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
-        .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
-        .tab-btn {
-            padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 6px;
-            background: #fff; color: #4b5563; font-size: 12px; font-weight: 600;
-            cursor: pointer;
+        .tab-bar {
+            display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0; overflow-x: auto;
         }
-        .tab-btn.active { background: #1B3380; color: #fff; border-color: #1B3380; }
-        .tab-btn:hover:not(.active) { background: #f3f4f6; }
+        .tab-btn {
+            padding: 10px 22px; border: none; background: transparent; color: #6b7280;
+            font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent;
+            white-space: nowrap; transition: all 0.15s;
+        }
+        .tab-btn.active { color: #1B3380; border-bottom-color: #1B3380; }
+        .tab-btn:hover:not(.active) { color: #1B87E6; background: #f9fafb; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
         footer {
             border-top: 1px solid #e5e7eb; padding-top: 16px; margin-top: 24px;
             text-align: center; font-size: 11px; color: #9ca3af;
@@ -196,6 +201,17 @@
             <button class="reset-btn" id="resetFilters">Reset Filters</button>
         </div>
 
+        <!-- Tab Navigation -->
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="switchTab('deals')">Deals</button>
+            <button class="tab-btn" onclick="switchTab('renewals')">Renewals</button>
+            <button class="tab-btn" onclick="switchTab('activity')">Activity</button>
+            <button class="tab-btn" onclick="switchTab('saleslog')">Sales Log</button>
+        </div>
+
+        <!-- TAB: Overview -->
+        <div class="tab-panel active" id="tab-overview">
         <!-- KPIs -->
         <div class="kpi-row">
             <div class="kpi-card">
@@ -261,6 +277,10 @@
             </div>
         </div>
 
+        </div>
+
+        <!-- TAB: Deals -->
+        <div class="tab-panel" id="tab-deals">
         <!-- Deal Tables -->
         <div class="tables-section">
             <div class="table-container">
@@ -292,6 +312,10 @@
             </div>
         </div>
 
+        </div>
+
+        <!-- TAB: Renewals -->
+        <div class="tab-panel" id="tab-renewals">
         <!-- 2026 Renewals Section -->
         <div class="section-header">2026 Renewals Tracker</div>
         <div class="kpi-row" style="margin-bottom:16px;">
@@ -382,6 +406,10 @@
             </div>
         </div>
 
+        </div>
+
+        <!-- TAB: Activity -->
+        <div class="tab-panel" id="tab-activity">
         <!-- Lead Activity & SDR Metrics -->
         <div class="section-header">Lead Activity & SDR Metrics</div>
         <div class="kpi-row" style="margin-bottom:16px;">
@@ -430,8 +458,74 @@
             </div>
         </div>
 
+        </div>
+
+        <!-- TAB: Sales Log -->
+        <div class="tab-panel" id="tab-saleslog">
+        <div class="section-header">Sales Log - Confirmed Closures (#mena-sales)</div>
+        <div class="kpi-row" style="margin-bottom:16px;">
+            <div class="kpi-card">
+                <div class="kpi-label">Slack Confirmed (YTD)</div>
+                <div class="kpi-value" id="slackTotalValue">$0</div>
+                <div class="kpi-subtext" id="slackTotalCount">0 deals</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">March Closures</div>
+                <div class="kpi-value" id="slackMarchValue">$0</div>
+                <div class="kpi-subtext" id="slackMarchCount">0 deals</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Top Closer (YTD)</div>
+                <div class="kpi-value" id="slackTopCloser">-</div>
+                <div class="kpi-subtext" id="slackTopCloserAmt">$0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Avg Deal Size</div>
+                <div class="kpi-value" id="slackAvgDeal">$0</div>
+                <div class="kpi-subtext">across all closures</div>
+            </div>
+        </div>
+        <div class="charts-section" style="margin-bottom:20px;">
+            <div class="chart-container">
+                <div class="chart-title">Monthly Closures (Slack Confirmed)</div>
+                <div class="chart-wrapper"><canvas id="slackMonthlyChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Closures by Rep</div>
+                <div class="chart-wrapper"><canvas id="slackRepChart"></canvas></div>
+            </div>
+        </div>
+        <div class="tables-section" style="grid-template-columns:1fr;">
+            <div class="table-container">
+                <div class="table-title">All Confirmed Closures <span id="slackFilteredCount" style="color:#9ca3af;font-weight:400;text-transform:none;"></span></div>
+                <div style="margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;">
+                    <select id="slackMonthFilter" style="padding:6px 10px;font-size:12px;border:1px solid #d1d5db;border-radius:5px;">
+                        <option value="">All Months</option>
+                        <option value="2025-12">Dec 2025</option>
+                        <option value="2026-01">Jan 2026</option>
+                        <option value="2026-02">Feb 2026</option>
+                        <option value="2026-03">Mar 2026</option>
+                    </select>
+                    <select id="slackRepFilter" style="padding:6px 10px;font-size:12px;border:1px solid #d1d5db;border-radius:5px;">
+                        <option value="">All Reps</option>
+                    </select>
+                </div>
+                <table id="slackTable">
+                    <thead><tr>
+                        <th onclick="sortTable('slackTable',0)">Customer</th>
+                        <th onclick="sortTable('slackTable',1)">Amount</th>
+                        <th onclick="sortTable('slackTable',2)">Rep</th>
+                        <th onclick="sortTable('slackTable',3)">Month</th>
+                        <th onclick="sortTable('slackTable',4)">Product</th>
+                    </tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+
         <footer>
-            <p>Data: HubSpot MENA Pipeline (ID: 8799139) + Metabase Renewals | Updated March 23, 2026</p>
+            <p>Data: HubSpot MENA Pipeline (ID: 8799139) + Metabase Renewals + Slack #mena-sales | Updated March 23, 2026</p>
             <p>QuestionPro MEA - Pipeline Command Center</p>
         </footer>
     </div>
@@ -953,7 +1047,178 @@
         buildUpsellTable();
         buildLostArrTable();
         createActivityCharts();
+        initSlackKPIs();
+        buildSlackTable();
+        createSlackCharts();
     });
+
+    /* ===== SLACK #MENA-SALES CONFIRMED CLOSURES ===== */
+    var SLACK_SALES = [
+        {customer:"VWGME",amount:99000,rep:"Radhu",month:"2025-12",product:"CX"},
+        {customer:"ADIB CX",amount:86700,rep:"Radhu",month:"2025-12",product:"CX"},
+        {customer:"SAR CX",amount:59930,rep:"Waleed",month:"2025-12",product:"CX"},
+        {customer:"NHC CX",amount:57286,rep:"Waleed",month:"2025-12",product:"CX"},
+        {customer:"Xcite",amount:53208,rep:"Radhu",month:"2025-12",product:"CX"},
+        {customer:"Global InfoAnalytics",amount:35750,rep:"Rajeev",month:"2025-12",product:"Research"},
+        {customer:"ECA",amount:34000,rep:"Radhu",month:"2025-12",product:"CX"},
+        {customer:"Ipsos Dubai",amount:21000,rep:"Radhu",month:"2025-12",product:"Research"},
+        {customer:"Mubadala",amount:19200,rep:"Radhu",month:"2025-12",product:"CX"},
+        {customer:"First Abu Dhabi Bank",amount:18500,rep:"Radhu",month:"2025-12",product:"CX"},
+        {customer:"Arab Orient Insurance",amount:15600,rep:"Shalaka",month:"2025-12",product:"CX"},
+        {customer:"Dakheel Oud",amount:14400,rep:"Zach",month:"2025-12",product:"CX"},
+        {customer:"SRCA",amount:12000,rep:"Waleed",month:"2025-12",product:"Research"},
+        {customer:"Hala Egypt",amount:9600,rep:"Kerolos",month:"2025-12",product:"CX"},
+        {customer:"Mozn",amount:8500,rep:"Zach",month:"2025-12",product:"CX"},
+        {customer:"Nazer Group",amount:7200,rep:"Waleed",month:"2025-12",product:"CX"},
+        {customer:"Arabian Oud",amount:6000,rep:"Zach",month:"2025-12",product:"CX"},
+        {customer:"NHRC",amount:4800,rep:"Waleed",month:"2025-12",product:"Research"},
+        {customer:"FirstBank",amount:50000,rep:"Radhu",month:"2026-01",product:"CX"},
+        {customer:"SFA",amount:43000,rep:"Waleed",month:"2026-01",product:"Research"},
+        {customer:"Serco",amount:30000,rep:"Zach",month:"2026-01",product:"CX"},
+        {customer:"EHCD",amount:26000,rep:"Rajeev",month:"2026-01",product:"EX"},
+        {customer:"ADIB Growth",amount:21116,rep:"Radhu",month:"2026-01",product:"CX"},
+        {customer:"Emaar Misr",amount:19200,rep:"Kerolos",month:"2026-01",product:"CX"},
+        {customer:"Masterworks",amount:17800,rep:"Rajeev",month:"2026-01",product:"Research"},
+        {customer:"STC Channels",amount:16500,rep:"Waleed",month:"2026-01",product:"CX"},
+        {customer:"Al Babtain",amount:14400,rep:"Nabil",month:"2026-01",product:"CX"},
+        {customer:"Tadawul",amount:12000,rep:"Waleed",month:"2026-01",product:"CX"},
+        {customer:"Mawdoo3",amount:9600,rep:"Zach",month:"2026-01",product:"CX"},
+        {customer:"QNB",amount:8500,rep:"Radhu",month:"2026-01",product:"CX"},
+        {customer:"Cenomi Retail",amount:7200,rep:"Waleed",month:"2026-01",product:"CX"},
+        {customer:"Almarai",amount:6500,rep:"Nabil",month:"2026-01",product:"Research"},
+        {customer:"Saudia Engineering",amount:5076,rep:"Nabil",month:"2026-01",product:"EX"},
+        {customer:"KPMG Lower Gulf",amount:48000,rep:"Rajeev",month:"2026-02",product:"Research"},
+        {customer:"GASTAT",amount:15000,rep:"Waleed",month:"2026-02",product:"Research"},
+        {customer:"Tamkeen (Bahrain)",amount:13200,rep:"Zach",month:"2026-02",product:"CX"},
+        {customer:"SABB",amount:11500,rep:"Radhu",month:"2026-02",product:"CX"},
+        {customer:"Olayan Group",amount:8400,rep:"Rajeev",month:"2026-02",product:"EX"},
+        {customer:"Al Hokair",amount:7000,rep:"Zach",month:"2026-02",product:"CX"},
+        {customer:"Bank ABC",amount:5988,rep:"Radhu",month:"2026-02",product:"CX"},
+        {customer:"Tamimi Markets",amount:4500,rep:"Nabil",month:"2026-02",product:"CX"},
+        {customer:"Meem App",amount:3600,rep:"Zach",month:"2026-02",product:"CX"},
+        {customer:"Almalath Arabia GEA",amount:33600,rep:"Waleed",month:"2026-03",product:"Research"},
+        {customer:"AIR",amount:12600,rep:"Shalaka",month:"2026-03",product:"Research"},
+        {customer:"Gulf Union",amount:12500,rep:"Waleed",month:"2026-03",product:"CX"},
+        {customer:"Turkish Airlines",amount:8500,rep:"Rajeev",month:"2026-03",product:"Research"},
+        {customer:"Zenzap",amount:5300,rep:"Rajeev",month:"2026-03",product:"CX"},
+        {customer:"Brand Finance",amount:1700,rep:"Rajeev",month:"2026-03",product:"Research"},
+        {customer:"Chevrolet Alghanim",amount:1548,rep:"Rajeev",month:"2026-03",product:"CX"},
+        {customer:"Uniconsults",amount:1548,rep:"Shalaka",month:"2026-03",product:"Research"},
+        {customer:"LMRA",amount:1550,rep:"Waleed",month:"2026-03",product:"CX"},
+        {customer:"CMA (Saudi)",amount:4200,rep:"Waleed",month:"2026-03",product:"Research"},
+        {customer:"Flynas",amount:3800,rep:"Rajeev",month:"2026-03",product:"CX"},
+        {customer:"Riyadh Airports",amount:5200,rep:"Zach",month:"2026-03",product:"CX"},
+        {customer:"HMG Healthcare",amount:2800,rep:"Shalaka",month:"2026-03",product:"EX"},
+        {customer:"AWJ Investments",amount:2400,rep:"Nabil",month:"2026-03",product:"CX"}
+    ];
+
+    /* ===== TAB SWITCHING ===== */
+    function switchTab(tabId) {
+        var panels = document.querySelectorAll('.tab-panel');
+        var buttons = document.querySelectorAll('.tab-btn');
+        for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
+        for (var i = 0; i < buttons.length; i++) { buttons[i].classList.remove('active'); }
+        document.getElementById('tab-' + tabId).classList.add('active');
+        for (var i = 0; i < buttons.length; i++) {
+            var oc = buttons[i].getAttribute('onclick');
+            if (oc && oc.indexOf("'" + tabId + "'") !== -1) { buttons[i].classList.add('active'); break; }
+        }
+    }
+
+    /* ===== SALES LOG FUNCTIONS ===== */
+    function initSlackKPIs() {
+        var total = 0, count = 0, marchTotal = 0, marchCount = 0;
+        var byRep = {};
+        for (var i = 0; i < SLACK_SALES.length; i++) {
+            var d = SLACK_SALES[i];
+            total += d.amount; count++;
+            if (d.month === '2026-03') { marchTotal += d.amount; marchCount++; }
+            if (!byRep[d.rep]) byRep[d.rep] = 0;
+            byRep[d.rep] += d.amount;
+        }
+        document.getElementById('slackTotalValue').textContent = '$' + total.toLocaleString();
+        document.getElementById('slackTotalCount').textContent = count + ' deals';
+        document.getElementById('slackMarchValue').textContent = '$' + marchTotal.toLocaleString();
+        document.getElementById('slackMarchCount').textContent = marchCount + ' deals';
+        document.getElementById('slackAvgDeal').textContent = '$' + Math.round(total / count).toLocaleString();
+        var topRep = '', topAmt = 0;
+        for (var r in byRep) { if (byRep[r] > topAmt) { topAmt = byRep[r]; topRep = r; } }
+        document.getElementById('slackTopCloser').textContent = topRep;
+        document.getElementById('slackTopCloserAmt').textContent = '$' + topAmt.toLocaleString();
+    }
+
+    function buildSlackTable() {
+        var mf = document.getElementById('slackMonthFilter').value;
+        var rf = document.getElementById('slackRepFilter').value;
+        var filtered = SLACK_SALES.filter(function(d) {
+            if (mf && d.month !== mf) return false;
+            if (rf && d.rep !== rf) return false;
+            return true;
+        });
+        filtered.sort(function(a, b) { return b.amount - a.amount; });
+        var tb = document.getElementById('slackTable').getElementsByTagName('tbody')[0];
+        tb.innerHTML = '';
+        var total = 0;
+        for (var i = 0; i < filtered.length; i++) {
+            var d = filtered[i];
+            total += d.amount;
+            var monthLabel = (function(m) {
+                var parts = m.split('-');
+                var months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                return months[parseInt(parts[1])] + ' ' + parts[0];
+            })(d.month);
+            var tr = document.createElement('tr');
+            tr.innerHTML = '<td>' + d.customer + '</td><td>$' + d.amount.toLocaleString() + '</td><td>' + d.rep + '</td><td>' + monthLabel + '</td><td>' + d.product + '</td>';
+            tb.appendChild(tr);
+        }
+        document.getElementById('slackFilteredCount').textContent = '(' + filtered.length + ' deals - $' + total.toLocaleString() + ')';
+        var repSelect = document.getElementById('slackRepFilter');
+        if (repSelect.options.length <= 1) {
+            var reps = {};
+            for (var i = 0; i < SLACK_SALES.length; i++) { reps[SLACK_SALES[i].rep] = 1; }
+            var repArr = Object.keys(reps).sort();
+            for (var i = 0; i < repArr.length; i++) {
+                var opt = document.createElement('option');
+                opt.value = repArr[i]; opt.textContent = repArr[i];
+                repSelect.appendChild(opt);
+            }
+        }
+    }
+
+    function createSlackCharts() {
+        var byMonth = {};
+        var byRep = {};
+        for (var i = 0; i < SLACK_SALES.length; i++) {
+            var d = SLACK_SALES[i];
+            if (!byMonth[d.month]) byMonth[d.month] = 0;
+            byMonth[d.month] += d.amount;
+            if (!byRep[d.rep]) byRep[d.rep] = 0;
+            byRep[d.rep] += d.amount;
+        }
+        var monthOrder = ['2025-12','2026-01','2026-02','2026-03'];
+        var monthLabels = ['Dec 2025','Jan 2026','Feb 2026','Mar 2026'];
+        var monthValues = monthOrder.map(function(m) { return byMonth[m] || 0; });
+
+        new Chart(document.getElementById('slackMonthlyChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: monthLabels, datasets: [{ label: 'Confirmed Revenue', data: monthValues, backgroundColor: ['#1B3380','#1B87E6','#FF9F00','#16a34a'], borderWidth: 0, borderRadius: 4 }] },
+            options: Object.assign({}, cfg, { scales: { y: { ticks: { color: '#9ca3af', callback: function(v) { return '$' + (v/1000) + 'k'; } }, grid: { color: '#f3f4f6' }, beginAtZero: true }, x: { ticks: { color: '#4b5563' }, grid: { display: false } } } })
+        });
+
+        var repNames = Object.keys(byRep).sort(function(a,b) { return byRep[b] - byRep[a]; });
+        var repValues = repNames.map(function(r) { return byRep[r]; });
+        var repColors = repNames.map(function(r,i) { return ['#1B3380','#1B87E6','#FF9F00','#16a34a','#8b5cf6','#ec4899','#f97316','#06b6d4','#84cc16'][i % 9]; });
+
+        new Chart(document.getElementById('slackRepChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: repNames, datasets: [{ label: 'Revenue Confirmed', data: repValues, backgroundColor: repColors, borderWidth: 0, borderRadius: 3 }] },
+            options: Object.assign({}, cfg, { indexAxis: 'y', scales: { x: { ticks: { color: '#9ca3af', callback: function(v) { return '$' + (v/1000) + 'k'; } }, grid: { color: '#f3f4f6' }, beginAtZero: true }, y: { ticks: { color: '#4b5563' }, grid: { display: false } } } })
+        });
+    }
+
+    document.getElementById('slackMonthFilter').addEventListener('change', function() { buildSlackTable(); });
+    document.getElementById('slackRepFilter').addEventListener('change', function() { buildSlackTable(); });
+
     </script>
 </body>
 </html>
