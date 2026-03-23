@@ -1279,26 +1279,25 @@ export default function HomePage() {
               </div>
 
               {/* Market Intelligence Section */}
-              <div className="mt-8 border-black bg-white p-6 md:p-8"
-                   style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '5px 5px 0px 0px rgba(0,0,0,1)' }}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-teal-600 flex items-center justify-center flex-shrink-0">
-                    <TrendingUp className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold uppercase"
-                        style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      Market Intelligence
-                    </h3>
-                    <p className="text-[10px] text-gray-400" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      Secondary data, benchmarks & competitor signals
-                    </p>
-                  </div>
+              <div className="mt-8 border-black bg-white p-6 md:p-10 transform -rotate-0.5"
+                   style={{ fontFamily: '"Courier New", Courier, monospace', borderWidth: '3px', borderStyle: 'solid', boxShadow: '8px 8px 0px 0px rgba(0,0,0,1)' }}>
+
+                <div className="mb-8 pb-4 border-b-4 border-black">
+                  <h2 className="text-2xl font-bold inline-block transform rotate-0.5"
+                      style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    ◆ Market Intelligence
+                  </h2>
+                  <svg className="w-64 mb-2" height="4" viewBox="0 0 256 4">
+                    <path d="M 0 2 Q 32 1, 64 2 T 128 2 T 192 2 T 256 2" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
+                  </svg>
+                  <p className="text-xs text-gray-500" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                    Secondary data, benchmarks & competitor signals
+                  </p>
                 </div>
 
                 {isLoadingIntel && (
-                  <div className="flex items-center gap-3 py-8 justify-center">
-                    <Loader2 className="h-5 w-5 animate-spin text-teal-600" />
+                  <div className="flex items-center gap-3 py-10 justify-center">
+                    <Loader2 className="h-5 w-5 animate-spin" />
                     <span className="text-sm text-gray-500" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
                       Gathering market intelligence...
                     </span>
@@ -1306,10 +1305,9 @@ export default function HomePage() {
                 )}
 
                 {intelError && (
-                  <div className="text-center py-6">
-                    <AlertTriangle className="h-6 w-6 text-amber-500 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                      {intelError}
+                  <div className="text-center py-8">
+                    <p className="text-sm text-gray-500 mb-4" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                      ⚠ {intelError}
                     </p>
                     <button
                       onClick={() => {
@@ -1328,48 +1326,58 @@ export default function HomePage() {
                           .catch(() => setIntelError('Network error'))
                           .finally(() => setIsLoadingIntel(false))
                       }}
-                      className="mt-3 text-xs font-bold uppercase border-2 border-black px-4 py-1.5 hover:bg-gray-100 transition-colors"
-                      style={{ fontFamily: '"Courier New", Courier, monospace' }}
+                      className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-6 text-xs uppercase transition-all"
+                      style={{ fontFamily: '"Courier New", Courier, monospace', borderWidth: '3px', borderColor: 'black', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}
                     >
-                      Retry
+                      ← Retry
                     </button>
                   </div>
                 )}
 
                 {intelligence && (
-                  <div className="space-y-6">
+                  <div className="space-y-10">
 
-                    {/* Market Overview */}
-                    <div className="grid md:grid-cols-4 gap-3">
-                      <div className="border-2 border-black p-4 bg-teal-50">
-                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Market Size</div>
-                        <div className="text-lg font-bold text-gray-900">{intelligence.marketOverview.estimatedMarketSize}</div>
+                    {/* Market Overview - 4 stat boxes */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                      <div className="border-black p-3 md:p-4 bg-white transform -rotate-1"
+                           style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}>
+                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1">Market Size</div>
+                        <div className="text-sm md:text-lg font-bold text-black">{intelligence.marketOverview.estimatedMarketSize}</div>
                       </div>
-                      <div className="border-2 border-black p-4 bg-teal-50">
-                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Growth Rate</div>
-                        <div className="text-lg font-bold text-teal-700">{intelligence.marketOverview.growthRate}</div>
+                      <div className="border-black p-3 md:p-4 bg-white transform rotate-0.5"
+                           style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}>
+                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1">Growth Rate</div>
+                        <div className="text-sm md:text-lg font-bold text-black">{intelligence.marketOverview.growthRate}</div>
                       </div>
-                      <div className="border-2 border-black p-4 bg-teal-50">
-                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Maturity</div>
-                        <div className="text-lg font-bold text-gray-900 capitalize">{intelligence.marketOverview.maturityStage}</div>
+                      <div className="border-black p-3 md:p-4 bg-white transform -rotate-0.5"
+                           style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}>
+                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1">Maturity</div>
+                        <div className="text-sm md:text-lg font-bold text-black capitalize">{intelligence.marketOverview.maturityStage}</div>
                       </div>
-                      <div className="border-2 border-black p-4 bg-amber-50">
-                        <div className="text-[10px] uppercase font-bold text-gray-500 mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Trends</div>
-                        <div className="text-sm text-gray-700">{intelligence.marketOverview.keyTrends.length} identified</div>
+                      <div className="border-black p-3 md:p-4 bg-black text-white transform rotate-1"
+                           style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,0.4)' }}>
+                        <div className="text-[10px] uppercase font-bold text-gray-400 mb-1">Trends</div>
+                        <div className="text-sm md:text-lg font-bold">{intelligence.marketOverview.keyTrends.length} identified</div>
                       </div>
                     </div>
 
                     {/* Key Trends */}
                     <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <TrendingUp className="h-4 w-4 text-teal-600" />
-                        <h4 className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Key Market Trends</h4>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-2">
+                      <h3 className="text-lg font-bold mb-4 inline-block transform -rotate-0.5"
+                          style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                        ↗ Key Market Trends
+                      </h3>
+                      <svg className="w-48 mb-4" height="4" viewBox="0 0 192 4">
+                        <path d="M 0 2 Q 24 1, 48 2 T 96 2 T 144 2 T 192 2" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
+                      </svg>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {intelligence.marketOverview.keyTrends.map((trend, idx) => (
-                          <div key={idx} className="flex items-start gap-2 bg-gray-50 p-3 border border-gray-200">
-                            <span className="text-teal-600 font-bold text-sm flex-shrink-0">{String(idx + 1).padStart(2, '0')}</span>
-                            <span className="text-sm text-gray-700">{trend}</span>
+                          <div key={idx} className="flex items-start gap-3 border-black p-3 bg-gray-50 transform hover:-rotate-0.5 transition-transform"
+                               style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}>
+                            <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center border-2 border-black bg-white font-bold text-sm transform -rotate-3">
+                              {idx + 1}
+                            </span>
+                            <span className="text-sm text-gray-700 leading-relaxed">{trend}</span>
                           </div>
                         ))}
                       </div>
@@ -1378,26 +1386,49 @@ export default function HomePage() {
                     {/* Industry Benchmarks */}
                     {intelligence.industryBenchmarks.length > 0 && (
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <BarChart3 className="h-4 w-4 text-teal-600" />
-                          <h4 className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Industry Benchmarks</h4>
-                        </div>
-                        <div className="border-2 border-black overflow-hidden">
-                          <div className="grid grid-cols-4 bg-teal-600 text-white text-[10px] font-bold uppercase p-2" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                        <h3 className="text-lg font-bold mb-4 inline-block transform rotate-0.5"
+                            style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          ★ Industry Benchmarks
+                        </h3>
+                        <svg className="w-48 mb-4" height="4" viewBox="0 0 192 4">
+                          <path d="M 0 2 Q 24 1, 48 2 T 96 2 T 144 2 T 192 2" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        </svg>
+                        {/* Mobile: stacked cards. Desktop: table */}
+                        <div className="hidden md:block border-black overflow-hidden"
+                             style={{ borderWidth: '3px', borderStyle: 'solid', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                          <div className="grid grid-cols-4 bg-black text-white text-[10px] font-bold uppercase p-3">
                             <span>Metric</span>
                             <span>Value</span>
                             <span>Source</span>
                             <span>Relevance</span>
                           </div>
                           {intelligence.industryBenchmarks.map((benchmark, idx) => (
-                            <div key={idx} className={`grid grid-cols-4 text-sm p-2 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-t border-gray-200`}>
-                              <span className="font-medium text-gray-900 text-xs">{benchmark.metric}</span>
-                              <span className="font-bold text-gray-900 text-xs">{benchmark.value}</span>
-                              <span className="text-gray-500 text-xs">{benchmark.source}</span>
-                              <span className={`text-xs font-bold uppercase ${
-                                benchmark.relevance === 'high' ? 'text-teal-600' :
-                                benchmark.relevance === 'medium' ? 'text-amber-600' : 'text-gray-400'
-                              }`}>{benchmark.relevance}</span>
+                            <div key={idx} className={`grid grid-cols-4 p-3 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-t-2 border-gray-200`}>
+                              <span className="font-bold text-sm text-black">{benchmark.metric}</span>
+                              <span className="font-bold text-sm text-black">{benchmark.value}</span>
+                              <span className="text-sm text-gray-500">{benchmark.source}</span>
+                              <span className="text-xs font-bold uppercase">
+                                <span className={`px-2 py-0.5 ${
+                                  benchmark.relevance === 'high' ? 'bg-black text-white' :
+                                  benchmark.relevance === 'medium' ? 'bg-gray-200 text-black' : 'bg-gray-100 text-gray-500'
+                                }`}>{benchmark.relevance}</span>
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                        {/* Mobile: stacked cards */}
+                        <div className="md:hidden space-y-3">
+                          {intelligence.industryBenchmarks.map((benchmark, idx) => (
+                            <div key={idx} className="border-black p-3 bg-white"
+                                 style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-bold text-sm text-black">{benchmark.metric}</span>
+                                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 ${
+                                  benchmark.relevance === 'high' ? 'bg-black text-white' : 'bg-gray-200 text-black'
+                                }`}>{benchmark.relevance}</span>
+                              </div>
+                              <div className="text-lg font-bold text-black">{benchmark.value}</div>
+                              <div className="text-xs text-gray-500 mt-1">{benchmark.source}</div>
                             </div>
                           ))}
                         </div>
@@ -1407,18 +1438,24 @@ export default function HomePage() {
                     {/* Competitor Signals */}
                     {intelligence.competitorSignals.length > 0 && (
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Users className="h-4 w-4 text-teal-600" />
-                          <h4 className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Competitor Signals</h4>
-                        </div>
-                        <div className="space-y-2">
+                        <h3 className="text-lg font-bold mb-4 inline-block transform -rotate-1"
+                            style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          ⑂ Competitor Signals
+                        </h3>
+                        <svg className="w-48 mb-4" height="4" viewBox="0 0 192 4">
+                          <path d="M 0 2 Q 24 1, 48 2 T 96 2 T 144 2 T 192 2" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        </svg>
+                        <div className="space-y-3">
                           {intelligence.competitorSignals.map((signal, idx) => (
-                            <div key={idx} className="border-l-4 border-amber-500 bg-amber-50 p-3">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[10px] font-bold uppercase text-amber-700 bg-amber-200 px-2 py-0.5" style={{ fontFamily: '"Courier New", Courier, monospace' }}>{signal.category}</span>
+                            <div key={idx} className="border-l-4 border-black pl-4 md:pl-6 py-2">
+                              <div className="mb-2">
+                                <span className="text-xs font-bold uppercase px-2 py-1 bg-black text-white"
+                                      style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                                  {signal.category}
+                                </span>
                               </div>
-                              <p className="text-sm text-gray-800 mb-1">{signal.insight}</p>
-                              <p className="text-xs text-gray-500 italic">Implication: {signal.implication}</p>
+                              <p className="text-base text-gray-800 mb-1 leading-relaxed">{signal.insight}</p>
+                              <p className="text-sm text-gray-500">→ {signal.implication}</p>
                             </div>
                           ))}
                         </div>
@@ -1428,22 +1465,26 @@ export default function HomePage() {
                     {/* Secondary Data Sources */}
                     {intelligence.secondarySources.length > 0 && (
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Database className="h-4 w-4 text-teal-600" />
-                          <h4 className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Secondary Data Sources</h4>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-2">
+                        <h3 className="text-lg font-bold mb-4 inline-block transform rotate-0.5"
+                            style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          ⊞ Secondary Data Sources
+                        </h3>
+                        <svg className="w-48 mb-4" height="4" viewBox="0 0 192 4">
+                          <path d="M 0 2 Q 24 1, 48 2 T 96 2 T 144 2 T 192 2" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        </svg>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {intelligence.secondarySources.map((source, idx) => (
-                            <div key={idx} className="border-2 border-gray-200 p-3 bg-white">
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="font-bold text-sm text-gray-900">{source.name}</span>
-                                <span className={`text-[9px] uppercase font-bold px-2 py-0.5 ${
-                                  source.accessNote.toLowerCase().includes('free') ? 'bg-green-100 text-green-700' :
-                                  source.accessNote.toLowerCase().includes('paid') ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'
+                            <div key={idx} className="border-black p-3 md:p-4 bg-white"
+                                 style={{ borderWidth: '2px', borderStyle: 'solid', boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}>
+                              <div className="flex items-start justify-between gap-2 mb-2">
+                                <span className="font-bold text-sm text-black">{source.name}</span>
+                                <span className={`text-[10px] uppercase font-bold px-2 py-0.5 flex-shrink-0 ${
+                                  source.accessNote.toLowerCase().includes('free') ? 'bg-white text-black border-2 border-black' :
+                                  source.accessNote.toLowerCase().includes('paid') ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'
                                 }`} style={{ fontFamily: '"Courier New", Courier, monospace' }}>{source.accessNote}</span>
                               </div>
-                              <span className="text-[10px] uppercase font-bold text-teal-600 block mb-1" style={{ fontFamily: '"Courier New", Courier, monospace' }}>{source.type}</span>
-                              <p className="text-xs text-gray-600">{source.description}</p>
+                              <span className="text-[10px] uppercase font-bold text-gray-500 block mb-1">{source.type}</span>
+                              <p className="text-sm text-gray-600 leading-relaxed">{source.description}</p>
                             </div>
                           ))}
                         </div>
@@ -1453,34 +1494,39 @@ export default function HomePage() {
                     {/* Regulatory Context */}
                     {intelligence.regulatoryContext?.applicable && intelligence.regulatoryContext.considerations?.length > 0 && (
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Shield className="h-4 w-4 text-teal-600" />
-                          <h4 className="font-bold text-sm uppercase" style={{ fontFamily: '"Courier New", Courier, monospace' }}>Regulatory Considerations</h4>
-                        </div>
-                        <div className="bg-red-50 border-2 border-red-200 p-4">
-                          <ul className="space-y-1">
+                        <h3 className="text-lg font-bold mb-4 inline-block transform -rotate-0.5"
+                            style={{ fontFamily: '"Courier New", Courier, monospace' }}>
+                          ! Regulatory Considerations
+                        </h3>
+                        <svg className="w-48 mb-4" height="4" viewBox="0 0 192 4">
+                          <path d="M 0 2 Q 24 1, 48 2 T 96 2 T 144 2 T 192 2" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        </svg>
+                        <div className="border-black bg-gray-50 p-4 md:p-5"
+                             style={{ borderWidth: '3px', borderStyle: 'solid' }}>
+                          <div className="space-y-2">
                             {intelligence.regulatoryContext.considerations.map((item, idx) => (
-                              <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                                <span className="text-red-500 flex-shrink-0 mt-0.5">!</span>
-                                <span>{item}</span>
-                              </li>
+                              <div key={idx} className="flex items-start gap-3 text-base text-gray-700">
+                                <span className="flex-shrink-0 font-bold">!</span>
+                                <span className="leading-relaxed">{item}</span>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         </div>
                       </div>
                     )}
 
                     {/* Research Gaps */}
                     {intelligence.researchGaps?.length > 0 && (
-                      <div className="bg-teal-50 border-2 border-teal-200 p-4">
-                        <h4 className="font-bold text-sm uppercase mb-3 text-teal-800" style={{ fontFamily: '"Courier New", Courier, monospace' }}>
-                          Research Gaps to Fill with Primary Research
-                        </h4>
-                        <div className="space-y-2">
+                      <div className="border-black bg-gray-50 p-4 md:p-6"
+                           style={{ borderWidth: '3px', borderStyle: 'dashed', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}>
+                        <h3 className="font-bold uppercase mb-4 text-sm">
+                          → Research Gaps to Fill with Primary Research
+                        </h3>
+                        <div className="space-y-3">
                           {intelligence.researchGaps.map((gap, idx) => (
-                            <div key={idx} className="flex items-start gap-2">
-                              <span className="bg-teal-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
-                              <span className="text-sm text-gray-700">{gap}</span>
+                            <div key={idx} className="flex items-start gap-3">
+                              <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center border-2 border-black bg-black text-white font-bold text-sm">{idx + 1}</span>
+                              <span className="text-base text-gray-700 leading-relaxed">{gap}</span>
                             </div>
                           ))}
                         </div>
