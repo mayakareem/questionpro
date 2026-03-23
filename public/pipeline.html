@@ -20,16 +20,10 @@
             padding-bottom: 14px;
             display: flex; align-items: center; gap: 16px;
         }
-        .logo-mark {
-            width: 40px; height: 40px; border-radius: 8px;
-            background: linear-gradient(135deg, #1B3380, #1B87E6);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-weight: 800; font-size: 18px;
-        }
         h1 { font-size: 26px; color: #1B3380; font-weight: 700; }
         .subtitle { color: #6b7280; font-size: 13px; font-weight: 500; margin-top: 2px; }
         .controls {
-            display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+            display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; align-items: flex-end;
         }
         .filter-group { display: flex; flex-direction: column; gap: 5px; }
         .filter-group label {
@@ -42,6 +36,11 @@
             font-size: 13px; cursor: pointer; min-width: 150px;
         }
         select:focus { outline: none; border-color: #1B87E6; box-shadow: 0 0 0 3px rgba(27,135,230,0.12); }
+        .reset-btn {
+            padding: 9px 16px; background: #1B3380; color: #fff; border: none;
+            border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 600;
+        }
+        .reset-btn:hover { background: #1B87E6; }
         .kpi-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -79,6 +78,10 @@
         .coverage-red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
         .coverage-yellow { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
         .coverage-green { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .section-header {
+            font-size: 18px; font-weight: 700; color: #1B3380; margin: 32px 0 16px 0;
+            padding-bottom: 8px; border-bottom: 2px solid #1B87E6;
+        }
         .charts-section {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 14px; margin-bottom: 24px;
@@ -115,10 +118,19 @@
         tr:hover { background: #f9fafb; }
         .deal-name { color: #1a1a2e; font-weight: 500; }
         .currency { color: #16a34a; font-weight: 600; }
+        .currency-red { color: #dc2626; font-weight: 600; }
         .stage-badge {
             display: inline-block; padding: 3px 8px; border-radius: 4px;
             font-size: 10px; font-weight: 700; background: #eef2ff; color: #1B3380;
         }
+        .status-badge {
+            display: inline-block; padding: 3px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 700;
+        }
+        .status-renewed { background: #f0fdf4; color: #16a34a; }
+        .status-inprogress { background: #fffbeb; color: #d97706; }
+        .status-lost { background: #fef2f2; color: #dc2626; }
+        .status-pending { background: #f3f4f6; color: #6b7280; }
         .owner-badge {
             display: inline-block; padding: 3px 8px; border-radius: 4px;
             font-size: 10px; background: #f9fafb; color: #4b5563; border: 1px solid #e5e7eb;
@@ -126,6 +138,28 @@
         .overdue { color: #dc2626; font-weight: 600; }
         .stale-30 { background: #fffbeb; color: #d97706; }
         .stale-60 { background: #fef2f2; color: #dc2626; }
+        .amo-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px; margin-bottom: 24px;
+        }
+        .amo-card {
+            background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+            padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .amo-name { font-size: 16px; font-weight: 700; color: #1B3380; margin-bottom: 12px; }
+        .amo-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+        .amo-label { color: #6b7280; }
+        .amo-val { font-weight: 600; color: #1a1a2e; }
+        .mini-progress { height: 4px; background: #e5e7eb; border-radius: 2px; margin-top: 8px; }
+        .mini-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+        .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 6px;
+            background: #fff; color: #4b5563; font-size: 12px; font-weight: 600;
+            cursor: pointer;
+        }
+        .tab-btn.active { background: #1B3380; color: #fff; border-color: #1B3380; }
+        .tab-btn:hover:not(.active) { background: #f3f4f6; }
         footer {
             border-top: 1px solid #e5e7eb; padding-top: 16px; margin-top: 24px;
             text-align: center; font-size: 11px; color: #9ca3af;
@@ -138,7 +172,7 @@
         <header>
             <div>
                 <h1>QuestionPro MEA - Pipeline Command Center</h1>
-                <p class="subtitle">Real-time Sales Pipeline &amp; Forecast Dashboard</p>
+                <p class="subtitle">Real-time Sales Pipeline, Renewals &amp; Forecast Dashboard</p>
             </div>
         </header>
 
@@ -159,6 +193,7 @@
                     <option value="existingbusiness">Existing Business</option>
                 </select>
             </div>
+            <button class="reset-btn" id="resetFilters">Reset Filters</button>
         </div>
 
         <div class="kpi-row">
@@ -188,11 +223,13 @@
                 </div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">March Pipeline</div>
-                <div class="kpi-value" id="marchValue">$0</div>
-                <div class="kpi-subtext" id="marchCount">0 deals closing</div>
-                <div class="progress-bar"><div class="progress-fill" id="marchProgress" style="width:0%;background:linear-gradient(90deg,#FF9F00,#dc2626);"></div></div>
-                <div class="progress-text" id="marchTarget">vs $333K target</div>
+                <div class="kpi-label">2026 Renewals Due</div>
+                <div class="kpi-value" id="renewalValue">$0</div>
+                <div class="kpi-subtext" id="renewalCount">0 accounts</div>
+                <div style="margin-top:10px;padding-top:10px;border-top:1px solid #e5e7eb;">
+                    <div class="kpi-label">Lost ARR (YTD)</div>
+                    <div style="font-size:20px;color:#dc2626;font-weight:700;" id="lostArrValue">$0</div>
+                </div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-label">Pipeline Coverage</div>
@@ -202,6 +239,7 @@
             </div>
         </div>
 
+        <div class="section-header">HubSpot Pipeline</div>
         <div class="charts-section">
             <div class="chart-container">
                 <div class="chart-title">Pipeline by Stage</div>
@@ -223,7 +261,7 @@
 
         <div class="tables-section">
             <div class="table-container">
-                <div class="table-title">Top Open Deals</div>
+                <div class="table-title">Top Open Deals <span id="filteredCount" style="color:#9ca3af;font-weight:400;text-transform:none;"></span></div>
                 <table id="dealsTable">
                     <thead><tr>
                         <th onclick="sortTable('dealsTable',0)">Deal Name</th>
@@ -251,8 +289,94 @@
             </div>
         </div>
 
+        <div class="section-header">2026 Renewals Tracker</div>
+        <div class="kpi-row" style="margin-bottom:16px;">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Renewals Due</div>
+                <div class="kpi-value" style="color:#1B87E6;">$2,224,530</div>
+                <div class="kpi-subtext">171 accounts across 2026</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Renewed</div>
+                <div class="kpi-value" style="color:#16a34a;">$401,530</div>
+                <div class="kpi-subtext">25 accounts secured</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">In Progress</div>
+                <div class="kpi-value" style="color:#d97706;">$216,516</div>
+                <div class="kpi-subtext">16 accounts in motion</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Lost</div>
+                <div class="kpi-value" style="color:#dc2626;">$45,543</div>
+                <div class="kpi-subtext">7 accounts churned</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Pending (Unactioned)</div>
+                <div class="kpi-value" style="color:#6b7280;">$1,560,941</div>
+                <div class="kpi-subtext">123 accounts - needs attention</div>
+            </div>
+        </div>
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-title">Renewals Due by Month (2026)</div>
+                <div class="chart-wrapper"><canvas id="renewalMonthChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Renewals by Product Group</div>
+                <div class="chart-wrapper"><canvas id="renewalProductChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Renewals by Account Executive</div>
+                <div class="chart-wrapper"><canvas id="renewalOwnerChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Lost ARR by Month (2026)</div>
+                <div class="chart-wrapper"><canvas id="lostArrChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="section-header">Account Manager Objectives (AMO)</div>
+        <div class="amo-grid" id="amoGrid"></div>
+
+        <div class="section-header">Monthly Tracker - Target vs Achieved</div>
+        <div class="charts-section">
+            <div class="chart-container" style="grid-column: 1 / -1;">
+                <div class="chart-title">Monthly Performance by Rep (Target vs Achieved)</div>
+                <div class="chart-wrapper" style="height:350px;"><canvas id="monthlyTrackerChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="section-header">Upsell Pipeline (Existing Business)</div>
+        <div class="tables-section">
+            <div class="table-container">
+                <div class="table-title">Potential Upsells</div>
+                <table id="upsellTable">
+                    <thead><tr>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Est. ACV</th>
+                    </tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="table-container">
+                <div class="table-title">Top Lost ARR Accounts</div>
+                <table id="lostArrTable">
+                    <thead><tr>
+                        <th onclick="sortTable('lostArrTable',0)">Customer</th>
+                        <th onclick="sortTable('lostArrTable',1)">ARR Lost</th>
+                        <th onclick="sortTable('lostArrTable',2)">Product</th>
+                        <th onclick="sortTable('lostArrTable',3)">Rep</th>
+                        <th onclick="sortTable('lostArrTable',4)">Month</th>
+                    </tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
         <footer>
-            <p>Data pulled from HubSpot MENA Sales Pipeline (ID: 8799139) on March 23, 2026</p>
+            <p>Data: HubSpot MENA Pipeline (ID: 8799139) + Metabase Renewals | Updated March 23, 2026</p>
             <p>QuestionPro MEA - Pipeline Command Center</p>
         </footer>
     </div>
@@ -304,10 +428,77 @@
         ]
     };
 
+    var RENEWAL = {
+        totalDue: 2224530,
+        totalCount: 171,
+        renewed: 401530, renewedCount: 25,
+        inProgress: 216516, inProgressCount: 16,
+        lost: 45543, lostCount: 7,
+        pending: 1560941, pendingCount: 123,
+        byMonth: {
+            "Jan":219603,"Feb":87841,"Mar":112053,"Apr":147053,"May":198032,"Jun":113455,
+            "Jul":177459,"Aug":145175,"Sep":318521,"Oct":160687,"Nov":358533,"Dec":186116
+        },
+        byProduct: {"CX":1143044,"Research":588421,"Team":333184,"Workforce":78642,"Advanced":68739,"Communities":12500},
+        byOwner: {"Radhu":1116291,"Waleed":467046,"Unassigned":352639,"Rajeev":234236,"Zach":18000,"Nabil":15310,"Ahmed":13488,"Kerolos":7520}
+    };
+
+    var LOST_ARR = {
+        total: 2159888,
+        byMonth: {
+            "Jan":136607,"Feb":52664,"Mar":206051,"Apr":144932,"May":203586,"Jun":50607,
+            "Jul":275641,"Aug":139714,"Sep":321901,"Oct":151983,"Nov":358485,"Dec":117715
+        },
+        topAccounts: [
+            {"name":"Nielsen IQ","arr":108800,"product":"CX","rep":"Radhu","month":"Mar"},
+            {"name":"The right decision","arr":81980,"product":"CX","rep":"Eman","month":"Jan"},
+            {"name":"Al Futtaim Group","arr":72000,"product":"CX","rep":"Radhu","month":"Sep"},
+            {"name":"General Entertainment Authority","arr":36750,"product":"Research","rep":"Eman","month":"Mar"},
+            {"name":"Gulf Bank Head Office","arr":26000,"product":"CX","rep":"Murtaza","month":"Mar"},
+            {"name":"Dubai Land Department","arr":18000,"product":"Research","rep":"Eman","month":"Feb"},
+            {"name":"National Bank of Kuwait","arr":14400,"product":"Team","rep":"Nabil","month":"Feb"},
+            {"name":"Advanced Inhalation Rituals","arr":12000,"product":"Research","rep":"Shalaka","month":"Mar"},
+            {"name":"IPSOS KSA Alula","arr":10000,"product":"Research","rep":"Eman","month":"Jan"},
+            {"name":"Msheireb Properties","arr":9000,"product":"Team","rep":"Rajeev","month":"Jan"},
+            {"name":"BMMI BSC","arr":9351,"product":"Team","rep":"Rajeev","month":"Jan"},
+            {"name":"Honda Motor Co.","arr":13964,"product":"Team","rep":"Shalaka","month":"Mar"},
+            {"name":"Al Fujairah National Insurance","arr":8640,"product":"CX","rep":"Nabil","month":"Jan"},
+            {"name":"Turkish Airlines","arr":8000,"product":"Team","rep":"Rajeev","month":"Feb"},
+            {"name":"Mobile Telecom (Zain)","arr":6600,"product":"Research","rep":"Shalaka","month":"Jan"}
+        ]
+    };
+
+    var AMO = [
+        {"name":"Radhu (CX)","total":1512451,"accounts":25,"willNotRenew":382583,"nrr":1.03,"growth":430000,"newBiz":300000,"pnl":1559868,"scope":"CX Only - SA"},
+        {"name":"Zach","total":0,"accounts":0,"willNotRenew":0,"nrr":0,"growth":0,"newBiz":300000,"pnl":0,"scope":"New Business CX"},
+        {"name":"Waleed (SA+EG)","total":780690,"accounts":51,"willNotRenew":149892,"nrr":1.19,"growth":300000,"newBiz":300000,"pnl":930798,"scope":"SA+EG All Products"},
+        {"name":"Shalaka (Research)","total":1024855,"accounts":104,"willNotRenew":266463,"nrr":1.30,"growth":575000,"newBiz":200000,"pnl":1333392,"scope":"Research/Comm - SA"},
+        {"name":"Rajeev","total":211114,"accounts":36,"willNotRenew":51381,"nrr":0,"growth":114715,"newBiz":171000,"pnl":0,"scope":"Commercial+Research+WF"}
+    ];
+
+    var MONTHLY_TRACKER = {
+        months: ["Jan","Feb","Mar"],
+        reps: {
+            "Radhu":  {target:[110000,30000,120000], achieved:[101116,23000,0]},
+            "Waleed": {target:[121180,30000,79650],  achieved:[67267,8000,48476]},
+            "Shalaka":{target:[59136,81926,124467],  achieved:[57700,54239,32664]},
+            "Rajeev": {target:[37932,52459,32818],   achieved:[26300,48843,15800]}
+        }
+    };
+
+    var UPSELLS = [
+        {"name":"Honda","product":"CX","acv":75000},
+        {"name":"Cardo","product":"CX","acv":20000},
+        {"name":"Turkish Airlines","product":"Research","acv":10000},
+        {"name":"NBK","product":"CX","acv":45000},
+        {"name":"DP World","product":"CX","acv":25000},
+        {"name":"Growth in ACV for renewals","product":"Various","acv":50000}
+    ];
+
     var filteredDeals = DATA.topDeals.slice();
     var chartInstances = {};
 
-    function fmt(v) { return '$' + Math.round(v).toLocaleString('en-US'); }
+    function fmt(v) { return '$' + Math.round(Math.abs(v)).toLocaleString('en-US'); }
     function isOverdue(d) { return new Date(d) < new Date('2026-03-23'); }
 
     function stageColor(s) {
@@ -333,11 +524,9 @@
         document.getElementById('gapValue').textContent = fmt(gap);
         document.getElementById('runRateValue').textContent = fmt(runRate);
 
-        var mPct = (DATA.marchClosing / 333000) * 100;
-        document.getElementById('marchValue').textContent = fmt(DATA.marchClosing);
-        document.getElementById('marchCount').textContent = DATA.marchDealsCount + ' deals closing';
-        document.getElementById('marchProgress').style.width = Math.min(mPct, 100) + '%';
-        document.getElementById('marchTarget').textContent = mPct.toFixed(0) + '% of $333K target';
+        document.getElementById('renewalValue').textContent = fmt(RENEWAL.totalDue);
+        document.getElementById('renewalCount').textContent = RENEWAL.totalCount + ' accounts';
+        document.getElementById('lostArrValue').textContent = '-' + fmt(LOST_ARR.total);
 
         document.getElementById('coverageValue').textContent = cov.toFixed(1) + 'x';
         var ind = document.getElementById('coverageIndicator');
@@ -349,6 +538,7 @@
     function initFilters() {
         var owners = {}, stages = {};
         DATA.topDeals.forEach(function(d) { if(d.owner) owners[d.owner]=1; if(d.stage) stages[d.stage]=1; });
+        DATA.staleDeals.forEach(function(d) { if(d.owner) owners[d.owner]=1; if(d.stage) stages[d.stage]=1; });
         var oSel = document.getElementById('ownerFilter');
         Object.keys(owners).sort().forEach(function(o) { var op = document.createElement('option'); op.value=o; op.textContent=o; oSel.appendChild(op); });
         var sSel = document.getElementById('stageFilter');
@@ -362,12 +552,41 @@
         var sF = document.getElementById('stageFilter').value;
         var tF = document.getElementById('typeFilter').value;
         filteredDeals = DATA.topDeals.filter(function(d) {
-            return (!oF || d.owner===oF) && (!sF || d.stage===sF) && (!tF || d.type===tF);
+            return (!oF || d.owner === oF) && (!sF || d.stage === sF) && (!tF || d.type === tF);
         });
+        var label = '';
+        if (oF || sF || tF) {
+            label = '(showing ' + filteredDeals.length + ' of ' + DATA.topDeals.length + ')';
+        }
+        document.getElementById('filteredCount').textContent = label;
         updateTables();
+        updateChartsForFilter(oF, sF);
+    }
+
+    function updateChartsForFilter(ownerF, stageF) {
+        if (chartInstances.ownerPipe) {
+            var ol = Object.keys(DATA.pipeByOwner).filter(function(o){return DATA.pipeByOwner[o].amount>0;}).sort(function(a,b){return DATA.pipeByOwner[b].amount-DATA.pipeByOwner[a].amount;});
+            var colors = ol.map(function(o) { return (!ownerF || o === ownerF) ? '#1B87E6' : '#d1d5db'; });
+            chartInstances.ownerPipe.data.datasets[0].backgroundColor = colors;
+            chartInstances.ownerPipe.update();
+        }
+        if (chartInstances.ownerWon) {
+            var wl = Object.keys(DATA.wonByOwner).filter(function(o){return DATA.wonByOwner[o]>0;}).sort(function(a,b){return DATA.wonByOwner[b]-DATA.wonByOwner[a];});
+            var wcolors = wl.map(function(o) { return (!ownerF || o === ownerF) ? '#16a34a' : '#d1d5db'; });
+            chartInstances.ownerWon.data.datasets[0].backgroundColor = wcolors;
+            chartInstances.ownerWon.update();
+        }
+        if (chartInstances.stage) {
+            var so = ['Very Early','Discovery','Early Stage','Qualified','Engaged','Proposal/Demo','Advanced','Closing'];
+            var sl = so.filter(function(s){return DATA.pipeByStage[s];});
+            var scolors = sl.map(function(s) { return (!stageF || s === stageF) ? stageColor(s) : '#d1d5db'; });
+            chartInstances.stage.data.datasets[0].backgroundColor = scolors;
+            chartInstances.stage.update();
+        }
     }
 
     function updateTables() {
+        var oF = document.getElementById('ownerFilter').value;
         var dt = document.getElementById('dealsTable').getElementsByTagName('tbody')[0];
         var st = document.getElementById('staleTable').getElementsByTagName('tbody')[0];
         dt.innerHTML = ''; st.innerHTML = '';
@@ -379,7 +598,9 @@
             r.innerHTML = '<td class="deal-name">'+d.name+'</td><td class="currency">'+fmt(d.amount)+'</td><td><span class="stage-badge">'+d.stage+'</span></td><td><span class="owner-badge">'+d.owner+'</span></td><td class="'+(ov?'overdue':'')+'">'+cd.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})+'</td><td>'+(d.type==='newbusiness'?'New':'Existing')+'</td>';
         });
 
-        var stale = DATA.staleDeals.filter(function(d){return d.daysSinceActivity>=30;});
+        var stale = DATA.staleDeals.filter(function(d){
+            return d.daysSinceActivity>=30 && (!oF || d.owner === oF);
+        });
         stale.forEach(function(d) {
             var r = st.insertRow();
             var cls = d.daysSinceActivity>=60?'stale-60':'stale-30';
@@ -402,7 +623,6 @@
         var sl=so.filter(function(s){return DATA.pipeByStage[s];});
         var sa=sl.map(function(s){return DATA.pipeByStage[s].amount;});
         var sc=sl.map(function(s){return stageColor(s);});
-
         chartInstances.stage = new Chart(document.getElementById('stageChart').getContext('2d'),{
             type:'bar',
             data:{labels:sl,datasets:[{label:'Pipeline Amount',data:sa,backgroundColor:sc,borderWidth:0,borderRadius:3}]},
@@ -432,20 +652,138 @@
             data:{labels:wl,datasets:[{label:'Won Revenue',data:wa,backgroundColor:'#16a34a',borderWidth:0,borderRadius:3}]},
             options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
         });
+
+        var rmo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var rma = rmo.map(function(m) { return RENEWAL.byMonth[m] || 0; });
+        chartInstances.renewalMonth = new Chart(document.getElementById('renewalMonthChart').getContext('2d'),{
+            type:'bar',
+            data:{labels:rmo,datasets:[{label:'Renewals Due',data:rma,backgroundColor:'#1B87E6',borderWidth:0,borderRadius:3}]},
+            options:Object.assign({},cfg,{scales:{y:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},x:{ticks:{color:'#4b5563'},grid:{display:false}}}})
+        });
+
+        var pLabels = Object.keys(RENEWAL.byProduct).sort(function(a,b){return RENEWAL.byProduct[b]-RENEWAL.byProduct[a];});
+        var pAmounts = pLabels.map(function(p){return RENEWAL.byProduct[p];});
+        var pColors = ['#1B3380','#1B87E6','#FF9F00','#0ea5e9','#8b5cf6','#16a34a'];
+        chartInstances.renewalProduct = new Chart(document.getElementById('renewalProductChart').getContext('2d'),{
+            type:'bar',
+            data:{labels:pLabels,datasets:[{label:'Renewal Amount',data:pAmounts,backgroundColor:pColors,borderWidth:0,borderRadius:3}]},
+            options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
+        });
+
+        var roLabels = Object.keys(RENEWAL.byOwner).sort(function(a,b){return RENEWAL.byOwner[b]-RENEWAL.byOwner[a];});
+        var roAmounts = roLabels.map(function(o){return RENEWAL.byOwner[o];});
+        chartInstances.renewalOwner = new Chart(document.getElementById('renewalOwnerChart').getContext('2d'),{
+            type:'bar',
+            data:{labels:roLabels,datasets:[{label:'Renewal Amount',data:roAmounts,backgroundColor:'#FF9F00',borderWidth:0,borderRadius:3}]},
+            options:Object.assign({},cfg,{indexAxis:'y',scales:{x:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},y:{ticks:{color:'#4b5563'},grid:{display:false}}}})
+        });
+
+        var lostAmounts = rmo.map(function(m) { return LOST_ARR.byMonth[m] || 0; });
+        chartInstances.lostArr = new Chart(document.getElementById('lostArrChart').getContext('2d'),{
+            type:'bar',
+            data:{labels:rmo,datasets:[{label:'Lost ARR',data:lostAmounts,backgroundColor:'#dc2626',borderWidth:0,borderRadius:3}]},
+            options:Object.assign({},cfg,{scales:{y:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},x:{ticks:{color:'#4b5563'},grid:{display:false}}}})
+        });
+
+        var mtData = MONTHLY_TRACKER;
+        var repNames = Object.keys(mtData.reps);
+        var barGroups = [];
+        mtData.months.forEach(function(m, mi) {
+            repNames.forEach(function(r) { barGroups.push(r + ' ' + m); });
+        });
+        var targetDs = [], achievedDs = [];
+        mtData.months.forEach(function(m, mi) {
+            repNames.forEach(function(r) {
+                targetDs.push(mtData.reps[r].target[mi]);
+                achievedDs.push(mtData.reps[r].achieved[mi]);
+            });
+        });
+        chartInstances.monthlyTracker = new Chart(document.getElementById('monthlyTrackerChart').getContext('2d'),{
+            type:'bar',
+            data:{
+                labels:barGroups,
+                datasets:[
+                    {label:'Target',data:targetDs,backgroundColor:'#d1d5db',borderWidth:0,borderRadius:2},
+                    {label:'Achieved',data:achievedDs,backgroundColor:'#1B87E6',borderWidth:0,borderRadius:2}
+                ]
+            },
+            options:Object.assign({},cfg,{scales:{y:{ticks:{color:'#9ca3af'},grid:{color:'#f3f4f6'},beginAtZero:true},x:{ticks:{color:'#4b5563',font:{size:9},maxRotation:45},grid:{display:false}}}})
+        });
+    }
+
+    function buildAMOCards() {
+        var grid = document.getElementById('amoGrid');
+        grid.innerHTML = '';
+        AMO.forEach(function(rep) {
+            var card = document.createElement('div');
+            card.className = 'amo-card';
+            var totalTarget = rep.growth + rep.newBiz;
+            var wonForRep = DATA.wonByOwner[rep.name.split(' ')[0]] || 0;
+            var pct = totalTarget > 0 ? Math.min((wonForRep / totalTarget) * 100, 100) : 0;
+            var fillColor = pct >= 75 ? '#16a34a' : pct >= 40 ? '#d97706' : '#dc2626';
+            card.innerHTML = '<div class="amo-name">' + rep.name + '</div>' +
+                '<div style="font-size:10px;color:#9ca3af;margin-bottom:10px;">' + rep.scope + '</div>' +
+                '<div class="amo-row"><span class="amo-label">Existing Book</span><span class="amo-val">' + fmt(rep.total) + '</span></div>' +
+                '<div class="amo-row"><span class="amo-label">Accounts</span><span class="amo-val">' + rep.accounts + '</span></div>' +
+                '<div class="amo-row"><span class="amo-label">Will Not Renew</span><span class="amo-val" style="color:#dc2626;">' + fmt(rep.willNotRenew) + '</span></div>' +
+                (rep.nrr ? '<div class="amo-row"><span class="amo-label">NRR Multiplier</span><span class="amo-val">' + rep.nrr.toFixed(2) + 'x</span></div>' : '') +
+                '<div class="amo-row"><span class="amo-label">Growth Target</span><span class="amo-val">' + fmt(rep.growth) + '</span></div>' +
+                '<div class="amo-row"><span class="amo-label">New Biz Target</span><span class="amo-val">' + fmt(rep.newBiz) + '</span></div>' +
+                (rep.pnl ? '<div class="amo-row"><span class="amo-label">P&L Target</span><span class="amo-val" style="color:#1B3380;">' + fmt(rep.pnl) + '</span></div>' : '') +
+                '<div style="margin-top:10px;font-size:11px;color:#6b7280;">Won YTD: ' + fmt(wonForRep) + ' of ' + fmt(totalTarget) + '</div>' +
+                '<div class="mini-progress"><div class="mini-fill" style="width:' + pct + '%;background:' + fillColor + ';"></div></div>';
+            grid.appendChild(card);
+        });
+    }
+
+    function buildUpsellTable() {
+        var tb = document.getElementById('upsellTable').getElementsByTagName('tbody')[0];
+        tb.innerHTML = '';
+        var total = 0;
+        UPSELLS.forEach(function(u) {
+            var r = tb.insertRow();
+            r.innerHTML = '<td class="deal-name">' + u.name + '</td><td><span class="owner-badge">' + u.product + '</span></td><td class="currency">' + fmt(u.acv) + '</td>';
+            total += u.acv;
+        });
+        var tr = tb.insertRow();
+        tr.innerHTML = '<td style="font-weight:700;">Total Upsell Potential</td><td></td><td class="currency" style="font-weight:800;">' + fmt(total) + '</td>';
+    }
+
+    function buildLostArrTable() {
+        var tb = document.getElementById('lostArrTable').getElementsByTagName('tbody')[0];
+        tb.innerHTML = '';
+        LOST_ARR.topAccounts.sort(function(a,b){return b.arr-a.arr;}).forEach(function(a) {
+            var r = tb.insertRow();
+            r.innerHTML = '<td class="deal-name">' + a.name + '</td><td class="currency-red">-' + fmt(a.arr) + '</td><td><span class="owner-badge">' + a.product + '</span></td><td><span class="owner-badge">' + a.rep + '</span></td><td>' + a.month + '</td>';
+        });
     }
 
     function sortTable(tid,ci) {
         var tb=document.getElementById(tid).getElementsByTagName('tbody')[0];
         var rows=Array.from(tb.getElementsByTagName('tr'));
-        rows.sort(function(a,b){var av=a.cells[ci].textContent,bv=b.cells[ci].textContent;var an=parseFloat(av.replace(/[$,]/g,'')),bn=parseFloat(bv.replace(/[$,]/g,''));if(!isNaN(an)&&!isNaN(bn))return bn-an;return av.localeCompare(bv);});
+        rows.sort(function(a,b){var av=a.cells[ci].textContent,bv=b.cells[ci].textContent;var an=parseFloat(av.replace(/[$,\-]/g,'')),bn=parseFloat(bv.replace(/[$,\-]/g,''));if(!isNaN(an)&&!isNaN(bn))return bn-an;return av.localeCompare(bv);});
         rows.forEach(function(r){tb.appendChild(r);});
     }
 
-    document.getElementById('ownerFilter').addEventListener('change',applyFilters);
-    document.getElementById('stageFilter').addEventListener('change',applyFilters);
-    document.getElementById('typeFilter').addEventListener('change',applyFilters);
+    document.getElementById('ownerFilter').addEventListener('change', function() { applyFilters(); });
+    document.getElementById('stageFilter').addEventListener('change', function() { applyFilters(); });
+    document.getElementById('typeFilter').addEventListener('change', function() { applyFilters(); });
+    document.getElementById('resetFilters').addEventListener('click', function() {
+        document.getElementById('ownerFilter').value = '';
+        document.getElementById('stageFilter').value = '';
+        document.getElementById('typeFilter').value = '';
+        applyFilters();
+    });
 
-    window.addEventListener('DOMContentLoaded',function(){initKPIs();initFilters();createCharts();updateTables();});
+    window.addEventListener('DOMContentLoaded', function() {
+        initKPIs();
+        initFilters();
+        createCharts();
+        updateTables();
+        buildAMOCards();
+        buildUpsellTable();
+        buildLostArrTable();
+    });
     </script>
 </body>
 </html>
