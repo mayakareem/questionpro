@@ -465,7 +465,7 @@
         <div class="section-header">Sales Log - Confirmed Closures (#mena-sales)</div>
         <div class="kpi-row" style="margin-bottom:16px;">
             <div class="kpi-card">
-                <div class="kpi-label">Slack Confirmed (YTD)</div>
+                <div class="kpi-label">Slack Confirmed (2026 YTD)</div>
                 <div class="kpi-value" id="slackTotalValue">$0</div>
                 <div class="kpi-subtext" id="slackTotalCount">0 deals</div>
             </div>
@@ -475,7 +475,7 @@
                 <div class="kpi-subtext" id="slackMarchCount">0 deals</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">Top Closer (YTD)</div>
+                <div class="kpi-label">Top Closer (2026 YTD)</div>
                 <div class="kpi-value" id="slackTopCloser">-</div>
                 <div class="kpi-subtext" id="slackTopCloserAmt">$0</div>
             </div>
@@ -487,11 +487,11 @@
         </div>
         <div class="charts-section" style="margin-bottom:20px;">
             <div class="chart-container">
-                <div class="chart-title">Monthly Closures (Slack Confirmed)</div>
+                <div class="chart-title">Monthly Closures - 2026 (Slack Confirmed)</div>
                 <div class="chart-wrapper"><canvas id="slackMonthlyChart"></canvas></div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">Closures by Rep</div>
+                <div class="chart-title">Closures by Rep (2026 YTD)</div>
                 <div class="chart-wrapper"><canvas id="slackRepChart"></canvas></div>
             </div>
         </div>
@@ -1131,6 +1131,7 @@
         var byRep = {};
         for (var i = 0; i < SLACK_SALES.length; i++) {
             var d = SLACK_SALES[i];
+            if (d.month < '2026-01') continue;
             total += d.amount; count++;
             if (d.month === '2026-03') { marchTotal += d.amount; marchCount++; }
             if (!byRep[d.rep]) byRep[d.rep] = 0;
@@ -1197,18 +1198,19 @@
         var byRep = {};
         for (var i = 0; i < SLACK_SALES.length; i++) {
             var d = SLACK_SALES[i];
+            if (d.month < '2026-01') continue;
             if (!byMonth[d.month]) byMonth[d.month] = 0;
             byMonth[d.month] += d.amount;
             if (!byRep[d.rep]) byRep[d.rep] = 0;
             byRep[d.rep] += d.amount;
         }
-        var monthOrder = ['2025-12','2026-01','2026-02','2026-03'];
-        var monthLabels = ['Dec 2025','Jan 2026','Feb 2026','Mar 2026'];
+        var monthOrder = ['2026-01','2026-02','2026-03'];
+        var monthLabels = ['Jan 2026','Feb 2026','Mar 2026'];
         var monthValues = monthOrder.map(function(m) { return byMonth[m] || 0; });
 
         new Chart(document.getElementById('slackMonthlyChart').getContext('2d'), {
             type: 'bar',
-            data: { labels: monthLabels, datasets: [{ label: 'Confirmed Revenue', data: monthValues, backgroundColor: ['#1B3380','#1B87E6','#FF9F00','#16a34a'], borderWidth: 0, borderRadius: 4 }] },
+            data: { labels: monthLabels, datasets: [{ label: 'Confirmed Revenue', data: monthValues, backgroundColor: ['#1B3380','#1B87E6','#FF9F00'], borderWidth: 0, borderRadius: 4 }] },
             options: Object.assign({}, cfg, { scales: { y: { ticks: { color: '#9ca3af', callback: function(v) { return '$' + (v/1000) + 'k'; } }, grid: { color: '#f3f4f6' }, beginAtZero: true }, x: { ticks: { color: '#4b5563' }, grid: { display: false } } } })
         });
 
