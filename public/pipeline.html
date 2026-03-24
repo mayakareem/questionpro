@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuestionPro MEA - Pipeline Command Center</title>
+    <title>QuestionPro MEA - Sales Command Center</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -165,6 +165,30 @@
         .tab-btn:hover:not(.active) { color: #1B87E6; background: #f9fafb; }
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
+        .risk-high { border-left: 4px solid #dc2626; }
+        .risk-medium { border-left: 4px solid #FF9F00; }
+        .risk-low { border-left: 4px solid #16a34a; }
+        .alert-card {
+            background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+            padding: 16px 18px; margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .alert-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .alert-title { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+        .alert-badge {
+            display: inline-block; padding: 3px 10px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+        }
+        .badge-urgent { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .badge-warning { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+        .badge-info { background: #eff6ff; color: #1B87E6; border: 1px solid #bfdbfe; }
+        .badge-ok { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .alert-meta { font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+        .alert-detail { font-size: 13px; color: #4b5563; line-height: 1.5; }
+        .health-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+        @media (max-width: 900px) { .health-grid { grid-template-columns: 1fr; } }
+        .health-filter-bar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+        .health-filter-bar select { padding: 6px 10px; font-size: 12px; border: 1px solid #d1d5db; border-radius: 5px; }
         footer {
             border-top: 1px solid #e5e7eb; padding-top: 16px; margin-top: 24px;
             text-align: center; font-size: 11px; color: #9ca3af;
@@ -176,8 +200,8 @@
     <div class="container">
         <header>
             <div>
-                <h1>QuestionPro MEA - Pipeline Command Center</h1>
-                <p class="subtitle">Real-time Sales Pipeline, Renewals & Forecast Dashboard</p>
+                <h1>QuestionPro MEA - Sales Command Center</h1>
+                <p class="subtitle">Pipeline, Account Health, Renewals & Forecast Dashboard</p>
             </div>
         </header>
 
@@ -208,6 +232,7 @@
             <button class="tab-btn" onclick="switchTab('renewals')">Renewals</button>
             <button class="tab-btn" onclick="switchTab('activity')">Activity</button>
             <button class="tab-btn" onclick="switchTab('saleslog')">Sales Log</button>
+            <button class="tab-btn" onclick="switchTab('health')">Account Health</button>
         </div>
 
         <!-- TAB: Overview -->
@@ -524,9 +549,103 @@
         </div>
         </div>
 
+
+        <!-- TAB: Account Health -->
+        <div class="tab-panel" id="tab-health">
+        <div class="section-header">Account Health - Risk Signals & Deal Intelligence</div>
+
+        <!-- Health KPIs -->
+        <div class="kpi-row" style="margin-bottom:16px;">
+            <div class="kpi-card" style="border-left:4px solid #dc2626;">
+                <div class="kpi-label">Urgent Alerts</div>
+                <div class="kpi-value" id="healthUrgent" style="color:#dc2626;">0</div>
+                <div class="kpi-subtext">Require immediate action</div>
+            </div>
+            <div class="kpi-card" style="border-left:4px solid #FF9F00;">
+                <div class="kpi-label">At-Risk Pipeline</div>
+                <div class="kpi-value" id="healthAtRisk" style="color:#FF9F00;">$0</div>
+                <div class="kpi-subtext" id="healthAtRiskCount">0 deals overdue or stale</div>
+            </div>
+            <div class="kpi-card" style="border-left:4px solid #1B87E6;">
+                <div class="kpi-label">Active High-Value</div>
+                <div class="kpi-value" id="healthActive" style="color:#1B87E6;">$0</div>
+                <div class="kpi-subtext" id="healthActiveCount">0 deals on track</div>
+            </div>
+            <div class="kpi-card" style="border-left:4px solid #16a34a;">
+                <div class="kpi-label">Won 2026 YTD</div>
+                <div class="kpi-value" id="healthWon" style="color:#16a34a;">$0</div>
+                <div class="kpi-subtext" id="healthWonCount">0 deals closed</div>
+            </div>
+        </div>
+
+        <!-- Email Intelligence Alerts -->
+        <div class="section-header" style="font-size:15px;margin-top:20px;">Email Intelligence - Active Alerts</div>
+        <div id="emailAlerts"></div>
+
+        <!-- Pipeline Risk Table -->
+        <div class="section-header" style="font-size:15px;margin-top:28px;">Pipeline Risk Monitor</div>
+        <div class="health-filter-bar">
+            <select id="healthRiskFilter">
+                <option value="">All Risk Levels</option>
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="on-track">On Track</option>
+            </select>
+            <select id="healthOwnerFilter">
+                <option value="">All Owners</option>
+            </select>
+            <span id="healthFilteredCount" style="font-size:12px;color:#9ca3af;"></span>
+        </div>
+        <div class="tables-section" style="grid-template-columns:1fr;">
+            <div class="table-container">
+                <table id="healthTable">
+                    <thead><tr>
+                        <th>Risk</th>
+                        <th>Account</th>
+                        <th>Amount</th>
+                        <th>Stage</th>
+                        <th>Owner</th>
+                        <th>Close Date</th>
+                        <th>Issue</th>
+                    </tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Won Deals 2026 -->
+        <div class="section-header" style="font-size:15px;margin-top:28px;">Closed Won 2026 - Account Status</div>
+        <div class="tables-section" style="grid-template-columns:1fr;">
+            <div class="table-container">
+                <table id="wonHealthTable">
+                    <thead><tr>
+                        <th>Account</th>
+                        <th>Amount</th>
+                        <th>Owner</th>
+                        <th>Close Date</th>
+                        <th>Notes</th>
+                    </tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-section" style="margin-top:20px;">
+            <div class="chart-container">
+                <div class="chart-title">At-Risk Pipeline by Owner</div>
+                <div class="chart-wrapper"><canvas id="healthOwnerChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Pipeline Risk Distribution</div>
+                <div class="chart-wrapper"><canvas id="healthRiskChart"></canvas></div>
+            </div>
+        </div>
+        </div>
         <footer>
-            <p>Data: HubSpot MENA Pipeline (ID: 8799139) + Metabase Renewals + Slack #mena-sales | Updated March 23, 2026</p>
-            <p>QuestionPro MEA - Pipeline Command Center</p>
+            <p>Data: HubSpot MENA Pipeline (ID: 8799139) + Metabase Renewals + Slack #mena-sales | Updated March 24, 2026</p>
+            <p>QuestionPro MEA - Sales Command Center</p>
         </footer>
     </div>
 
@@ -1052,6 +1171,12 @@
         createSlackCharts();
     });
 
+    initHealthKPIs();
+        buildEmailAlerts();
+        buildHealthTable();
+        buildWonHealthTable();
+        createHealthCharts();
+
     /* ===== SLACK #MENA-SALES CONFIRMED CLOSURES ===== */
     var SLACK_SALES = [
         {customer:"VWGME",amount:99000,rep:"Radhu",month:"2025-12",product:"CX"},
@@ -1227,6 +1352,197 @@
 
     document.getElementById('slackMonthFilter').addEventListener('change', function() { buildSlackTable(); });
     document.getElementById('slackRepFilter').addEventListener('change', function() { buildSlackTable(); });
+
+
+    /* ===== ACCOUNT HEALTH DATA ===== */
+    var EMAIL_ALERTS = [
+        {account:"ADIB",severity:"urgent",date:"2026-03-24",owner:"Radhu",
+         title:"NPS Scores Deadline - April 10",
+         detail:"Rami Shammout (Sr. VoC Manager) demanding NPS scores by April 10. Maen El-Baz (Head of CX) escalated to Sindhu on March 16 about breach of NPS reporting deadline. SDK development also pending with Vinod/Alfonso."},
+        {account:"ADIB",severity:"warning",date:"2026-03-21",owner:"Radhu",
+         title:"SDK Integration Pending",
+         detail:"SDK development for ADIB still in progress. Radhu following up with Vinod and Alfonso on delivery timeline."},
+        {account:"DIB",severity:"warning",date:"2026-03-04",owner:"Radhu",
+         title:"Data Center Compliance Queries",
+         detail:"DIB IT department querying VOC data center physical location, facility ownership, and security certifications. Follow-up may be needed."},
+        {account:"ICV Certificate",severity:"warning",date:"2026-03-21",owner:"Sindhu",
+         title:"ICV Certificate Expiring in 30 Days",
+         detail:"ICV certification expiring soon. Renewal needed to maintain eligibility for UAE government tenders and Saudi Aramco requirements."},
+        {account:"Jordan Bank (NielsenIQ)",severity:"info",date:"2026-03-15",owner:"Ahmed",
+         title:"Transactional NPS Project Reopened",
+         detail:"Bank reopened TNPS project discussion via NielsenIQ/Ahmed. Previously stalled - now showing renewed interest."},
+        {account:"Agentic AI Forum",severity:"info",date:"2026-03-20",owner:"Mussadiq",
+         title:"Partnership Opportunity - ScribeMinds",
+         detail:"ScribeMinds forwarded Agentic AI Forum opportunity. Potential brand visibility and partnership play."}
+    ];
+
+    var HEALTH_DEALS = [
+        {account:"ADSC",amount:600000,stage:"Proposal/Demo",owner:"Legacy",closeDate:"2024-12-31",risk:"critical",issue:"Stale 18+ months - last activity Aug 2024. No assigned owner."},
+        {account:"MOMRAH",amount:300000,stage:"Early Stage",owner:"Legacy",closeDate:"2024-01-31",risk:"critical",issue:"Overdue 2+ years. Close date Jan 2024. No recent activity."},
+        {account:"NWC",amount:300000,stage:"Early Stage",owner:"Legacy",closeDate:"2025-06-30",risk:"critical",issue:"Stale since Aug 2024. Close date passed. No owner assigned."},
+        {account:"Panda",amount:200000,stage:"Very Early",owner:"Legacy",closeDate:"2025-03-31",risk:"critical",issue:"Stale since Jan 2024. No activity for 2+ years."},
+        {account:"TERHAB Hotels",amount:200000,stage:"Proposal/Demo",owner:"Waleed",closeDate:"2024-04-30",risk:"critical",issue:"Close date overdue by 2 years. Needs review or close-out."},
+        {account:"LCGPA",amount:180000,stage:"Early Stage",owner:"Waleed",closeDate:"2024-04-30",risk:"critical",issue:"Close date overdue 2 years. Saudi government - needs requalification."},
+        {account:"EtihadWE",amount:150000,stage:"Very Early",owner:"Legacy",closeDate:"2025-12-31",risk:"high",issue:"Close date passed. Last notes Sep 2025. No assigned owner."},
+        {account:"Qiyam",amount:120000,stage:"Engaged",owner:"Waleed",closeDate:"2025-08-31",risk:"high",issue:"Close date overdue 7 months. Was engaged but stalled."},
+        {account:"Musanadah",amount:225000,stage:"Proposal/Demo",owner:"Waleed",closeDate:"2026-05-31",risk:"medium",issue:"Active and on track. Close date May 2026."},
+        {account:"MOD-CX",amount:150000,stage:"Engaged",owner:"Waleed",closeDate:"2026-06-30",risk:"medium",issue:"Engaged stage. Progressing but needs consistent follow-up."},
+        {account:"M42 RFP",amount:108000,stage:"Proposal/Demo",owner:"Radhu",closeDate:"2026-04-30",risk:"medium",issue:"RFP in progress. Close date April 2026."},
+        {account:"MOIA-CX",amount:100000,stage:"Engaged",owner:"Waleed",closeDate:"2026-06-30",risk:"medium",issue:"Saudi Ministry of Interior - strategic account."},
+        {account:"Honda CX",amount:75500,stage:"Engaged",owner:"Radhu",closeDate:"2026-04-30",risk:"on-track",issue:"Engaged and progressing. Honda is an existing account."},
+        {account:"RAK Properties",amount:65000,stage:"Engaged",owner:"Radhu",closeDate:"2026-05-31",risk:"on-track",issue:"On track. Engaged stage with active discussions."},
+        {account:"Saudi German Hospital",amount:60000,stage:"Proposal/Demo",owner:"Waleed",closeDate:"2026-04-30",risk:"on-track",issue:"Proposal submitted. Healthcare vertical expansion."},
+        {account:"MODON",amount:55000,stage:"Engaged",owner:"Waleed",closeDate:"2026-04-30",risk:"on-track",issue:"Saudi industrial authority. Engaged and active."},
+        {account:"NWC Research",amount:50000,stage:"Proposal/Demo",owner:"Waleed",closeDate:"2026-05-31",risk:"on-track",issue:"Separate from legacy NWC deal. New research scope."}
+    ];
+
+    var WON_DEALS_2026 = [
+        {account:"Emaar Renewal",amount:126000,owner:"Radhu",closeDate:"2026-01-15",notes:"Largest renewal. CX platform."},
+        {account:"VWGME",amount:98000,owner:"Radhu",closeDate:"2026-01-10",notes:"Volkswagen Group ME. CX expansion."},
+        {account:"ADIB Renewal",amount:87000,owner:"Radhu",closeDate:"2026-01-20",notes:"Active escalation - NPS deadline April 10."},
+        {account:"Alghanim Xcite",amount:54000,owner:"Radhu",closeDate:"2026-01-25",notes:"Kuwait retail. CX platform."},
+        {account:"First Bank of Nigeria",amount:50000,owner:"Radhu",closeDate:"2026-02-05",notes:"Africa expansion. Banking vertical."},
+        {account:"SFA Renewal",amount:43000,owner:"Waleed",closeDate:"2026-02-10",notes:"Saudi Food Authority. Government vertical."},
+        {account:"ECA Renewal",amount:33000,owner:"Radhu",closeDate:"2026-01-30",notes:"Export Credit Agency. Stable renewal."},
+        {account:"Serco",amount:30000,owner:"Radhu",closeDate:"2026-02-15",notes:"FM services. CX platform."},
+        {account:"ehcd.gov.ae",amount:26000,owner:"Rajeev",closeDate:"2026-02-20",notes:"UAE government entity."},
+        {account:"Awe Research",amount:25000,owner:"Radhu",closeDate:"2026-02-25",notes:"Research platform."},
+        {account:"ADIB Growth",amount:21000,owner:"Radhu",closeDate:"2026-03-05",notes:"Upsell on existing ADIB account."},
+        {account:"Alghanim Xcite Growth",amount:20000,owner:"Radhu",closeDate:"2026-03-10",notes:"Expansion deal."},
+        {account:"Ipsos DM Renewal",amount:20000,owner:"Radhu",closeDate:"2026-02-01",notes:"Dubai research agency."},
+        {account:"NBK",amount:15000,owner:"Rajeev",closeDate:"2026-03-01",notes:"National Bank of Kuwait."},
+        {account:"AIR Renewal",amount:12000,owner:"Shalaka",closeDate:"2026-01-15",notes:"Research platform renewal."},
+        {account:"Honda Sample",amount:11000,owner:"Rajeev",closeDate:"2026-03-12",notes:"Sample project for Honda ME."},
+        {account:"Turkish Airlines",amount:8800,owner:"Rajeev",closeDate:"2026-03-18",notes:"New logo. Aviation vertical."}
+    ];
+
+    /* ===== ACCOUNT HEALTH FUNCTIONS ===== */
+    function initHealthKPIs() {
+        var urgentCount = 0;
+        for (var i = 0; i < EMAIL_ALERTS.length; i++) {
+            if (EMAIL_ALERTS[i].severity === "urgent") urgentCount++;
+        }
+        document.getElementById("healthUrgent").textContent = urgentCount;
+        var atRiskTotal = 0, atRiskCount = 0, activeTotal = 0, activeCount = 0;
+        for (var i = 0; i < HEALTH_DEALS.length; i++) {
+            var d = HEALTH_DEALS[i];
+            if (d.risk === "critical" || d.risk === "high") { atRiskTotal += d.amount; atRiskCount++; }
+            else { activeTotal += d.amount; activeCount++; }
+        }
+        document.getElementById("healthAtRisk").textContent = "$" + atRiskTotal.toLocaleString();
+        document.getElementById("healthAtRiskCount").textContent = atRiskCount + " deals overdue or stale";
+        document.getElementById("healthActive").textContent = "$" + activeTotal.toLocaleString();
+        document.getElementById("healthActiveCount").textContent = activeCount + " deals progressing";
+        var wonTotal = 0;
+        for (var i = 0; i < WON_DEALS_2026.length; i++) { wonTotal += WON_DEALS_2026[i].amount; }
+        document.getElementById("healthWon").textContent = "$" + wonTotal.toLocaleString();
+        document.getElementById("healthWonCount").textContent = WON_DEALS_2026.length + " deals closed";
+    }
+
+    function buildEmailAlerts() {
+        var container = document.getElementById("emailAlerts");
+        var html = "";
+        for (var i = 0; i < EMAIL_ALERTS.length; i++) {
+            var a = EMAIL_ALERTS[i];
+            var badgeClass = a.severity === "urgent" ? "badge-urgent" : (a.severity === "warning" ? "badge-warning" : "badge-info");
+            var riskClass = a.severity === "urgent" ? "risk-high" : (a.severity === "warning" ? "risk-medium" : "risk-low");
+            html += '<div class="alert-card ' + riskClass + '">' +
+                '<div class="alert-header"><span class="alert-title">' + a.account + " - " + a.title + '</span>' +
+                '<span class="alert-badge ' + badgeClass + '">' + a.severity.toUpperCase() + '</span></div>' +
+                '<div class="alert-meta">Owner: ' + a.owner + " | Date: " + a.date + '</div>' +
+                '<div class="alert-detail">' + a.detail + '</div></div>';
+        }
+        container.innerHTML = html;
+    }
+
+    function buildHealthTable() {
+        var rf = document.getElementById("healthRiskFilter").value;
+        var of2 = document.getElementById("healthOwnerFilter").value;
+        var filtered = HEALTH_DEALS.filter(function(d) {
+            if (rf && d.risk !== rf) return false;
+            if (of2 && d.owner !== of2) return false;
+            return true;
+        });
+        filtered.sort(function(a, b) { return b.amount - a.amount; });
+        var tb = document.getElementById("healthTable").getElementsByTagName("tbody")[0];
+        tb.innerHTML = "";
+        var total = 0;
+        for (var i = 0; i < filtered.length; i++) {
+            var d = filtered[i];
+            total += d.amount;
+            var riskBadge = "";
+            if (d.risk === "critical") riskBadge = '<span class="alert-badge badge-urgent">CRITICAL</span>';
+            else if (d.risk === "high") riskBadge = '<span class="alert-badge badge-warning">HIGH</span>';
+            else if (d.risk === "medium") riskBadge = '<span class="alert-badge badge-info">MEDIUM</span>';
+            else riskBadge = '<span class="alert-badge badge-ok">ON TRACK</span>';
+            var tr = document.createElement("tr");
+            tr.innerHTML = "<td>" + riskBadge + '</td><td class="deal-name">' + d.account + '</td><td class="currency">$' + d.amount.toLocaleString() + '</td><td><span class="stage-badge">' + d.stage + '</span></td><td><span class="owner-badge">' + d.owner + "</span></td><td>" + d.closeDate + '</td><td style="font-size:12px;color:#6b7280;max-width:260px;">' + d.issue + "</td>";
+            tb.appendChild(tr);
+        }
+        document.getElementById("healthFilteredCount").textContent = filtered.length + " deals - $" + total.toLocaleString();
+        var ownerSelect = document.getElementById("healthOwnerFilter");
+        if (ownerSelect.options.length <= 1) {
+            var owners = {};
+            for (var i = 0; i < HEALTH_DEALS.length; i++) { owners[HEALTH_DEALS[i].owner] = 1; }
+            var ownerArr = Object.keys(owners).sort();
+            for (var i = 0; i < ownerArr.length; i++) {
+                var opt = document.createElement("option");
+                opt.value = ownerArr[i]; opt.textContent = ownerArr[i];
+                ownerSelect.appendChild(opt);
+            }
+        }
+    }
+
+    function buildWonHealthTable() {
+        var tb = document.getElementById("wonHealthTable").getElementsByTagName("tbody")[0];
+        tb.innerHTML = "";
+        for (var i = 0; i < WON_DEALS_2026.length; i++) {
+            var d = WON_DEALS_2026[i];
+            var tr = document.createElement("tr");
+            tr.innerHTML = '<td class="deal-name">' + d.account + '</td><td class="currency">$' + d.amount.toLocaleString() + '</td><td><span class="owner-badge">' + d.owner + "</span></td><td>" + d.closeDate + '</td><td style="font-size:12px;color:#6b7280;">' + d.notes + "</td>";
+            tb.appendChild(tr);
+        }
+    }
+
+    function createHealthCharts() {
+        var cfg = {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{
+                legend:{labels:{color:"#4b5563",font:{size:11},padding:12}},
+                tooltip:{backgroundColor:"#fff",titleColor:"#1B3380",bodyColor:"#4b5563",borderColor:"#e5e7eb",borderWidth:1,padding:10}
+            }
+        };
+        var byOwner = {};
+        for (var i = 0; i < HEALTH_DEALS.length; i++) {
+            var d = HEALTH_DEALS[i];
+            if (d.risk === "critical" || d.risk === "high") {
+                if (!byOwner[d.owner]) byOwner[d.owner] = 0;
+                byOwner[d.owner] += d.amount;
+            }
+        }
+        var ownerNames = Object.keys(byOwner).sort(function(a,b) { return byOwner[b] - byOwner[a]; });
+        var ownerValues = ownerNames.map(function(o) { return byOwner[o]; });
+        var ownerColors = ownerNames.map(function(o,i) { return ["#dc2626","#FF9F00","#1B3380","#1B87E6","#8b5cf6"][i % 5]; });
+        new Chart(document.getElementById("healthOwnerChart").getContext("2d"), {
+            type: "bar",
+            data: { labels: ownerNames, datasets: [{ label: "At-Risk Value", data: ownerValues, backgroundColor: ownerColors, borderWidth: 0, borderRadius: 4 }] },
+            options: Object.assign({}, cfg, { indexAxis: "y", scales: { x: { ticks: { color: "#9ca3af", callback: function(v) { return "$" + (v/1000) + "k"; } }, grid: { color: "#f3f4f6" }, beginAtZero: true }, y: { ticks: { color: "#4b5563" }, grid: { display: false } } } })
+        });
+        var riskCounts = {critical:0, high:0, medium:0, "on-track":0};
+        for (var i = 0; i < HEALTH_DEALS.length; i++) { riskCounts[HEALTH_DEALS[i].risk]++; }
+        new Chart(document.getElementById("healthRiskChart").getContext("2d"), {
+            type: "doughnut",
+            data: {
+                labels: ["Critical","High","Medium","On Track"],
+                datasets: [{ data: [riskCounts.critical, riskCounts.high, riskCounts.medium, riskCounts["on-track"]],
+                    backgroundColor: ["#dc2626","#FF9F00","#1B87E6","#16a34a"], borderWidth: 2, borderColor: "#fff" }]
+            },
+            options: Object.assign({}, cfg, { cutout: "55%" })
+        });
+    }
+
+    document.getElementById("healthRiskFilter").addEventListener("change", function() { buildHealthTable(); });
+    document.getElementById("healthOwnerFilter").addEventListener("change", function() { buildHealthTable(); });
 
     </script>
 </body>
