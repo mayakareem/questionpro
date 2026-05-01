@@ -382,7 +382,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced Mar 21, 2026</div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 1, 2026</div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -392,19 +392,19 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">8</div>
+      <div class="value" id="totalCount">14</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">2</div>
+      <div class="value" id="monthCount">6</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
-      <div class="value white" id="areaCount">7</div>
+      <div class="value white" id="areaCount">8</div>
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Mar 20</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Apr 30</div>
     </div>
   </div>
 </div>
@@ -434,6 +434,87 @@
 
 <script>
 const features = [
+  {
+    name: "Workspace Collaboration in BI",
+    date: "2026-04-30",
+    displayDate: "Apr 30",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "Workspace collaboration is now live in QuestionPro BI. Teams can share dashboards and reports with granular permission management, enabling multi-user analytics workflows across departments and stakeholders.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1GAtigF8O_iJazs8rvwzXq1q-sYDn95rzg_6LamEUcmQ/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/manage-permissions.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/workspace-collaboration-in-bi/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_workspace-collaboration-is-now-live-in-share-7455653829024387073--SO2", type: "linkedin" }
+    ]
+  },
+  {
+    name: "InsightsHub (Re-release)",
+    date: "2026-04-16",
+    displayDate: "Apr 16",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Laura Baker",
+    description: "QuestionPro's AI-native intelligence layer — ask questions and get trusted, source-backed answers from everything your organization already knows, including QuestionPro surveys. Survey integration now live. MS Teams integration targeted for end of Q2. Relevant for MENA: IQ Business, Mr Price, Standard Bank, Western Cape Govt in QBRs.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1yUHF_3MEdo_crDO9QY_iBsIVCc1hmMYiksqM47wizbI/edit", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/insightshub/insightshub-ai-chat.html", type: "help" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/laurabaker1_customerinsights-ai-datastrategy-ugcPost-7450618600861794304-7iMj", type: "linkedin" },
+      { label: "Townhall Deck", url: "https://docs.google.com/presentation/d/1dvjEac7iE-qr91y1FAQehOPQJ7hgti0wnKs6OrzSWUA/edit", type: "blog" }
+    ]
+  },
+  {
+    name: "Audience Retainers Ready-to-Sell",
+    date: "2026-04-17",
+    displayDate: "Apr 17",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Tim Cornelius",
+    description: "QuestionPro Audience positioned as a modern, transparent, enterprise-ready sampling solution with 22M+ verified global panelists and 300+ targeting attributes. Solves fragmented traditional sampling workflows that cause delays and limit visibility into sample quality.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1RC6WcJaANIqErmWQJgP6wA3osf0KPcO6Uz6CAPBP8nM/edit", type: "rts" }
+    ]
+  },
+  {
+    name: "Audience Self Service",
+    date: "2026-04-17",
+    displayDate: "Apr 17",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Tim Cornelius",
+    description: "Integrated module within the Audience tab providing instant, autonomous access to global sample providers. Removes the need for manual vendor coordination and unlocks self-serve sampling for everyday research.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1oL2OkjntkD6XK3EJq2ZTTgr8zHyihFXvkwNc9GZs4jo/edit", type: "rts" }
+    ]
+  },
+  {
+    name: "Instant Answers",
+    date: "2026-04-17",
+    displayDate: "Apr 17",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Tim Cornelius",
+    description: "The next iteration of audience self-service to resolve project delays, varying sample costs, and the complexity of managing multiple panel vendors. Fast, fixed-price answers for common research questions.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1oL2OkjntkD6XK3EJq2ZTTgr8zHyihFXvkwNc9GZs4jo/edit", type: "rts" }
+    ]
+  },
+  {
+    name: "Points Distribution Analysis",
+    date: "2026-04-01",
+    displayDate: "Apr 1",
+    category: "Communities",
+    catClass: "cat-communities",
+    shippedBy: "Laura Baker",
+    description: "Points distribution analysis tool for QuestionPro Communities - monitor community health and engagement by analyzing how reward points are distributed across members, identifying top contributors and engagement patterns.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/18d0mlCJVrLdpVKmF1u8cPLorAv8vfLZ66ivmA4pIfQ4/edit?tab=t.czi1861094av", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/w3c6084991.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/point-distribution-analysis/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/laurabaker1_marketresearch-researchops-datastrategy-ugcPost-7445090618768404481-TcZ0", type: "linkedin" }
+    ]
+  },
   {
     name: "LivePolls Unified Editor",
     date: "2026-03-20",
@@ -604,7 +685,7 @@ function filterFeatures() {
   // Render grid
   const grid = document.getElementById('featuresGrid');
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><div class="icon">ð</div><p>No features match your search</p></div>';
+    grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>No features match your search</p></div>';
   } else {
     grid.innerHTML = filtered.map(f => `
       <div class="feature-card">
