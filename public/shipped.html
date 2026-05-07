@@ -382,7 +382,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 1, 2026</div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 7, 2026</div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -392,19 +392,19 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">14</div>
+      <div class="value" id="totalCount">15</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">6</div>
+      <div class="value" id="monthCount">1</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
-      <div class="value white" id="areaCount">8</div>
+      <div class="value white" id="areaCount">7</div>
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Apr 30</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - May 6</div>
     </div>
   </div>
 </div>
@@ -434,6 +434,21 @@
 
 <script>
 const features = [
+  {
+    name: "InsightsHub Video Analysis",
+    date: "2026-05-06",
+    displayDate: "May 6",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Amulya Mishra",
+    description: "Video Analysis v1 is now live in InsightsHub. AI-powered video understanding extends IH's intelligence layer beyond text - extract themes, sentiment, and insights from video content directly within the InsightsHub workspace, unlocking richer qualitative analysis for UX and market researchers.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1yUHF_3MEdo_crDO9QY_iBsIVCc1hmMYiksqM47wizbI/edit?tab=t.7zkgmv4kj6rs", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/insightshub/video-analysis.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/insightshub-video-analysis/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/mishra-amulya_marketresearch-insightshub-uxresearch-activity-7457768861019508736-3HUC", type: "linkedin" }
+    ]
+  },
   {
     name: "Workspace Collaboration in BI",
     date: "2026-04-30",
