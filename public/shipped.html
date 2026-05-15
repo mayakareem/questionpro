@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 7, 2026</div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 15, 2026</div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">15</div>
+      <div class="value" id="totalCount">16</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">1</div>
+      <div class="value" id="monthCount">3</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - May 12</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - May 14</div>
     </div>
   </div>
 </div>
@@ -437,6 +437,22 @@
 
 <script>
 const features = [
+  {
+    name: "AI Content Moderation for Conversations",
+    date: "2026-05-14",
+    displayDate: "May 14",
+    category: "EX",
+    catClass: "cat-ex",
+    shippedBy: "Utkarsh Awasthi",
+    description: "AI-powered content moderation for Conversations is now live on Empower. Automatically detects and flags inappropriate content in employee forums, ensuring safer, more constructive workplace discussions while reducing manual moderation overhead for HR and people teams.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1zo8Ur3r00khpv81QGI1qLuxK7xO6MdDWb3XW1NQ63Lg/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/workforce/conversations-ai-content-moderation.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/ai-content-moderation/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/-utkarsh-awasthi_ai-content-moderation-for-employee-forums-share-7460671388572639232-msNH", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1778769911740629", type: "linkedin" }
+    ]
+  },
   {
     name: "Conditional Webhooks",
     date: "2026-05-12",
