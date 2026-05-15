@@ -212,6 +212,8 @@
   .cat-analytics { background: #FFF1F2; color: #BE123C; }
   .cat-video { background: #F0FDFA; color: #0F766E; }
   .cat-livepolls { background: #FFF7ED; color: #C2410C; }
+  .cat-platform { background: #F1F5F9; color: #334155; }
+  .cat-ux { background: #ECFEFF; color: #0E7490; }
 
   .feature-name {
     font-size: 20px;
@@ -400,11 +402,11 @@
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
-      <div class="value white" id="areaCount">7</div>
+      <div class="value white" id="areaCount">8</div>
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - May 6</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - May 12</div>
     </div>
   </div>
 </div>
@@ -422,6 +424,7 @@
   <button class="filter-btn" data-filter="Communities" onclick="setFilter(this)">Communities</button>
   <button class="filter-btn" data-filter="Video" onclick="setFilter(this)">Video</button>
   <button class="filter-btn" data-filter="LivePolls" onclick="setFilter(this)">LivePolls</button>
+  <button class="filter-btn" data-filter="Platform" onclick="setFilter(this)">Platform</button>
   <select class="sort-select" id="sortSelect" onchange="filterFeatures()">
     <option value="newest">Newest First</option>
     <option value="oldest">Oldest First</option>
@@ -434,6 +437,22 @@
 
 <script>
 const features = [
+  {
+    name: "Conditional Webhooks",
+    date: "2026-05-12",
+    displayDate: "May 12",
+    category: "Platform",
+    catClass: "cat-platform",
+    shippedBy: "Pavan Preetham Immandi",
+    description: "Conditional Webhooks are now live on Surveys. Trigger real-time data delivery to external systems based on survey response conditions - enabling smarter integrations, conditional routing, and event-driven workflows directly from QuestionPro surveys.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1AFDDok-HIpG2OtQct5MOSsFQZLLjUjHXcGahPLCNLfg/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/webhooks-v2.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/webhooks-for-real-time-survey-data/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/pavan-preetham_questionpro-webhooks-surveysoftware-ugcPost-7459979306425917440-fhy-", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1778597828010959", type: "linkedin" }
+    ]
+  },
   {
     name: "InsightsHub Video Analysis",
     date: "2026-05-06",
