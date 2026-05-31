@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 15, 2026</div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 31, 2026</div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">16</div>
+      <div class="value" id="totalCount">17</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">3</div>
+      <div class="value" id="monthCount">6</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - May 14</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - May 29</div>
     </div>
   </div>
 </div>
@@ -437,6 +437,21 @@
 
 <script>
 const features = [
+  {
+    name: "Custom Metrics in Advanced Cross-Tabs",
+    date: "2026-05-29",
+    displayDate: "May 29",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "Custom metrics in Advanced Cross-Tabulation are now live in QuestionPro BI. Surface CX metrics like NPS and CSAT directly inside cross-tab analyses, keeping scoring and segmentation in one workspace instead of forcing users to export, recalculate, and reconcile in separate tools.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1_QQq7tGNvTgLvb3bkvh5ES2HIWGVlS6bh2WJ3Z0uphU/edit?tab=t.0#heading=h.uczns7fawcog", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/custom-metrics-in-advanced-cross-tabulation.html", type: "help" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_customer-experience-metrics-belong-where-share-7466149544117010434--BHW", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1780069095349149", type: "linkedin" }
+    ]
+  },
   {
     name: "Survey Agent",
     date: "2026-05-15",
