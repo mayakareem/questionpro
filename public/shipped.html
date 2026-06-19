@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced May 31, 2026</div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced Jun 19, 2026</div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">17</div>
+      <div class="value" id="totalCount">22</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">6</div>
+      <div class="value" id="monthCount">2</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - May 29</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jun 18</div>
     </div>
   </div>
 </div>
@@ -437,6 +437,39 @@
 
 <script>
 const features = [
+  {
+    name: "Journey Frameworks",
+    date: "2026-06-18",
+    displayDate: "Jun 18",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Gargi Ghamandi",
+    description: "Journey Frameworks are now live in QuestionPro CX. Reusable, standardized journey-mapping templates let CX teams scale journey mapping across the organization - apply a consistent framework instead of rebuilding every map from scratch, accelerating rollout and keeping mapping aligned across teams.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1RFkPguMGVkuT64H9OppkpKkREL0PbBkncdhCKZ-OyG0/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/Journey-Frameworks.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/how-journey-frameworks-help-teams-scale-customer-journey-mapping/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1h1hBjq70dcrJbCrvwkMJk1Vsazh6A5-Z/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/gargi-ghamandi_customerexperience-cx-journeymapping-ugcPost-7473386152742465536-KVv2", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1781800952746509", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Multilingual Platform Support (230+ Languages)",
+    date: "2026-06-18",
+    displayDate: "Jun 18",
+    category: "Platform",
+    catClass: "cat-platform",
+    shippedBy: "Ronak Shah",
+    description: "QuestionPro, plus satellite apps CX Intercept, CLF, and EX Portal, are now available in 230+ languages. Platform-wide localization removes language as a barrier for global research, CX, and EX programs - respondents and admins can work in their own language across the full platform.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1nZn8tuE1Of9DMSsEXYcmuQstD_FHSJBDXGSw8pMd8Tc/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/platform-languages.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/multilingual-platform-support/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/ronak-shah-dpr_questionpro-localisation-globalresearch-share-7472670090522640384-WKUe", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1781777135224269", type: "linkedin" }
+    ]
+  },
   {
     name: "Custom Metrics in Advanced Cross-Tabs",
     date: "2026-05-29",
