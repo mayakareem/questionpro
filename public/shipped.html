@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced Jun 19, 2026</div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jun 24, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">22</div>
+      <div class="value" id="totalCount">25</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">2</div>
+      <div class="value" id="monthCount">5</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jun 18</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jun 23</div>
     </div>
   </div>
 </div>
@@ -437,6 +437,55 @@
 
 <script>
 const features = [
+  {
+    name: "Audience Balancing with Custom Age Ranges",
+    date: "2026-06-23",
+    displayDate: "Jun 23",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Raj Purohit",
+    description: "Audience balancing now supports custom age ranges in QuestionPro Audience. Researchers can define their own age bands when balancing samples to census targets, getting precise demographic representation instead of being locked to fixed brackets - tighter quota control for studies that need non-standard age cuts.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/17ybK4RUuxMRqzbqDdz3NQnWi9H3m3SGKAGOzfKIB8qw/edit?tab=t.0#heading=h.oheticl7g99r", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/audience/census-balancing.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/audience-balancing/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1DGavwbHL3Wjxula8EmY4adkgO6nQqH8O/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/raj-purohit-280548107_marketresearch-surveyresearch-audiencebalancing-ugcPost-7475139457105637377-4whA", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782214420545369", type: "linkedin" }
+    ]
+  },
+  {
+    name: "TextAI",
+    date: "2026-06-19",
+    displayDate: "Jun 19",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "TextAI is now live in QuestionPro BI. An advanced text analytics dashboard that turns open-ended and qualitative responses into structured intelligence - themes, sentiment, and drivers surfaced automatically so teams get insights from unstructured text in one platform instead of manual coding.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1sfA2Y0uefg8AEmUMGzWeC_LifWkR4h5Vg6ozZTJtQ3U/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/advanced-text-analytics-dashboard.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/textai-qualitative-intelligence/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_all-your-insights-one-platform-share-7473751154590654464-LMxt", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1781881528613789", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Carousel Layout for Matrix Questions",
+    date: "2026-06-19",
+    displayDate: "Jun 19",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Jayaprakash Pattanaik",
+    description: "Carousel Layout for Matrix Questions is now live on Surveys. Matrix questions can be displayed one row at a time in a swipeable carousel - reducing respondent fatigue on long grids and improving completion rates, especially on mobile.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1Xh8w65otgZNoBHdblRdPT68Jp5i5HHgkNz5P2pdgH7c/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://static.questionpro.com/help/carousel-layout-for-matrix-questions.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/carousel-layout-for-matrix-questions/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/jpttnk_shipped-carousel-layout-for-matrix-questions-ugcPost-7473699020297756672-L9Hh", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1781870051962619", type: "linkedin" }
+    ]
+  },
   {
     name: "Journey Frameworks",
     date: "2026-06-18",
