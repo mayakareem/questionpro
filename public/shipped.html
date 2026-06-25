@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jun 24, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jun 25, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">25</div>
+      <div class="value" id="totalCount">26</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">5</div>
+      <div class="value" id="monthCount">6</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jun 23</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jun 24</div>
     </div>
   </div>
 </div>
@@ -437,6 +437,23 @@
 
 <script>
 const features = [
+  {
+    name: "Audience Nested Quota",
+    date: "2026-06-24",
+    displayDate: "Jun 24",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Raj Purohit",
+    description: "Nested Quota is now live in QuestionPro Audience. Set interlocked quota targets - like age bands within each gender - instead of independent quotas, so samples mirror the real structure of a population across combined attributes. Gives researchers tighter control over representativeness and cleaner data quality on complex demographic cuts.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1PaQjUdDTKsi1x9OD5uvBSfv8Znmt8BjK09mN0Z71hYw/edit?tab=t.0#heading=h.mm65lhmvcfjm", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/audience/nested-quota.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/nested-quota-sampling/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/10G3vAh-3gUJF1FznpMdMVs2YE7rwxU9L/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/raj-purohit-280548107_marketresearch-surveyresearch-dataquality-activity-7475530545993728001-8BeG", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782305678438729", type: "linkedin" }
+    ]
+  },
   {
     name: "Audience Balancing with Custom Age Ranges",
     date: "2026-06-23",
