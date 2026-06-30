@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jun 25, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jun 30, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,19 +394,19 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">26</div>
+      <div class="value" id="totalCount">32</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">6</div>
+      <div class="value" id="monthCount">12</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
-      <div class="value white" id="areaCount">8</div>
+      <div class="value white" id="areaCount">9</div>
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jun 24</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jun 29</div>
     </div>
   </div>
 </div>
@@ -420,6 +420,7 @@
   <button class="filter-btn" data-filter="CX" onclick="setFilter(this)">CX</button>
   <button class="filter-btn" data-filter="Research" onclick="setFilter(this)">Research</button>
   <button class="filter-btn" data-filter="EX" onclick="setFilter(this)">EX</button>
+  <button class="filter-btn" data-filter="UX" onclick="setFilter(this)">UX</button>
   <button class="filter-btn" data-filter="Analytics" onclick="setFilter(this)">Analytics</button>
   <button class="filter-btn" data-filter="Communities" onclick="setFilter(this)">Communities</button>
   <button class="filter-btn" data-filter="Video" onclick="setFilter(this)">Video</button>
@@ -437,6 +438,107 @@
 
 <script>
 const features = [
+  {
+    name: "AI Highlight Reels for UX",
+    date: "2026-06-29",
+    displayDate: "Jun 29",
+    category: "UX",
+    catClass: "cat-ux",
+    shippedBy: "Ayush Mehta",
+    description: "AI Highlight Reels are now live in QuestionPro UX. Automatically generate short, shareable video reels from usability study recordings - the AI surfaces the key moments, quotes, and reactions, so UX researchers can share findings in minutes instead of scrubbing through hours of footage manually.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1pC997EC_186k5FFKv1-Is3md9FDduDPxh25DoH20Rww/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/ux/ai-highlight-reels-srudies.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/reels-ai-video-analysis/", type: "blog" },
+      { label: "Video", url: "https://cdn.questionpro.com/userimages/site_media/help-1983-demo-01.mp4", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/mehta-ayush_uxresearch-userresearch-qualitativeresearch-ugcPost-7477432750459887617-bOl2", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782758999361269", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Inline Embed Surveys for Intercept",
+    date: "2026-06-29",
+    displayDate: "Jun 29",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Gargi Ghamandi",
+    description: "Inline Embed surveys are now live for QuestionPro CX Intercept. Embed surveys directly inside a web page's content instead of as a popup or slide-in, capturing feedback in the natural flow of the experience - lifting response rates without interrupting the visitor's journey.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1gHJFr45qt_NayV7dnoC4jF7I8Y00dxmuw93U3s45QKs/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/Inline-embed.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/increasing-survey-response-rates-through-embedded-feedback/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/19MUyuqdTKhHge6h8AiOCguO4dPSzi4Lq/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/gargi-ghamandi_customerexperience-cx-voiceofcustomer-ugcPost-7477367174983151616-nuBJ", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782743416179349", type: "linkedin" }
+    ]
+  },
+  {
+    name: "CLF Root Cause Actions",
+    date: "2026-06-26",
+    displayDate: "Jun 26",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Anmol Sahetya",
+    description: "Root Cause Actions are now live in QuestionPro CX Closeloop. Teams can attach corrective actions directly to identified root causes, closing the loop from diagnosis to fix - track what's being done about recurring issues and measure whether those actions actually move the metric, instead of stopping at why something went wrong.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1JL4fjlZ1BvIkW5hwoVzw8uhrEk4H6t3yFMqNPu7CDEk/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/root-cause-actions.html", type: "help" },
+      { label: "Video", url: "https://drive.google.com/file/d/1iWQBRYx-bNR65ogM75zsOKQR1uWrPo0Z/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/anmol-sahetya_root-cause-analysis-ugcPost-7476186050311413761-q4B8", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782463360274719", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Multiple Tabs in EX Dashboards",
+    date: "2026-06-26",
+    displayDate: "Jun 26",
+    category: "EX",
+    catClass: "cat-ex",
+    shippedBy: "Utkarsh Awasthi",
+    description: "Multiple tabs for EX dashboards are now live on the new Workforce portal. Build dashboards with several tabbed views in a single workspace, so people teams can organize engagement, lifecycle, and 360 metrics into focused sections instead of crowding everything onto one screen.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1mfiAgrgbwJnxSvksFfXKHBFOqvif6Bf_yxCYJwxADPE/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://static.questionpro.com/help/workforce/multiple-tabs.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/multiple-tabs-dashboard/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1mTPF5FhrTxzmXHRZ8c-ofDtijqcLAzrs/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/-utkarsh-awasthi_multiple-tabs-for-employee-experience-dashboards-share-7476168731841298432-dj3x", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782457591924979", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Customer360",
+    date: "2026-06-25",
+    displayDate: "Jun 25",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Gargi Ghamandi",
+    description: "Customer360, a churn risk prediction dashboard, is now live in QuestionPro CX. It pulls fragmented feedback into one unified view and flags accounts at risk of churning, so CX teams can act on early warning signals and prioritize retention instead of reacting after customers have already left.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/11waK43cVgUz9pCyp9xFZCElNc5zydVbBsOCCNBhhOpU/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/Customer-360-dashboard.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/from-fragmented-feedback-to-unified-intelligence-how-customer-360-changes-cx-decision-making/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1asuO3gPYd5KwKg3pyimRYgx0KzLdRNcb/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/gargi-ghamandi_customer360-customerexperience-cx-ugcPost-7475975056783728640-LISK", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782411532319299", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Escalation Workflows in Closeloop",
+    date: "2026-06-25",
+    displayDate: "Jun 25",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Anmol Sahetya",
+    description: "Escalation Workflows are now live in QuestionPro CX Closeloop. Tickets escalate automatically based on configurable rules across priority, time, and segment - routing critical feedback to the right owner without manual handoffs, so urgent cases get resolved faster and nothing slips through the cracks.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1ED3hhyVZ-BlVf7AgXx8G0Yo0YgYEdPoFTDiNyHakrVQ/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/escalation-settings.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/escalation-workflows-closeloop/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1-HTSL4RTytUoINsgL0hi3DJBv8cYEH9X/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/anmol-sahetya_ticket-escalation-should-happen-automatically-ugcPost-7475883847033720832-PT1B", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782391676322519", type: "linkedin" }
+    ]
+  },
   {
     name: "Audience Nested Quota",
     date: "2026-06-24",
@@ -652,7 +754,7 @@ const features = [
     category: "Research",
     catClass: "cat-research",
     shippedBy: "Laura Baker",
-    description: "QuestionPro's AI-native intelligence layer — ask questions and get trusted, source-backed answers from everything your organization already knows, including QuestionPro surveys. Survey integration now live. MS Teams integration targeted for end of Q2. Relevant for MENA: IQ Business, Mr Price, Standard Bank, Western Cape Govt in QBRs.",
+    description: "QuestionPro's AI-native intelligence layer - ask questions and get trusted, source-backed answers from everything your organization already knows, including QuestionPro surveys. Survey integration now live. MS Teams integration targeted for end of Q2. Relevant for MENA: IQ Business, Mr Price, Standard Bank, Western Cape Govt in QBRs.",
     links: [
       { label: "RTS", url: "https://docs.google.com/document/d/1yUHF_3MEdo_crDO9QY_iBsIVCc1hmMYiksqM47wizbI/edit", type: "rts" },
       { label: "Help", url: "https://www.questionpro.com/help/insightshub/insightshub-ai-chat.html", type: "help" },
