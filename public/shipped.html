@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jun 30, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jul 1, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">32</div>
+      <div class="value" id="totalCount">34</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">12</div>
+      <div class="value" id="monthCount">14</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jun 29</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jun 30</div>
     </div>
   </div>
 </div>
@@ -438,6 +438,40 @@
 
 <script>
 const features = [
+  {
+    name: "Audience Templates",
+    date: "2026-06-30",
+    displayDate: "Jun 30",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Raj Purohit",
+    description: "Audience Templates are now live in QuestionPro Audience, shipping with 6 default templates. Launch common sampling projects from pre-built configurations instead of setting up targeting and quotas from scratch every time - faster project setup and consistent study design for research teams running repeat studies.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1odLt3R9-opCfqvwxSGn0NKKjnJSDldoLdoXK9oxki3s/edit?tab=t.0#heading=h.b288t95d8vz5", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/audience/audience-template.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/audience-templates/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1UhiL25i79-2JFWAHHEpuGXTCvAvY6wKO/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/raj-purohit-280548107_marketresearch-surveyresearch-productupdate-ugcPost-7477702266062381057-J8Ji", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782823501175019", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Heatmap Custom Column Types (EX)",
+    date: "2026-06-30",
+    displayDate: "Jun 30",
+    category: "EX",
+    catClass: "cat-ex",
+    shippedBy: "Utkarsh Awasthi",
+    description: "New column types for the Heatmap widget are now live on the new EX Portal. People teams can add custom column types to heatmap dashboards, tailoring how engagement and workforce metrics are displayed and compared - richer, more flexible views without exporting to another tool.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1SY9JOzrujCgJOEiWKsJaqhLfF8dIh_SeVGPkPIkeXWo/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/workforce/heatmap-custom-columns.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/heatmap-custom-columns/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1tKVJi8RTRYvq6_24ftAT17L1-YU0SCyM/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/-utkarsh-awasthi_peopleanalytics-employeeexperience-hrtech-activity-7477673732073799680-Hntd", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782819912080179", type: "linkedin" }
+    ]
+  },
   {
     name: "AI Highlight Reels for UX",
     date: "2026-06-29",
