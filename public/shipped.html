@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jul 1, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jul 2, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,7 +394,7 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">34</div>
+      <div class="value" id="totalCount">35</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jun 30</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jul 1</div>
     </div>
   </div>
 </div>
@@ -438,6 +438,24 @@
 
 <script>
 const features = [
+  {
+    name: "BI Datasets",
+    date: "2026-07-01",
+    displayDate: "Jul 1",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "BI Variables have been rebranded as Datasets in QuestionPro BI. Datasets give a clearer, more consistent way to define and reuse data sources - external, survey, and survey composite - across dashboards, so analysts build on a well-named data layer instead of wrangling loose variables. A naming and usability upgrade that makes BI dashboards easier to build and maintain.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1G26T-YHSZA6PcHk_FAcEX8_J45IGpeQ-oQshUtGVECw/edit?tab=t.0", type: "rts" },
+      { label: "Help: External", url: "https://www.questionpro.com/help/bi/external-datasets.html", type: "help" },
+      { label: "Help: Survey", url: "https://www.questionpro.com/help/bi/survey-datasets.html", type: "help" },
+      { label: "Help: Composite", url: "https://www.questionpro.com/help/bi/survey-composite-datasets.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/bi-datasets/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_have-you-ever-built-a-dashboard-only-to-realize-ugcPost-7478104212401283072--YqI", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782919986817089", type: "linkedin" }
+    ]
+  },
   {
     name: "Audience Templates",
     date: "2026-06-30",
