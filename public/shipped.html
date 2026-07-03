@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jul 2, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jul 3, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">35</div>
+      <div class="value" id="totalCount">38</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">14</div>
+      <div class="value" id="monthCount">4</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jul 1</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Jul 2</div>
     </div>
   </div>
 </div>
@@ -438,6 +438,56 @@
 
 <script>
 const features = [
+  {
+    name: "Cell-Based Weighting in BI",
+    date: "2026-07-02",
+    displayDate: "Jul 2",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "Cell-based weighting is now live in QuestionPro BI. Assign weights to specific respondent cells so survey data matches known population targets across combined attributes - giving analysts precise control to correct sample imbalances and report representative results without exporting to a separate stats tool.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1gYzx5aGVVZDi5AkwLHv9E2w3YtKzQ_lGOlNpF6VfEkI/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/cell-based-weighting.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/bi-cell-based-weighting/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_super-excited-to-share-that-questionpro-ugcPost-7478468250989711360-1mO4", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1783006393480119", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Import Weighting in BI",
+    date: "2026-07-02",
+    displayDate: "Jul 2",
+    category: "Analytics",
+    catClass: "cat-analytics",
+    shippedBy: "Prabal Gupta",
+    description: "Import weighting is now live in QuestionPro BI. Bring externally calculated weighting schemes into BI and apply them to dashboards, so teams can reuse weights defined elsewhere instead of rebuilding them - keeping weighted analysis consistent across tools and reports.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1eQx6racwxn4sSyNSdLhqe_wmdDhUsWvNZ-Dd6GHQ9aw/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/bi/import-weighting.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/bi-import-weighting/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/prabal-gupta-po_super-excited-to-share-that-questionpro-ugcPost-7478468250989711360-1mO4", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1783006352873929", type: "linkedin" }
+    ]
+  },
+  {
+    name: "SLA Policy Management & Business Hours",
+    date: "2026-07-02",
+    displayDate: "Jul 2",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Anmol Sahetya",
+    description: "SLA Policy Management and Business Hours are now live in QuestionPro CX Closeloop. Automate SLA deadlines based on priority and custom rules, safely test policies before publishing, and monitor ticket compliance with real-time tracking - so support teams hold response and resolution commitments without manual oversight.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/13y_CyylBGMeJyTNIsG6gDLjNtLdYysXWo7y9s7UNXnA/edit?usp=sharing", type: "rts" },
+      { label: "Help: Business Hours", url: "https://www.questionpro.com/help/customer-experience/business-hours-holiday-calendar.html", type: "help" },
+      { label: "Help: SLA Policy", url: "https://www.questionpro.com/help/customer-experience/sla-policy.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/business-hours-and-sla-policy-management/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1ugEp5CT_sqAH2l9CycHNGGcbJ6ZkrB21/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/anmol-sahetya_support-slas-shouldnt-be-set-in-stone-ugcPost-7478172345954852864-Ls8T", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1782990179783399", type: "linkedin" }
+    ]
+  },
   {
     name: "BI Datasets",
     date: "2026-07-01",
