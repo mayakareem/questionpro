@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Jul 3, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Aug 11, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">38</div>
+      <div class="value" id="totalCount">46</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">4</div>
+      <div class="value" id="monthCount">6</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Jul 2</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Aug 10</div>
     </div>
   </div>
 </div>
@@ -438,6 +438,174 @@
 
 <script>
 const features = [
+  {
+    name: "WhatsApp Surveys",
+    date: "2026-08-10",
+    displayDate: "Aug 10",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Gargi Ghamandi",
+    description: "WhatsApp Surveys are now live in QuestionPro CX (currently in beta). One of the most requested CX capabilities to date - teams can send and collect survey responses directly through WhatsApp instead of email or SMS, meeting customers on the channel they already use daily. Reach out to the CX team to get it enabled for your account.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1FNyE89ErByPNffkQHZc8JMj2Yvf2k-uiXfEVuqVB04U/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/whatsapp-integration.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/whatsapp-surveys-benefits-use-cases-and-best-practices/", type: "blog" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/gargi-ghamandi_questionpro-questionprocx-whatsappsurveys-ugcPost-7492533867237773312-V3nE", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1786359497614469", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Column Manager (Ticket List View)",
+    date: "2026-08-07",
+    displayDate: "Aug 7",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Anmol Sahetya",
+    description: "Column Manager is now live on QuestionPro CX Closedloop's ticket list view. Any data point tied to a ticket - from survey name to custom variables - can now be added as a column, so support teams see exactly the fields they need at a glance instead of opening each ticket individually.",
+    links: [
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/column-manager.html", type: "help" },
+      { label: "RTS", url: "https://docs.google.com/document/d/1hJUMznu_DnBc8glbjKaeRUoby9IMoo5WgDof6Sw9waE/edit?usp=sharing", type: "rts" },
+      { label: "Video", url: "https://drive.google.com/file/d/1fnKSUSYNBYThFNb1Rr-jro5IzJAZaW31/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/anmol-sahetya_customerexperience-customersupport-cx-ugcPost-7491474175040233472-f2Ey", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1786107124747229", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Tab-Level Exports (EX Portal)",
+    date: "2026-08-07",
+    displayDate: "Aug 7",
+    category: "EX",
+    catClass: "cat-ex",
+    shippedBy: "Utkarsh Awasthi",
+    description: "Tab-level exports are now live on the QuestionPro EX Portal (shipped in early July, announced to the team Aug 7). Export an entire dashboard tab at once in Excel, PDF, or PPT format, instead of pulling widgets one at a time - a faster path from dashboard to leadership-ready deck for people teams.",
+    links: [
+      { label: "Blog", url: "https://www.questionpro.com/blog/tab-level-exports/", type: "blog" },
+      { label: "Help", url: "https://static.questionpro.com/help/workforce/tab-exports.html", type: "help" },
+      { label: "RTS", url: "https://docs.google.com/document/d/1XSPPW7ixdW4-urZUrjDFFdObCv5J1WjoAVr4I4F4BVY/edit?usp=sharing", type: "rts" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/-utkarsh-awasthi_hrtech-peopleanalytics-ugcPost-7491398097470935041-gpeS", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1786090105550419", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Scheduling for Live Research Sessions",
+    date: "2026-08-06",
+    displayDate: "Aug 6",
+    category: "UX",
+    catClass: "cat-ux",
+    shippedBy: "Ayush Mehta",
+    description: "Scheduling is now live in QuestionPro UX. Researchers can define their availability directly in the platform and let participants book live research sessions themselves - replacing the endless back-and-forth emails that used to bog down interview scheduling.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1JrZ8PLKZSkPv-hNaOSHl2chtyjvD1hQ39ZKhegYZY-I/edit?tab=t.0", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/ux/scheduling.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/scheduling-in-questionpro-ux/", type: "blog" },
+      { label: "Video", url: "http://questionpro.com/userimages/site_media/help-2027-video.mp4", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/mehta-ayush_uxresearch-productresearch-qualitativeresearch-ugcPost-7491112769228906497--iIc", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1786022128423959", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Ticket Watchers & Notifications Upgrade",
+    date: "2026-08-04",
+    displayDate: "Aug 4",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Anmol Sahetya",
+    description: "Ticket Watchers and a revamped Notifications system are now live in QuestionPro CX Closedloop. Add watchers to tickets so stakeholders stay informed on progress without being assignees, and get smarter, configurable notifications on ticket activity - keeping everyone who needs visibility in the loop without noisy, one-size-fits-all alerts.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1Fp6QyXKvybFeVvZogP6luy82Sdwtz3tvBSmhzLYnFOI/edit?usp=sharing", type: "rts" },
+      { label: "Help: Ticket Watcher", url: "https://www.questionpro.com/help/customer-experience/ticket-watchers.html", type: "help" },
+      { label: "Help: Notifications", url: "https://www.questionpro.com/help/customer-experience/ticket-notifications.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/ticket-watchers-and-notifications-upgrade/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1ro8nPWDPtT7xqbVXT9slwXa-Zl_8I019/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/anmol-sahetya_customerexperience-productupdate-cx-ugcPost-7490398113149509632-V7bC", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1785850417237259", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Customer Effort Score (CES) Question Type & Widget",
+    date: "2026-08-04",
+    displayDate: "Aug 4",
+    category: "CX",
+    catClass: "cat-cx",
+    shippedBy: "Gargi Ghamandi",
+    description: "One of the most requested features is now live in QuestionPro CX: a Customer Effort Score (CES) question type plus a dedicated CX dashboard widget. Measure how effortless the customer experience is and pinpoint friction across the journey - CES alongside NPS and CSAT, all natively in the platform.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1Zo0fhKHR1otDFmqDXrbe-6Ir4qJptFnvPzb7k3jbfk0/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/customer-experience/ces-widget.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/what-is-customer-effort-score-ces-and-why-it-matters/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/15tNOLojX18tUYEw0ywJZjB_KrKd19GPv/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/gargi-ghamandi_customerexperience-cx-customereffortscore-ugcPost-7490346984088715265-b2nS", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1785838084698989", type: "linkedin" }
+    ]
+  },
+  {
+    name: "reCAPTCHA v3 for Captcha Question Type",
+    date: "2026-07-31",
+    displayDate: "Jul 31",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Jayaprakash Pattanaik",
+    description: "reCAPTCHA v3 support is now live for the Captcha Question Type on Surveys. Invisible bot detection scores each respondent in the background - no image puzzles or checkbox friction - so survey data stays protected from automated responses while real respondents complete surveys without interruption.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1nuHaP_R-0C08XpdbEfw7m_oric2augjzbC3SSe-75HI/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/captcha-question.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/recaptcha-for-captcha-question/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1cYvVBqyWOEAWm9Z0c-ceLzeHJsis1B69/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://lnkd.in/p/dKii9c8r", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1785512069534309", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Audience Reconciliation",
+    date: "2026-07-31",
+    displayDate: "Jul 31",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Raj Purohit",
+    description: "Audience Reconciliation is now live in QuestionPro Audience. Users get complete self-service control to flag bad survey data - speeders, duplicates, poor-quality completes - and receive wallet credits auto-approved in under 5 minutes, replacing back-and-forth reconciliation emails with an instant, transparent process.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1N4KaMYckN4N1FGtoBPeWmK8D9ijnL9HKbznuX1otXwM/edit?tab=t.462k72gbx3ih#heading=h.9luhidqy81s6", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/audience/audience-reconciliation.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/audience-reconciliation/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/drive/folders/1nLBzj1tPnupFkh0Y6vakbizH3oKt7lV_", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/raj-purohit-280548107_marketresearch-productupdate-customerexperience-ugcPost-7488892583981654016-spJp", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1785491464883339", type: "linkedin" }
+    ]
+  },
+  {
+    name: "360 Custom Relationship Weights",
+    date: "2026-07-30",
+    displayDate: "Jul 30",
+    category: "EX",
+    catClass: "cat-ex",
+    shippedBy: "Utkarsh Awasthi",
+    description: "Custom Relationship Weights are now live for 360 reports in QuestionPro EX. People teams can assign different weightings to each rater relationship - manager, peer, direct report, self - so the final 360 score reflects how much each perspective should actually count, instead of treating every rater group equally. More flexible, more defensible 360 reporting for leadership development programs.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/16MX7yW3j4t6vOn6KC0HxH5RZSBjtZvJNj7-ji6FzqY8/edit?usp=sharing", type: "rts" },
+      { label: "Help", url: "https://static.questionpro.com/help/workforce/Custom-Relationship-Weights.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/360-feedback-software-custom-relationship-weights/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1PgkdbcO6w-1ySE34UeiEDQUHmzBvZOD1/view?usp=sharing", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/-utkarsh-awasthi_questionpro-productmanager-employeeexperience-activity-7488546802661482498-D5PC", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1785409468358889", type: "linkedin" }
+    ]
+  },
+  {
+    name: "Specialized Sample - 58 Countries",
+    date: "2026-07-17",
+    displayDate: "Jul 17",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Raj Purohit",
+    description: "Specialized Sample is now live in QuestionPro Audience, giving instant access to 58 countries worldwide. Research teams can source targeted respondents across far more markets on demand instead of arranging panels country by country, speeding up global studies and widening reach for MENA and international projects.",
+    links: [
+      { label: "RTS", url: "https://docs.google.com/document/d/1hmvSY6sqlpYEmiiASGRYvpMh67mDJmKE99cewTaA2Sw/edit?tab=t.0#heading=h.lo4pw4ekzymo", type: "rts" },
+      { label: "Help", url: "https://www.questionpro.com/help/audience/specialized-sample.html", type: "help" },
+      { label: "Blog", url: "https://www.questionpro.com/blog/specialized-sample/", type: "blog" },
+      { label: "Video", url: "https://drive.google.com/file/d/1ymisTJYowSz6CmdfD6GX3oax4JnSj5RW/view?usp=drive_link", type: "video" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/posts/raj-purohit-280548107_restech-mrx-globalbusiness-ugcPost-7483777047685935104-dpWD", type: "linkedin" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1784271998081699", type: "linkedin" }
+    ]
+  },
   {
     name: "Cell-Based Weighting in BI",
     date: "2026-07-02",
