@@ -384,7 +384,7 @@
   <div class="header-top">
     <div>
       <h1>#shipped <span>Feature Tracker</span></h1>
-      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Aug 11, 2026</span></div>
+      <div class="header-meta">QuestionPro product launches from Slack - Last synced <span id="lastSynced">Aug 13, 2026</span></div>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('grid')">Cards</button>
@@ -394,11 +394,11 @@
   <div class="stats-bar">
     <div class="stat-pill">
       <div class="label">Features Shipped</div>
-      <div class="value" id="totalCount">46</div>
+      <div class="value" id="totalCount">49</div>
     </div>
     <div class="stat-pill">
       <div class="label">This Month</div>
-      <div class="value" id="monthCount">6</div>
+      <div class="value" id="monthCount">7</div>
     </div>
     <div class="stat-pill">
       <div class="label">Product Areas</div>
@@ -406,7 +406,7 @@
     </div>
     <div class="stat-pill">
       <div class="label">Date Range</div>
-      <div class="value white" style="font-size:16px;">Feb 5 - Aug 10</div>
+      <div class="value white" style="font-size:16px;">Feb 5 - Aug 13</div>
     </div>
   </div>
 </div>
@@ -438,6 +438,21 @@
 
 <script>
 const features = [
+  {
+    name: "QuestionPro ListenAI",
+    date: "2026-08-13",
+    displayDate: "Aug 13",
+    category: "Research",
+    catClass: "cat-research",
+    shippedBy: "Omar Guillermo",
+    description: "QuestionPro ListenAI is live in beta - a new way to run qualitative research at scale using structured and semi-structured conversational AI interviews. Users log in at listenai.questionpro.com with their QuestionPro account. The product trailer is now available for the team to share externally.",
+    links: [
+      { label: "Trailer (YouTube)", url: "https://youtu.be/5vQphE5lIaU", type: "video" },
+      { label: "Trailer (Drive)", url: "https://drive.google.com/file/d/114lZmFhX6-QlVfAeq7teCo5OrP04JxmP/view?usp=sharing", type: "video" },
+      { label: "Product", url: "https://listenai.questionpro.com/", type: "help" },
+      { label: "Slack", url: "https://questionpro.slack.com/archives/C0AAMAG79KQ/p1786572882001719", type: "linkedin" }
+    ]
+  },
   {
     name: "WhatsApp Surveys",
     date: "2026-08-10",
